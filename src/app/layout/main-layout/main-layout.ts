@@ -33,4 +33,8 @@ export class MainLayoutComponent {
   Dashboard() {
       this.router.navigate(['/welcome/dashboard']);
   }
+
+  User() {
+    this.router.navigate(['/welcome/user']);
+  }
 }

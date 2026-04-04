@@ -1,18 +1,25 @@
 <nz-layout style="height: 100vh">
-
   <!-- Sidebar -->
   <nz-sider nzCollapsible nzWidth="220px">
-    <div class="logo">Sei Optifrontier Việt Nam</div>
+    <div class="logo">
+      <img src="assets/img/Dashboard/logo.png" alt="logo" />
+      <span class="title">SEOV</span>
+    </div>
 
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-menu-item routerLink="/dashboard">
         <span nz-icon nzType="dashboard"></span>
         <span (click)="Dashboard()">Dashboard</span>
       </li>
-
+      <li nz-submenu nzTitle="HR" nzIcon="team">
+        <ul>
+          <li nz-menu-item >E-LEAVE</li>
+          <li nz-menu-item>E-INOUT</li>
+        </ul>
+      </li>
       <li nz-submenu nzTitle="Hệ thống" nzIcon="setting">
         <ul>
-          <li nz-menu-item>Quản lý user</li>
+          <li nz-menu-item (click)="User()">Quản lý user</li>
           <li nz-menu-item>Phân quyền</li>
         </ul>
       </li>
@@ -21,7 +28,6 @@
 
   <!-- Main -->
   <nz-layout>
-
     <!-- Header -->
     <nz-header class="header">
       <div class="right">
@@ -35,7 +41,5 @@
     <nz-content class="content">
       <router-outlet></router-outlet>
     </nz-content>
-
   </nz-layout>
-
 </nz-layout>

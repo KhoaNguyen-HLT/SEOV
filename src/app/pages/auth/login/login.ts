@@ -20,7 +20,6 @@ export class LoginComponent {
   login() {
     if (this.username === 'admin' && this.password === '123') {
       localStorage.setItem('token', 'true');
-      console.log(Token);
       this.router.navigate(['/welcome']);
     } else {
       alert('Sai tài khoản');

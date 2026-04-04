@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./pages/login/login').then(m => m.LoginComponent)
+      import('./pages/auth/login/login').then(m => m.LoginComponent)
   },
 
   {
@@ -13,6 +13,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./layout/main-layout/main-layout').then(m => m.MainLayoutComponent),
     children: [
+      {path: '',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard').then(m => m.DashboardComponent)},
       {
         path: 'dashboard',
         loadComponent: () =>
@@ -20,9 +23,22 @@ export const routes: Routes = [
       }
     ]
   },
-
   {
-    path: '**',
-    redirectTo: 'login'
-  }
+    path: 'welcome',
+    loadComponent: () =>
+      import('./layout/main-layout/main-layout').then(m => m.MainLayoutComponent),
+    children: [
+      {
+        path: 'user',
+        loadComponent: () =>
+          import('./pages/user/user').then(m => m.UserComponent)
+      }
+    ]
+  },
+
+
+  // {
+  //   path: '**',
+  //   redirectTo: 'login'
+  // }
 ];

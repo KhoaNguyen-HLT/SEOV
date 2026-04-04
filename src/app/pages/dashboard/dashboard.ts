@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  template: `<h1>Trang chủ (Dashboard)</h1>`
+  templateUrl: './dashboard.html',
 })
 export class DashboardComponent {
   
