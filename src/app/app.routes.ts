@@ -36,6 +36,19 @@ export const routes: Routes = [
     ]
   },
 
+  {
+    path: 'welcome',
+    loadComponent: () =>
+      import('./layout/main-layout/main-layout').then(m => m.MainLayoutComponent),
+    children: [
+      {
+        path: 'e-leave',
+        loadComponent: () =>
+          import('./pages/hr/e-leave/e-leave').then(m => m.ELeaveComponent)
+      }
+    ]
+  },
+
 
   // {
   //   path: '**',

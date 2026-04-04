@@ -37,4 +37,8 @@ export class MainLayoutComponent {
   User() {
     this.router.navigate(['/welcome/user']);
   }
+
+  ELeave() {
+    this.router.navigate(['/welcome/e-leave']);
+  }
 }
