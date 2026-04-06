@@ -1,0 +1,12 @@
+ nz-divider {
+      color: #333;
+      font-weight: normal;
+    }
+
+.btn-big {
+  height: 100px;
+  width: 100%;
+  font-size: 18px;
+  padding: 0 24px;
+  border-radius: 8px;
+}

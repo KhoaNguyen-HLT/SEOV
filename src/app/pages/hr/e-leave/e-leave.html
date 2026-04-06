@@ -1,4 +1,25 @@
-<div nz-row>
-  <div nz-col nzSpan="12">col-12</div>
-  <div nz-col nzSpan="12">col-12</div>
+<div nz-row [nzGutter]="16">
+  <div nz-col class="gutter-row" [nzSpan]="4">
+    <button nz-button class="btn-big" nzType="primary">
+      <span nz-icon nzType="form"></span>
+      Tạo Request
+    </button>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="4">
+    <div class="inner-box">
+      <button class="btn-big" nz-button nzType="primary">
+        <span nz-icon nzType="check"></span>
+        Duyệt Yêu Cầu
+      </button>
+    </div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="4">
+    <div class="inner-box">
+     <button class="btn-big" nz-button [nzSize]="size" nzType="primary">
+        <span nz-icon nzType="history"></span>
+        Lịch Sử Yêu Cầu
+      </button>
+      
+    </div>
+  </div>
 </div>

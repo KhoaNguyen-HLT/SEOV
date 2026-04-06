@@ -6,6 +6,9 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-main-layout',
@@ -16,7 +19,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzMenuModule,
     NzIconModule,
     NzAvatarModule,
-    NzButtonModule
+    NzButtonModule,
+    NzInputModule,
+    ReactiveFormsModule
   ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.css']
