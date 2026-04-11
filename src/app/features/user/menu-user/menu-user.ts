@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzButtonModule, NzButtonSize } from 'ng-zorro-antd/button';
@@ -10,9 +10,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
+  selector: 'menu-user',
   standalone: true,
-  imports: [RouterOutlet, FormsModule,
+  imports: [
+RouterOutlet, FormsModule,
     NzGridModule,
     FormsModule,
     NzButtonModule,
@@ -21,11 +22,16 @@ import { RouterOutlet } from '@angular/router';
     NzDividerModule,
     NzIconModule,
   ],
-  templateUrl: './user.html',
-  styleUrls: ['./user.css']
+  templateUrl: './menu-user.html',
+  styleUrls: ['./menu-user.css']
 })
-export class UserComponent {
-size: NzButtonSize = 'large';
-  router: any;
+export class MenuUserComponent {
+  size: NzButtonSize = 'large';
 
+  constructor(private userRoutes: Router) {}
+
+  create_user() {
+    console.log('khoacheck user...');
+    this.userRoutes.navigate(['/welcome/user/create']);
+  }
 }

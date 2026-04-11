@@ -27,13 +27,15 @@ export const routes: Routes = [
   },
   {
     path: 'welcome',
+    canActivate: [AuthGuard],
     loadComponent: () =>
       import('./layout/main-layout/main-layout').then(m => m.MainLayoutComponent),
     children: [
       {
         path: 'user',
-        loadComponent: () =>
-          import('./features/user/user').then(m => m.UserComponent)
+         loadChildren: () =>
+        import('./features/user/user.routes')
+          .then(m => m.userRoutes) 
       }
     ]
   },
@@ -53,8 +55,8 @@ export const routes: Routes = [
   },
 
 
-  {
-    path: '**',
-    redirectTo: 'login'
-  }
+  // {
+  //   path: '**',
+  //   redirectTo: 'login'
+  // }
 ];
