@@ -17,4 +17,16 @@ export class AuthService {
       password
     });
   }
+
+  checkToken() {
+  const token = localStorage.getItem('token');
+
+  return this.http.post<boolean>(`${this.API_URL}/check-token`,
+    {
+        token: token
+    }
+  );
+}
+
+
 }

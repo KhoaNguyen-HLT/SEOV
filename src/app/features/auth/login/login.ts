@@ -15,8 +15,31 @@ export class LoginComponent {
 
   username = '';
   password = '';
+  token: string | null = null;
+
+ngOnInit(): void {
+  if (typeof localStorage !== 'undefined') {
+    this.token = localStorage.getItem('token');
+
+    this.authService.checkToken().subscribe({
+      next: (res) => {
+        console.log('Token valid:', res);
+        if (res) {
+          this.router.navigate(['/welcome']);
+        } else {
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (err) => {
+        console.error('Token check failed', err);
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+}
 
   constructor(private router: Router, private authService: AuthService) {}
+  
 
   login() {
     // if (this.username === 'admin' && this.password === '123') {

@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./pages/auth/login/login').then(m => m.LoginComponent)
+      import('./features/auth/login/login').then(m => m.LoginComponent)
   },
 
   {
@@ -15,11 +15,11 @@ export const routes: Routes = [
     children: [
       {path: '',
         loadComponent: () =>
-          import('./pages/dashboard/dashboard').then(m => m.DashboardComponent)},
+          import('./features/dashboard/dashboard').then(m => m.DashboardComponent)},
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/dashboard/dashboard').then(m => m.DashboardComponent)
+          import('./features/dashboard/dashboard').then(m => m.DashboardComponent)
       }
     ]
   },
@@ -31,7 +31,7 @@ export const routes: Routes = [
       {
         path: 'user',
         loadComponent: () =>
-          import('./pages/user/user').then(m => m.UserComponent)
+          import('./features/user/user').then(m => m.UserComponent)
       }
     ]
   },
@@ -44,7 +44,7 @@ export const routes: Routes = [
       {
         path: 'e-leave',
         loadComponent: () =>
-          import('./pages/hr/e-leave/e-leave').then(m => m.ELeaveComponent)
+          import('./features/hr/e-leave/e-leave').then(m => m.ELeaveComponent)
       }
     ]
   },

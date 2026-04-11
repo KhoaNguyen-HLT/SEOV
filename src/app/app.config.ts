@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideClientHydration(withEventReplay()),
+    // provideClientHydration(withEventReplay()),
     provideNzI18n(vi_VN),
     NzGridModule,
     // 👇 ĐĂNG KÝ ICON Ở ĐÂY
