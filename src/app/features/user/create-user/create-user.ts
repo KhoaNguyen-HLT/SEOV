@@ -2,24 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { UserService } from '../user.service';
+
+import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
+import { PopupService } from '../../../shared/service/popup.service';
+import { LoadingService } from '../../../shared/service/loading.service';
 
 @Component({
   selector: 'create-user',
   standalone: true,
   imports: [
+    ButtonPrimary,
     CommonModule,
     ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
     NzSelectModule,
-    NzButtonModule
+    NzButtonModule,
+    NzModalModule,
   ],
   templateUrl: './create-user.html',
   styleUrls: ['./create-user.css']
@@ -27,6 +35,7 @@ import { UserService } from '../user.service';
 export class CreateUserComponent implements OnInit {
 
   form!: FormGroup;
+  isLoading$!: Observable<boolean>;
 
   sections: { id: number; name: string }[] = [];
   positions: { id: number; name: string }[] = [];
@@ -35,8 +44,12 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private popupService: PopupService,
+    private loadingService: LoadingService,
+  ) {
+    this.isLoading$ = this.loadingService.isLoading$;
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -83,13 +96,18 @@ export class CreateUserComponent implements OnInit {
 
     // console.log('Create user:', this.form.value);
     console.log('Create user:', data);
+    //  this.popupService.success('User created successfully');
+    //  this.popupService.error('Error creating user');
+    this.loadingService.show();
     this.userService.createUser(data).subscribe({
       next: (response) => {
         console.log('User created:', response);
-        this.router.navigate(['/welcome/user']);
+       
+        // this.router.navigate(['/welcome/user']);
       },
       error: (error) => {
         console.error('Error creating user:', error);
+        // this.popupService.error('Error creating user');
       }
     });
   }
