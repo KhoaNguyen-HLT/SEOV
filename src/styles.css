@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "ng-zorro-antd/ng-zorro-antd.min.css";
+@import "devextreme/dist/css/dx.light.css";
+/* -----------------------Popup-------------------------- */
 /* Toast container */
 .ant-message {
   top: 24px;
@@ -43,9 +45,7 @@
   }
 }
 
-
-
-/* loading */
+/* ------------------------loading----------------------- */
 
 .global-loading {
   position: fixed;
@@ -90,4 +90,26 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+/* reset hết effect cũ */
+.ant-input-affix-wrapper,
+.ant-input {
+  box-shadow: none !important;
+}
+
+/* 🔥 focus chuẩn */
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused,
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
+.ant-input:focus,
+.ant-input-focused {
+  border-color: #95bdf2 !important;
+  box-shadow: 0 0 0 2px rgba(159, 189, 227, 0.2) !important;
+}
+
+.ant-input-affix-wrapper-focused {
+  border: 3px solid red !important;
 }

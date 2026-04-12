@@ -85,29 +85,29 @@ export class CreateUserComponent implements OnInit {
 
   submit() {
     // if (this.form.invalid) return;
-    var data = {
-      username: "3014130",
-      password: "12345",
-      name: "khoa",
-      email: "",
-      section: "1",
-      position: "1"
-    }
+    // var data = {
+    //   username: "3014130",
+    //   password: "12345",
+    //   name: "khoa",
+    //   email: "",
+    //   section: "1",
+    //   position: "1"
+    // }
 
     // console.log('Create user:', this.form.value);
-    console.log('Create user:', data);
-    //  this.popupService.success('User created successfully');
-    //  this.popupService.error('Error creating user');
+    // console.log('Create user:', data);
     this.loadingService.show();
-    this.userService.createUser(data).subscribe({
+    this.userService.createUser(this.form.value).subscribe({
       next: (response) => {
         console.log('User created:', response);
-       
+        this.loadingService.hide();
+        this.popupService.success('Tạo User thành công');
         // this.router.navigate(['/welcome/user']);
       },
       error: (error) => {
         console.error('Error creating user:', error);
-        // this.popupService.error('Error creating user');
+        this.loadingService.hide();
+        this.popupService.error('Lỗi khi tạo User');
       }
     });
   }

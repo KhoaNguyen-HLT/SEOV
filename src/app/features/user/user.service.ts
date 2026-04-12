@@ -15,4 +15,8 @@ export class UserService {
   createUser(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/create`, data);
   }
+
+  getUsers(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getUsers`);
+  }
 }

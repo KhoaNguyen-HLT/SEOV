@@ -14,6 +14,13 @@ export const userRoutes: Routes = [
     loadComponent: () =>
       import('./create-user/create-user')
         .then(m => m.CreateUserComponent)
+  },
+
+  {
+    path: 'list',
+    loadComponent: () =>
+      import('./list-users/list-users')
+        .then(m => m.ListUsersComponent)
   }
 
   

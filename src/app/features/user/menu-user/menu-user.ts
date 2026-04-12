@@ -34,4 +34,8 @@ export class MenuUserComponent {
     console.log('khoacheck user...');
     this.userRoutes.navigate(['/welcome/user/create']);
   }
+
+  list_users() {
+    this.userRoutes.navigate(['/welcome/user/list']);
+  }
 }
