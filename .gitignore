@@ -38,6 +38,9 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
+/expense-manager-api/target
+/expense-manager-api/build
+/expense-manager-api/.gradle
 
 # System files
 .DS_Store

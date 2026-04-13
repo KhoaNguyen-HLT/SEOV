@@ -1,8 +1,13 @@
+<div class="table-container">
+  <div class="table-title">
+    Danh sách người dùng
+  </div>
 
-<dx-data-grid
-  [dataSource]="customers"
-  keyExpr="id"
-  [columns]="columns"
-  [showBorders]="true"
->
-</dx-data-grid>
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    style="width: 100%; height: 300px;"
+    [columnDefs]="columnDefs"
+    [rowData]="rowData"
+    (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+</div>

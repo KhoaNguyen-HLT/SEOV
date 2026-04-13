@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "ng-zorro-antd/ng-zorro-antd.min.css";
-@import "devextreme/dist/css/dx.light.css";
+@import "ag-grid-community/styles/ag-theme-alpine.css";
 /* -----------------------Popup-------------------------- */
 /* Toast container */
 .ant-message {

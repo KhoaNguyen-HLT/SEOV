@@ -6,11 +6,21 @@ import { AuthService } from '../service/auth.service';
 import { PopupService } from '../../../shared/service/popup.service';
 import { CommonModule } from '@angular/common';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NzFormModule, NzInputModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    NzIconModule,
+    NzButtonModule,
+  ],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -64,11 +74,14 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(username, password).subscribe({
       next: (res) => {
-        localStorage.setItem('token', res.token);
-        this.PopupService.success('Đăng nhập thành công');
-        setTimeout(() => {
-          this.router.navigate(['/welcome']);
-        }, 1000);
+        console.log('Login success', res);
+        if (res.authenticated) {
+          localStorage.setItem('token', res.token);
+          this.PopupService.success('Đăng nhập thành công');
+          setTimeout(() => {
+            this.router.navigate(['/welcome']);
+          }, 1000);
+        } else this.PopupService.error('Sai thông tin đăng nhập, vui lòng thử lại');
       },
       error: (err) => {
         console.error('Login failed', err);
@@ -78,5 +91,12 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  showPassword = false;
+  password = '';
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

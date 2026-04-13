@@ -46,4 +46,8 @@ export class MainLayoutComponent {
   ELeave() {
     this.router.navigate(['/welcome/e-leave']);
   }
+
+  Expenses() {
+    this.router.navigate(['/welcome/expenses']);
+  }
 }
