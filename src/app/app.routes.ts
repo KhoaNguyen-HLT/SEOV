@@ -30,9 +30,29 @@ export const routes: Routes = [
           import('./features/user/user.routes').then(m => m.userRoutes)
       },
       {
+        path: 'auth',
+        loadChildren: () =>
+          import('./features/auth/auth.routes').then(m => m.authRoutes)
+      },
+      {
         path: 'e-leave',
         loadComponent: () =>
           import('./features/hr/e-leave/e-leave').then(m => m.ELeaveComponent)
+      },
+      {
+        path: 'role-management',
+        loadComponent: () =>
+          import('./features/auth/role-permission/role-management/role-management').then(m => m.RoleManagementComponent)
+      },
+      {
+        path: 'permission-management',
+        loadComponent: () =>
+          import('./features/auth/role-permission/permission-management/permission-management').then(m => m.PermissionManagementComponent)
+      },
+      {
+        path: 'user-role-management',
+        loadComponent: () =>
+          import('./features/auth/role-permission/user-role-management/user-role-management').then(m => m.UserRoleManagementComponent)
       },
     ]
   },

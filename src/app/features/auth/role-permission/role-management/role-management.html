@@ -1,0 +1,58 @@
+<div class="header-actions">
+  <button nz-button nzType="primary" (click)="showCreateModal()">
+    <span nz-icon nzType="plus"></span> Thêm Vai Trò Mới
+  </button>
+</div>
+
+<nz-table #basicTable [nzData]="roles">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên Vai Trò (Role)</th>
+      <th>Mô tả</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.id }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.description }}</td>
+      <td>
+        <nz-space>
+          <button *nzSpaceItem nz-button nzType="default" (click)="showEditModal(data)">Sửa</button>
+          <button *nzSpaceItem nz-button nzType="primary" nzDanger
+            nz-popconfirm nzPopconfirmTitle="Bạn có chắc chắn muốn xóa vai trò này không?"
+            (nzOnConfirm)="deleteRole(data.id)">
+            Xóa
+          </button>
+        </nz-space>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  [nzTitle]="editingId ? 'Cập nhật Vai Trò' : 'Thêm Vai Trò Mới'"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên Vai Trò</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên vai trò!">
+          <input nz-input formControlName="name" id="name" />
+        </nz-form-control>
+      </nz-form-item>
+      
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description">Mô tả</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

@@ -1,0 +1,27 @@
+<div class="header-actions">
+  <label><strong>Chọn Vai Trò cần Phân Quyền: </strong></label>
+  <nz-select class="role-select" [(ngModel)]="selectedRole" (ngModelChange)="onRoleChange($event)">
+    <nz-option *ngFor="let role of roles" [nzValue]="role.id" [nzLabel]="role.name"></nz-option>
+  </nz-select>
+</div>
+
+<nz-table #permissionTable [nzData]="resourcePermissions" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th>Tên Tài Nguyên (Module)</th>
+      <th>Các Quyền</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of permissionTable.data">
+      <td>{{ data.resourceName }}</td>
+      <td>
+        <nz-checkbox-group [(ngModel)]="data.permissions"></nz-checkbox-group>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<button class="save-btn" nz-button nzType="primary" (click)="savePermissions()">
+  Lưu Phân Quyền
+</button>

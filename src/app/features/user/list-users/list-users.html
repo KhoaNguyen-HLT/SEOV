@@ -1,13 +1,12 @@
 <div class="table-container">
-  <div class="table-title">
-    Danh sách người dùng
-  </div>
-
+  <div class="table-title">Danh sách người dùng</div>
+  <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
   <ag-grid-angular
     class="ag-theme-alpine"
-    style="width: 100%; height: 300px;"
+    style="width: 100%; height: 300px"
     [columnDefs]="columnDefs"
     [rowData]="rowData"
-    (gridReady)="onGridReady($event)">
+    (gridReady)="onGridReady($event)"
+  >
   </ag-grid-angular>
 </div>

@@ -22,7 +22,9 @@
     "@angular/ssr": "^21.2.6",
     "ag-grid-angular": "^35.2.1",
     "ag-grid-community": "^35.2.1",
+    "ag-grid-enterprise": "^35.2.1",
     "express": "^5.1.0",
+    "jwt-decode": "^4.0.0",
     "ng-zorro-antd": "^21.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

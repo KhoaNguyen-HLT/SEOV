@@ -28,7 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class MainLayoutComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   logout() {
     localStorage.removeItem('token');
@@ -36,11 +36,16 @@ export class MainLayoutComponent {
   }
 
   Dashboard() {
-      this.router.navigate(['/welcome/dashboard']);
+    this.router.navigate(['/welcome/dashboard']);
   }
 
   User() {
     this.router.navigate(['/welcome/user']);
+  }
+
+  Auth() {
+    console.log("khoacheck")
+    this.router.navigate(['/welcome/auth']);
   }
 
   ELeave() {

@@ -1,0 +1,29 @@
+<div nz-row [nzGutter]="16">
+  <div nz-col class="gutter-row" [nzSpan]="4">
+    <button nz-button class="btn-big" nzType="primary" (click)="role_management()">
+      <!-- <span nz-icon nzType="form"></span> -->
+       <span><img src="/assets/img/common/pen_11116007.png" alt=""  width="23" style="margin-right: 6px;"></span>
+      <span>Role</span>
+    </button>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="4">
+    <div class="inner-box">
+      <button class="btn-big" nz-button nzType="primary" (click)="permission()">
+        <!-- <span nz-icon nzType="check"></span> -->
+        <span><img src="/assets/img/common/list.png" alt=""  width="23" style="margin-right: 6px;"></span>
+        Permission
+      </button>
+    </div>
+  </div>
+    <div nz-col class="gutter-row" [nzSpan]="4">
+    <div class="inner-box">
+      <button class="btn-big" nz-button nzType="primary" (click)="user_role_management()">
+        <!-- <span nz-icon nzType="check"></span> -->
+        <span><img src="/assets/img/common/list.png" alt=""  width="23" style="margin-right: 6px;"></span>
+        User Role Managerment
+      </button>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+

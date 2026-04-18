@@ -15,6 +15,7 @@ import { UserService } from '../user.service';
 import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
 import { PopupService } from '../../../shared/service/popup.service';
 import { LoadingService } from '../../../shared/service/loading.service';
+import { AuthService } from '../../auth/service/auth.service';
 
 @Component({
   selector: 'create-user',
@@ -47,6 +48,7 @@ export class CreateUserComponent implements OnInit {
     private userService: UserService,
     private popupService: PopupService,
     private loadingService: LoadingService,
+    private authService: AuthService,
   ) {
     this.isLoading$ = this.loadingService.isLoading$;
   }
@@ -62,7 +64,14 @@ export class CreateUserComponent implements OnInit {
       roleIds: [[]]
     });
 
+    this.getUserInfor();
     this.loadData();
+  }
+
+  getUserInfor(): void {
+    this.authService.getUserInfobyToken();
+    console.log(this.authService.role);
+    console.log(this.authService.permissions);
   }
 
   loadData() {

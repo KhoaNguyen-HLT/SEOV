@@ -1,0 +1,48 @@
+<nz-table #userTable [nzData]="users">
+  <thead>
+    <tr>
+      <th>Tên Đăng Nhập</th>
+      <th>Email</th>
+      <th>Các Vai Trò</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of userTable.data">
+      <td>{{ data.username }}</td>
+      <td>{{ data.email }}</td>
+      <td>
+        <nz-tag *ngFor="let roleId of data.roleIds" [nzColor]="getRoleColor(roleId)">
+          {{ getRoleName(roleId) }}
+        </nz-tag>
+      </td>
+      <td>
+        <button nz-button nzType="primary" (click)="showEditModal(data)">Cập Nhật Vai Trò</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  nzTitle="Cập Nhật Vai Trò Người Dùng"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  
+  <ng-container *nzModalContent>
+    <div style="margin-bottom: 8px;">Người dùng: <strong>{{ editingUser?.username }}</strong></div>
+    
+    <div style="margin-bottom: 8px;">Chọn Vai Trò (Multiple Roles):</div>
+    <nz-select
+      class="roles-select"
+      [nzMaxTagCount]="5"
+      [nzMaxTagPlaceholder]="tagPlaceHolder"
+      nzMode="multiple"
+      nzPlaceHolder="Vui lòng chọn vai trò..."
+      [(ngModel)]="selectedRoleIds"
+    >
+      <nz-option *ngFor="let item of availableRoles" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+    </nz-select>
+    <ng-template #tagPlaceHolder let-selectedList>và {{ selectedList.length }} vai trò khác</ng-template>
+  </ng-container>
+</nz-modal>

@@ -3,7 +3,9 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { Component, enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
+import { AllEnterpriseModule } from 'ag-grid-enterprise';
 
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
@@ -32,6 +34,20 @@ export class ListUsersComponent {
       },
     },
   ];
+
+  // defaultColDef = {
+  //   sortable: true,
+  //   filter: true,
+  //   resizable: true
+  // };
+
+   // 👉 Export Excel
+  exportExcel() {
+    this.gridApi.exportDataAsExcel({
+      fileName: 'danh-sach.xlsx',
+      sheetName: 'Users'
+    });
+  }
 
   gridApi: any;
 

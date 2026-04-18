@@ -112,8 +112,13 @@
   transform: translateY(-50%);
   cursor: pointer;
   color: rgba(0, 0, 0, 0.45);
+  transition: all 0.2s;
 }
 
 .eye-icon:hover {
   color: #1890ff;
+}
+  
+.eye-icon:active {
+  transform: translateY(-50%) scale(0.9);
 }
