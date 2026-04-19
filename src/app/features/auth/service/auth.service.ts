@@ -41,4 +41,27 @@ export class AuthService {
   }
 
 
+
+  // Role----------------------------------------
+  getAllRoles() {
+    return this.http.get(`${this.API_URL}/roles`);
+  }
+
+  getRoleById(id: string) {
+    return this.http.get(`${this.API_URL}/roles/${id}`);
+  }
+
+  createRole(role: any) {
+    return this.http.post(`${this.API_URL}/roles`, role);
+  }
+
+  updateRole(id: string, role: any) {
+    return this.http.put(`${this.API_URL}/roles/${id}`, role);
+  }
+
+  deleteRole(id: string) {
+    return this.http.delete(`${this.API_URL}/roles/${id}`);
+  }
+
+
 }

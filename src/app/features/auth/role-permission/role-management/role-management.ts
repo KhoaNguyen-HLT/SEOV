@@ -9,9 +9,16 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-
+import { AuthService } from '../../service/auth.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { PopupService } from '../../../../shared/service/popup.service';
 interface Role {
   id: string;
+  name: string;
+  description: string;
+}
+
+interface CreateRole {
   name: string;
   description: string;
 }
@@ -41,18 +48,34 @@ interface Role {
   `]
 })
 export class RoleManagementComponent {
-  roles: Role[] = [
-    { id: '1', name: 'Admin', description: 'Quản trị viên hệ thống' },
-    { id: '2', name: 'Manager', description: 'Quản lý' },
-    { id: '3', name: 'User', description: 'Người dùng phổ thông' }
-  ];
+  // roles: Role[] = [
+  //   { id: '1', name: 'Admin', description: 'Quản trị viên hệ thống' },
+  //   { id: '2', name: 'Manager', description: 'Quản lý' },
+  //   { id: '3', name: 'User', description: 'Người dùng phổ thông' }
+  // ];
+  roles: any[] = [];
 
   isModalVisible = false;
   validateForm!: FormGroup;
   editingId: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private cdr: ChangeDetectorRef
+    , private PopupService: PopupService
+  ) {
     this.initForm();
+  }
+
+  ngOnInit(): void {
+    this.getAllRoles();
+  }
+
+  getAllRoles() {
+    this.authService.getAllRoles().subscribe((res: any) => {
+      this.roles = res[0];
+      console.log(this.roles);
+      this.cdr.detectChanges();
+    });
+
   }
 
   initForm(): void {
@@ -88,17 +111,34 @@ export class RoleManagementComponent {
         // Edit mode
         const index = this.roles.findIndex(r => r.id === this.editingId);
         if (index > -1) {
-          this.roles[index] = { ...this.roles[index], ...formValue };
-          this.roles = [...this.roles];
+          // this.roles[index] = { ...this.roles[index], ...formValue };
+          // this.roles = [...this.roles];
+          this.authService.updateRole(this.editingId, formValue).subscribe((res: any) => {
+            console.log(res);
+            if (res.message == "success") {
+              this.PopupService.success("Update success");
+              this.getAllRoles();
+            } else {
+              this.PopupService.error("Update failed");
+            }
+
+          });
         }
       } else {
         // Create mode
-        const newRole: Role = {
-          id: (this.roles.length + 1).toString(),
+        const newRole: CreateRole = {
           name: formValue.name,
           description: formValue.description || ''
         };
-        this.roles = [...this.roles, newRole];
+        this.authService.createRole(newRole).subscribe((res: any) => {
+          console.log(res);
+          if (res.message == "success") {
+            this.PopupService.success("Create success");
+            this.getAllRoles();
+          } else {
+            this.PopupService.error("Create failed");
+          }
+        });
       }
       this.isModalVisible = false;
     } else {

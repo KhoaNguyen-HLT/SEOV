@@ -31,7 +31,6 @@ export class AuthMenuComponent {
   constructor(private userRoutes: Router) { }
 
   role_management() {
-    console.log('khoacheck user...');
     this.userRoutes.navigate(['/welcome/auth/role-management']);
   }
 

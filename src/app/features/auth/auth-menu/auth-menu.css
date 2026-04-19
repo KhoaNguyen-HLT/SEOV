@@ -1,12 +1,17 @@
  nz-divider {
-      color: #333;
-      font-weight: normal;
-    }
+   color: #333;
+   font-weight: normal;
+ }
 
-.btn-big {
-  height: 60px;
-  width: 80%;
-  font-size: 18px;
-  padding: 0 24px;
-  border-radius: 8px;
-}
+ .btn-big {
+   height: 60px;
+   width: 80%;
+   font-size: 18px;
+   padding: 0 24px;
+   border-radius: 8px;
+ }
+
+ .span {
+   overflow-wrap: break-word;
+   word-break: break-word;
+ }
