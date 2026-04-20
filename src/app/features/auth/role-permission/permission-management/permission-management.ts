@@ -1,22 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzMessageService } from 'ng-zorro-antd/message';
-
-interface PermissionOption {
-  label: string;
-  value: string;
-  checked: boolean;
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { AuthService } from '../../service/auth.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { PopupService } from '../../../../shared/service/popup.service';
+interface Role {
+  id: string;
+  name: string;
+  description: string;
 }
 
-interface ResourcePermission {
-  id: string;
-  resourceName: string;
-  permissions: PermissionOption[];
+interface CreateRole {
+  name: string;
+  description: string;
 }
 
 @Component({
@@ -24,86 +28,125 @@ interface ResourcePermission {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     NzTableModule,
-    NzCheckboxModule,
-    NzSelectModule,
-    NzButtonModule
+    NzButtonModule,
+    NzModalModule,
+    NzFormModule,
+    NzInputModule,
+    NzIconModule,
+    NzSpaceModule,
+    NzPopconfirmModule
   ],
   templateUrl: './permission-management.html',
   styles: [`
     .header-actions {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .role-select {
-      width: 250px;
-    }
-    .save-btn {
-      margin-top: 20px;
+      justify-content: flex-end;
     }
   `]
 })
 export class PermissionManagementComponent {
-  roles = [
-    { id: '1', name: 'Admin' },
-    { id: '2', name: 'Manager' },
-    { id: '3', name: 'User' }
-  ];
+  permissions: any[] = [];
 
-  selectedRole: string = '1';
+  isModalVisible = false;
+  validateForm!: FormGroup;
+  editingId: string | null = null;
 
-  resourcePermissions: ResourcePermission[] = [
-    {
-      id: '1',
-      resourceName: 'Quản lý Người Dùng',
-      permissions: [
-        { label: 'Xem', value: 'read', checked: true },
-        { label: 'Thêm', value: 'add', checked: true },
-        { label: 'Sửa', value: 'edit', checked: true },
-        { label: 'Xóa', value: 'delete', checked: true }
-      ]
-    },
-    {
-      id: '2',
-      resourceName: 'Quản lý Vai Trò',
-      permissions: [
-        { label: 'Xem', value: 'read', checked: true },
-        { label: 'Thêm', value: 'add', checked: true },
-        { label: 'Sửa', value: 'edit', checked: true },
-        { label: 'Xóa', value: 'delete', checked: false }
-      ]
-    },
-    {
-      id: '3',
-      resourceName: 'Đơn Xin Nghỉ Phép',
-      permissions: [
-        { label: 'Xem', value: 'read', checked: true },
-        { label: 'Thêm', value: 'add', checked: false },
-        { label: 'Sửa', value: 'edit', checked: false },
-        { label: 'Xóa', value: 'delete', checked: false }
-      ]
-    }
-  ];
+  constructor(private fb: FormBuilder, private authService: AuthService, private cdr: ChangeDetectorRef
+    , private PopupService: PopupService
+  ) {
+    this.initForm();
+  }
 
-  constructor(private msg: NzMessageService) {}
+  ngOnInit(): void {
+    this.getAllPermissions();
+  }
 
-  onRoleChange(roleId: string): void {
-    // Generate different random fake permissions based on role
-    this.resourcePermissions.forEach(resource => {
-      resource.permissions.forEach(p => {
-        p.checked = roleId === '1' ? true : Math.random() > 0.5;
-      });
-      // trigger change detection by spreading
-      resource.permissions = [...resource.permissions];
+  getAllPermissions() {
+    this.authService.getAllPermissions().subscribe((res: any) => {
+      this.permissions = res[0];
+      console.log(this.permissions);
+      this.cdr.detectChanges();
+    });
+
+  }
+
+  initForm(): void {
+    this.validateForm = this.fb.group({
+      name: [null, [Validators.required]],
+      description: [null]
     });
   }
 
-  savePermissions(): void {
-    // Logic to save
-    console.log('Saved Permissions for Role', this.selectedRole, this.resourcePermissions);
-    this.msg.success('Đã lưu phân quyền thành công!');
+  showCreateModal(): void {
+    this.editingId = null;
+    this.validateForm.reset();
+    this.isModalVisible = true;
+  }
+
+  showEditModal(role: Role): void {
+    this.editingId = role.id;
+    this.validateForm.patchValue({
+      name: role.name,
+      code: "Khoa"
+    });
+    this.isModalVisible = true;
+  }
+
+  deleteRole(id: string): void {
+    this.permissions = this.permissions.filter(r => r.id !== id);
+  }
+
+  handleOk(): void {
+    if (this.validateForm.valid) {
+      const formValue = this.validateForm.value;
+      if (this.editingId) {
+        // Edit mode
+        const index = this.permissions.findIndex(r => r.id === this.editingId);
+        if (index > -1) {
+          // this.roles[index] = { ...this.roles[index], ...formValue };
+          // this.roles = [...this.roles];
+          this.authService.updateRole(this.editingId, formValue).subscribe((res: any) => {
+            console.log(res);
+            if (res.message == "success") {
+              this.PopupService.success("Update success");
+              this.getAllPermissions();
+            } else {
+              this.PopupService.error("Update failed");
+            }
+
+          });
+        }
+      } else {
+        // Create mode
+        const newRole: CreateRole = {
+          name: formValue.name,
+          description: formValue.description || ''
+        };
+        this.authService.createRole(newRole).subscribe((res: any) => {
+          console.log(res);
+          if (res.message == "success") {
+            this.PopupService.success("Create success");
+            this.getAllPermissions();
+          } else {
+            this.PopupService.error("Create failed");
+          }
+        });
+      }
+      this.isModalVisible = false;
+    } else {
+      Object.values(this.validateForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+  handleCancel(): void {
+    this.isModalVisible = false;
   }
 }
