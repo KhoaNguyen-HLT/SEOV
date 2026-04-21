@@ -12,16 +12,16 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { AuthService } from '../../service/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { PopupService } from '../../../../shared/service/popup.service';
-interface Role {
+interface Permission {
   id: string;
   name: string;
-  description: string;
+  code: string;
+}
+interface CreatePermission {
+  name: string;
+  code: string;
 }
 
-interface CreateRole {
-  name: string;
-  description: string;
-}
 
 @Component({
   selector: 'app-permission-management',
@@ -65,7 +65,7 @@ export class PermissionManagementComponent {
   }
 
   getAllPermissions() {
-    this.authService.getAllPermissions().subscribe((res: any) => {
+    this.authService.GetAllPermissions().subscribe((res: any) => {
       this.permissions = res[0];
       console.log(this.permissions);
       this.cdr.detectChanges();
@@ -76,7 +76,7 @@ export class PermissionManagementComponent {
   initForm(): void {
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
-      description: [null]
+      code: [null, [Validators.required]]
     });
   }
 
@@ -86,11 +86,11 @@ export class PermissionManagementComponent {
     this.isModalVisible = true;
   }
 
-  showEditModal(role: Role): void {
-    this.editingId = role.id;
+  showEditModal(Permission: Permission): void {
+    this.editingId = Permission.id;
     this.validateForm.patchValue({
-      name: role.name,
-      code: "Khoa"
+      name: Permission.name,
+      code: Permission.code
     });
     this.isModalVisible = true;
   }
@@ -108,7 +108,7 @@ export class PermissionManagementComponent {
         if (index > -1) {
           // this.roles[index] = { ...this.roles[index], ...formValue };
           // this.roles = [...this.roles];
-          this.authService.updateRole(this.editingId, formValue).subscribe((res: any) => {
+          this.authService.UpdatePermission(this.editingId, formValue).subscribe((res: any) => {
             console.log(res);
             if (res.message == "success") {
               this.PopupService.success("Update success");
@@ -121,11 +121,11 @@ export class PermissionManagementComponent {
         }
       } else {
         // Create mode
-        const newRole: CreateRole = {
+        const newPermission: CreatePermission = {
           name: formValue.name,
-          description: formValue.description || ''
+          code: formValue.code || ''
         };
-        this.authService.createRole(newRole).subscribe((res: any) => {
+        this.authService.CreatePermission(newPermission).subscribe((res: any) => {
           console.log(res);
           if (res.message == "success") {
             this.PopupService.success("Create success");

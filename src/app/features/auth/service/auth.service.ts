@@ -64,23 +64,23 @@ export class AuthService {
   }
 
   // Permission
-  getAllPermissions() {
+  GetAllPermissions() {
     return this.http.get(`${this.API_URL}/permissions`);
   }
 
-  getPermissionById(id: string) {
+  GetPermissionById(id: string) {
     return this.http.get(`${this.API_URL}/permissions/${id}`);
   }
 
-  createPermission(permission: any) {
+  CreatePermission(permission: any) {
     return this.http.post(`${this.API_URL}/permissions`, permission);
   }
 
-  updatePermission(id: string, permission: any) {
+  UpdatePermission(id: string, permission: any) {
     return this.http.put(`${this.API_URL}/permissions/${id}`, permission);
   }
 
-  deletePermission(id: string) {
+  DeletePermission(id: string) {
     return this.http.delete(`${this.API_URL}/permissions/${id}`);
   }
 
