@@ -1,10 +1,11 @@
 .logo {
-  height: 64px;
+  height: 70px;
   color: white;
   text-align: center;
   line-height: 64px;
   font-size: 18px;
   font-weight: bold;
+  border-radius: 4px;
 }
 
 .header {
@@ -43,10 +44,19 @@
 
 /* ảnh logo */
 .logo img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain; /* không bị méo */
-  border-radius: 6px;
+  width: 45px;
+  height: 30px;
+  object-fit: cover;
+  /* nhìn đầy khung hơn contain */
+  border-radius: 5px;
+  /* bo mềm hơn, ít bị "tròn quá" */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* đổ bóng nhẹ */
+  transition: all 0.3s ease;
+}
+
+.logo img:hover {
+  cursor: pointer;
 }
 
 /* text */
