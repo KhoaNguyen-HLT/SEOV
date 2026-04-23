@@ -1,0 +1,103 @@
+<div class="container">
+  <div class="andon-box">
+    <h2 class="header-title">Báo Cáo Sự Cố Dây Chuyền</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Dây chuyền sản xuất:</label>
+        <input type="text" id="lineName" value="M301" readonly>
+      </div>
+      <div class="form-group">
+        <label>Công đoạn lỗi:</label>
+        <input type="text" id="errorStage" placeholder="VD: SmartCheck, Bề mặt ,..." required>
+      </div>
+      <div class="form-group full-width">
+        <label>Mô tả ngắn (Tùy chọn):</label>
+        <input type="text" id="description" placeholder="Nhập nhanh tình trạng lỗi...">
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn-call btn-it" (click)="callGroup('IT')">GỌI IT</button>
+      <button class="btn-call btn-me" (click)="callGroup('ME')">GỌI ME</button>
+      <button class="btn-call btn-pe" (click)="callGroup('PE')">GỌI PE</button>
+    </div>
+  </div>
+
+  <div class="table-box">
+    <h2 class="header-title" style="text-align: left; font-size: 20px;">📋 Danh Sách Sự Cố Hiện Hành</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Bộ phận</th>
+          <th>Công đoạn</th>
+          <th>Thời gian báo</th>
+          <th>Thời gian chờ</th>
+          <th>Thời gian xử lý</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="errorTableBody">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="resolveModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 class="modal-title">Xác Nhận Hoàn Thành Xử Lý</h3>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+      <label>Lựa chọn phương pháp đã xử lý:</label>
+      <div class="radio-group-main">
+        <label>
+          <input type="radio" name="resolveMethod" value="repair" onchange="toggleMethodForm()" checked>
+          Sửa chữa tại chỗ
+        </label>
+        <label>
+          <input type="radio" name="resolveMethod" value="replace" onchange="toggleMethodForm()">
+          Thay thế thiết bị
+        </label>
+      </div>
+    </div>
+
+    <div id="repairForm" class="active">
+      <div class="form-group">
+        <label>Cách khắc phục / Sửa chữa:</label>
+        <textarea id="repairNotes"
+          placeholder="Ghi chú lại cách bạn đã sửa lỗi (VD: Cài lại driver, khởi động lại máy, cắm lại cáp...)"
+          style="min-height: 100px;"></textarea>
+      </div>
+    </div>
+
+    <div id="replaceForm">
+      <div class="form-grid" style="margin-bottom: 0;">
+        <div class="form-group">
+          <label>Mã thiết bị cũ (Thu hồi):</label>
+          <input type="text" id="oldDevice" placeholder="VD: PC-L01-01">
+        </div>
+        <div class="form-group">
+          <label>Mã thiết bị mới (Thay vào):</label>
+          <input type="text" id="newDevice" placeholder="Quét hoặc nhập mã...">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 15px;">
+        <label>Trạng thái thiết bị cũ thu về:</label>
+        <div class="radio-group-small">
+          <label><input type="radio" name="oldStatus" value="NG" checked> NG (Cần sửa)</label>
+          <label><input type="radio" name="oldStatus" value="Standby"> Standby (Tốt)</label>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 15px;">
+        <label>Lý do thay thế:</label>
+        <textarea id="replaceReason" placeholder="Nguyên nhân phải thay thiết bị..."
+          style="min-height: 60px;"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Hủy bỏ</button>
+      <button class="btn-submit" onclick="submitResolution()">Lưu & Đóng Lỗi</button>
+    </div>
+  </div>
+</div>

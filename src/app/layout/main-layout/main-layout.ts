@@ -55,4 +55,12 @@ export class MainLayoutComponent {
   Expenses() {
     this.router.navigate(['/welcome/expenses']);
   }
+
+  AndonCall() {
+    this.router.navigate(['/welcome/andon/se-andon-call']);
+  }
+
+  AndonReport() {
+    this.router.navigate(['/welcome/andon/se-andon-report']);
+  }
 }

@@ -11,6 +11,12 @@
         <span nz-icon nzType="dashboard"></span>
         <span (click)="Dashboard()">Dashboard</span>
       </li>
+      <li nz-submenu nzTitle="ANDON SYSTEM" nzIcon="team">
+        <ul>
+          <li nz-menu-item (click)="AndonCall()">ANDON Call</li>
+          <li nz-menu-item>ANDON Report</li>
+        </ul>
+      </li>
       <li nz-submenu nzTitle="HR" nzIcon="team">
         <ul>
           <li nz-menu-item (click)="ELeave()">E-LEAVE</li>

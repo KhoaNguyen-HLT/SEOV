@@ -54,6 +54,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/auth/role-permission/user-role-management/user-role-management').then(m => m.UserRoleManagementComponent)
       },
+      {
+        path: 'andon',
+        loadChildren: () =>
+          import('./features/se-andon/se-andon.routes').then(m => m.andonRoutes)
+      }
     ]
   },
 
