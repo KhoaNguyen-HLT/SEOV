@@ -5,18 +5,18 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class AndonService {
 
-  private baseUrl = 'http://localhost:8080/seov/users';
+  private baseUrl = 'http://localhost:8080/seov/andon';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // ===== USER =====
-  createUser(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create`, data);
-  }
+  // ===== ANDON =====
+  // createAndon(data: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/createAndon`, data);
+  // }
 
-  getUsers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getUsers`);
+  getLines(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getLines`);
   }
 }

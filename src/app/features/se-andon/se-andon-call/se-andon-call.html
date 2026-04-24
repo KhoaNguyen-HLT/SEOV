@@ -4,15 +4,20 @@
     <div class="form-grid">
       <div class="form-group">
         <label>Dây chuyền sản xuất:</label>
-        <input type="text" id="lineName" value="M301" readonly>
+        <nz-select nzShowSearch nzPlaceHolder="Chọn line" nzSize="large" [(ngModel)]="Line" class="custom-select">
+          <nz-option *ngFor="let item of line_list" [nzValue]="item.siteCode" [nzLabel]="item.lineName">
+          </nz-option>
+        </nz-select>
       </div>
       <div class="form-group">
         <label>Công đoạn lỗi:</label>
-        <input type="text" id="errorStage" placeholder="VD: SmartCheck, Bề mặt ,..." required>
+        <input nz-input id="errorStage" [(ngModel)]="ErrorStage" class="input_style"
+          placeholder="VD: Martcheck, Bề mặt..." nzVariant="outlined" />
       </div>
-      <div class="form-group full-width">
+      <div class="col-span-2">
         <label>Mô tả ngắn (Tùy chọn):</label>
-        <input type="text" id="description" placeholder="Nhập nhanh tình trạng lỗi...">
+        <input nz-input id="description" [(ngModel)]="Description" class="input_style"
+          placeholder="Vui lòng nhập mô tả lỗi" nzVariant="outlined" />
       </div>
     </div>
     <div class="btn-group">

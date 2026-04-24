@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 2000px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
@@ -70,29 +70,6 @@ label {
   font-size: 15px;
 }
 
-input[type="text"],
-textarea {
-  padding: 12px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 15px;
-  background-color: #fafafa;
-}
-
-input[type="text"]:focus,
-textarea:focus {
-  outline: none;
-  border-color: #0984e3;
-  background-color: #fff;
-}
-
-input[readonly] {
-  background-color: #dfe6e9;
-  color: #2d3436;
-  font-weight: bold;
-  cursor: not-allowed;
-  border-color: #dfe6e9;
-}
 
 .btn-group {
   display: flex;
@@ -340,16 +317,52 @@ th {
 }
 
 .btn-it {
-  background-color: #12508d;
+  background-color: #2a7ed3;
   color: white;
+}
+
+.btn-it:hover {
+  background-color: #2674c8;
 }
 
 .btn-me {
-  background-color: #88432f;
+  background-color: #cf5a39;
   color: white;
 }
 
+.btn-me:hover {
+  background-color: #c45030;
+}
+
 .btn-pe {
-  background-color: #0f5b3f;
+  background-color: #23c288;
   color: white;
+}
+
+
+.input_style {
+  border: 1px solid #dcdde1;
+  height: 36px;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 15px;
+  color: var(--text-main);
+  transition: border-color 0.2s ease;
+}
+
+::ng-deep nz-select.custom-select .ant-select-selector {
+  height: 36px !important;
+  border: 1px solid #e0e2e3 !important;
+  border-radius: 6px !important;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .custom-select:hover .ant-select-selector {
+  border-color: #40a9ff;
+}
+
+::ng-deep .custom-select:focus-within .ant-select-selector {
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
