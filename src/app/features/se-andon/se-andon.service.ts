@@ -19,4 +19,8 @@ export class AndonService {
   getLines(): Observable<any> {
     return this.http.get(`${this.baseUrl}/getLines`);
   }
+
+  callGroup(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/callgroup`, data);
+  }
 }

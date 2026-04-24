@@ -12,6 +12,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { AndonService } from '../se-andon.service';
 import { PopupService } from '../../../shared/service/popup.service';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { jwtDecode } from 'jwt-decode';
+const token = localStorage.getItem('token');
 
 @Component({
   selector: 'se-andon-call',
@@ -26,15 +28,17 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzModalModule,
     NzGridModule,
     FormsModule,
-    NzSpaceModule
+    NzSpaceModule,
   ],
   templateUrl: './se-andon-call.html',
   styleUrls: ['./se-andon-call.css']
 })
 export class seAndonCallComponent implements OnInit {
+
   Line = '';
   ErrorStage = '';
   Description = '';
+  userName = '';
   line_list =
     [
       {
@@ -58,6 +62,10 @@ export class seAndonCallComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      this.userName = decoded.sub; // hoặc field backend trả về
+    }
     this.getLines();
   }
 
@@ -74,10 +82,6 @@ export class seAndonCallComponent implements OnInit {
   }
 
   callGroup(team: string): void {
-    console.log(team);
-    console.log(this.Line);
-    console.log(this.ErrorStage);
-    console.log(this.Description);
     if (this.Line === '') {
       this.popup.error('Vui lòng nhập Line');
       return;
@@ -91,8 +95,26 @@ export class seAndonCallComponent implements OnInit {
       return;
     }
 
-
-
+    this.andonService.callGroup({
+      "siteCode": this.Line,
+      "LineName": this.line_list.find((item) => item.siteCode === this.Line)?.lineName,
+      "ErrorStage": this.ErrorStage,
+      "Description": this.Description,
+      "Team": team,
+      "userCode": this.userName
+    }).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res.message === 'success') {
+          this.popup.success('Gọi nhóm thành công');
+        } else {
+          this.popup.error('Gọi nhóm thất bại');
+        }
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
 
 
   }
