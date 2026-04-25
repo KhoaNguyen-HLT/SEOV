@@ -13,7 +13,20 @@ import { AndonService } from '../se-andon.service';
 import { PopupService } from '../../../shared/service/popup.service';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { jwtDecode } from 'jwt-decode';
+import { ChangeDetectorRef } from '@angular/core';
 const token = localStorage.getItem('token');
+export interface AndonItem {
+  id: number;
+  created_at: string;
+  // thời gian chờ
+  waitingTime: number;
+  // thời gian xử lý
+  processingTime: number;
+  // trạng thái
+  status: 'WAITING' | 'PROCESSING' | 'DONE';
+  // thời điểm bắt đầu xử lý
+  processingStartTime?: number;
+}
 
 @Component({
   selector: 'se-andon-call',
@@ -33,12 +46,15 @@ const token = localStorage.getItem('token');
   templateUrl: './se-andon-call.html',
   styleUrls: ['./se-andon-call.css']
 })
+
+
 export class seAndonCallComponent implements OnInit {
 
   Line = '';
   ErrorStage = '';
   Description = '';
   userName = '';
+  andonDataList: any[] = [];
   line_list =
     [
       {
@@ -57,7 +73,8 @@ export class seAndonCallComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private popup: PopupService,
-    private andonService: AndonService
+    private andonService: AndonService,
+    private cd: ChangeDetectorRef
   ) {
   }
 
@@ -66,6 +83,10 @@ export class seAndonCallComponent implements OnInit {
       const decoded: any = jwtDecode(token);
       this.userName = decoded.sub; // hoặc field backend trả về
     }
+
+    setInterval(() => {
+      this.updateTime();
+    }, 1000);
     this.getLines();
   }
 
@@ -94,19 +115,33 @@ export class seAndonCallComponent implements OnInit {
       this.popup.error('Vui lòng nhập mô tả lỗi');
       return;
     }
+    const payload = {
+      siteCode: this.Line,
+      lineName: this.line_list.find((item) => item.siteCode === this.Line)?.lineName,
+      errorStage: this.ErrorStage,
+      description: this.Description,
+      team: team,
+      userCode: this.userName,
+      status: 'Error'
+    };
+    console.log(payload);
 
-    this.andonService.callGroup({
-      "siteCode": this.Line,
-      "LineName": this.line_list.find((item) => item.siteCode === this.Line)?.lineName,
-      "ErrorStage": this.ErrorStage,
-      "Description": this.Description,
-      "Team": team,
-      "userCode": this.userName
-    }).subscribe({
+    this.andonService.callGroup(
+      payload
+    ).subscribe({
       next: (res: any) => {
         console.log(res);
         if (res.message === 'success') {
-          this.popup.success('Gọi nhóm thành công');
+          // this.andonDataList.push(res.data);
+          const newItem = {
+            ...res.data, waitingTime: 0,
+            processingTime: 0,
+            status: 'WAITING'
+          };
+          this.andonDataList = [...this.andonDataList, newItem];
+          console.log(this.andonDataList);
+          this.cd.detectChanges();
+          this.popup.success('Báo lỗi thành công');
         } else {
           this.popup.error('Gọi nhóm thất bại');
         }
@@ -118,6 +153,87 @@ export class seAndonCallComponent implements OnInit {
 
 
   }
+
+  // tính toán thời gian chờ từ khi bấm gọi đến hiện tại
+  updateTime() {
+    const now = Date.now();
+
+    this.andonDataList = this.andonDataList.map(item => {
+
+      // ⏳ WAITING
+      if (item.status === 'WAITING') {
+        const created = new Date(item.created_at).getTime();
+        this.cd.detectChanges();
+        return {
+          ...item,
+          waitingTime: Math.floor((now - created) / 1000)
+        };
+      }
+
+      // 🔧 PROCESSING
+      if (item.status === 'PROCESSING' && item.processingStartTime) {
+        this.cd.detectChanges();
+        return {
+          ...item,
+          processingTime: Math.floor((now - item.processingStartTime) / 1000)
+        };
+      }
+
+      return item;
+    });
+  }
+
+  handleProcess(item: AndonItem) {
+    const now = Date.now();
+    this.andonService.updateProcessingStatus(
+      item.id,
+      'PROCESSING'
+    ).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res.message === 'success') {
+          // this.andonDataList.push(res.data);
+          const newItem = {
+            ...res.data, waitingTime: 0,
+            processingTime: 0,
+            status: 'WAITING'
+          };
+          this.andonDataList = [...this.andonDataList, newItem];
+          console.log(this.andonDataList);
+          this.cd.detectChanges();
+          this.popup.success('Đã cập nhật trạng thái đang xử lý');
+        } else {
+          this.popup.error('Có lỗi xảy ra vui lòng thử lại');
+        }
+      }
+    });
+
+    this.andonDataList = this.andonDataList.map(i => {
+      if (i.id === item.id) {
+        return {
+          ...i,
+          status: 'PROCESSING',
+          processingStartTime: now
+        };
+      }
+      return i;
+    });
+  }
+
+  handleDone(item: AndonItem) {
+    this.andonDataList = this.andonDataList.map(i => {
+      if (i.id === item.id) {
+        return {
+          ...i,
+          status: 'DONE'
+        };
+      }
+      return i;
+    });
+  }
+
+
+
 
   // Logic popup
   isModalVisible = false;
@@ -147,6 +263,11 @@ export class seAndonCallComponent implements OnInit {
       console.log("Thay thế thiết bị");
     }
     this.isModalVisible = false;
+  }
+
+  Action(item: any) {
+    console.log(item);
+    this.openModal();
   }
 
 

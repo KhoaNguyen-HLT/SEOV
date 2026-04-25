@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "ng-zorro-antd/ng-zorro-antd.min.css";
 @import "ag-grid-community/styles/ag-theme-alpine.css";
+
 /* -----------------------Popup-------------------------- */
 /* Toast container */
 .ant-message {
@@ -12,7 +13,7 @@
   border-radius: 10px;
   padding: 12px 16px;
   font-weight: 500;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   animation: fadeInUp 0.3s ease;
 }
 
@@ -39,6 +40,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -112,4 +114,9 @@
 
 .ant-input-affix-wrapper-focused {
   border: 3px solid red !important;
+}
+
+.ant-layout-content {
+  margin: 0px !important;
+  padding: 0px !important;
 }
