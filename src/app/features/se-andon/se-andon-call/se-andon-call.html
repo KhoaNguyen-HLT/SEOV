@@ -44,25 +44,12 @@
         <tr *ngFor="let item of andonDataList">
           <td>{{ item.team }}</td>
           <td>{{ item.errorStage }}</td>
-          <td>{{ item.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-          <td> <span *ngIf="item.status === 'WAITING'">
-              {{ item.waitingTime }}s
-            </span>
-            <span *ngIf="item.status === 'PROCESSING'">
-              {{ item.waitingTime }}s
-            </span>
-          </td>
+          <td>{{ item.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>{{ item.waitingTime }}</td>
+          <td>{{ item.processingTime }}</td>
           <td>
-            <span *ngIf="item.status === 'PROCESSING'">
-              {{ item.processingTime }}s
-            </span>
-          </td>
-          <td>
-            <button *ngIf="item.status === 'WAITING'" (click)="handleProcess(item)">
-              Xử lý
-            </button>
-            <button *ngIf="item.status === 'PROCESSING'" (click)="handleDone(item)">
-              Xử lý xong
+            <button *ngIf="item.status === 'CALLING'" nz-button nzType="primary" nzSize="small"
+              (click)="updateProcessingStatus(item)">Bắt Đầu Xử Lý
             </button>
           </td>
         </tr>

@@ -83,10 +83,6 @@ export class seAndonCallComponent implements OnInit {
       const decoded: any = jwtDecode(token);
       this.userName = decoded.sub; // hoặc field backend trả về
     }
-
-    setInterval(() => {
-      this.updateTime();
-    }, 1000);
     this.getLines();
   }
 
@@ -122,21 +118,20 @@ export class seAndonCallComponent implements OnInit {
       description: this.Description,
       team: team,
       userCode: this.userName,
-      status: 'Error'
+      status: 'CALLING'
     };
-    console.log(payload);
-
+    // gọi API call và lưu thông tin vào database
     this.andonService.callGroup(
       payload
     ).subscribe({
       next: (res: any) => {
         console.log(res);
         if (res.message === 'success') {
-          // this.andonDataList.push(res.data);
+          // thêm dữ liệu vào danh sách ANDonDataList với thời gian chờ và thời gian xử lý mặc định là 0
           const newItem = {
-            ...res.data, waitingTime: 0,
-            processingTime: 0,
-            status: 'WAITING'
+            ...res.data,
+            waitingTime: 0,
+            processingTime: 0
           };
           this.andonDataList = [...this.andonDataList, newItem];
           console.log(this.andonDataList);
@@ -154,121 +149,48 @@ export class seAndonCallComponent implements OnInit {
 
   }
 
-  // tính toán thời gian chờ từ khi bấm gọi đến hiện tại
-  updateTime() {
-    const now = Date.now();
+  updateProcessingStatus(item: any): void {
+    this.andonService.updateProcessingStatus(item.id)
+      .subscribe({
+        next: (res: any) => {
 
-    this.andonDataList = this.andonDataList.map(item => {
+          if (res.message == 'success') {
+            // nếu chưa dùng websocket thì update local
+            console.log(res)
+            this.popup.success('Cập nhật trạng thái thành công');
 
-      // ⏳ WAITING
-      if (item.status === 'WAITING') {
-        const created = new Date(item.created_at).getTime();
-        this.cd.detectChanges();
-        return {
-          ...item,
-          waitingTime: Math.floor((now - created) / 1000)
-        };
-      }
+          } else {
+            this.popup.error('Cập nhật trạng thái thất bại');
+          }
 
-      // 🔧 PROCESSING
-      if (item.status === 'PROCESSING' && item.processingStartTime) {
-        this.cd.detectChanges();
-        return {
-          ...item,
-          processingTime: Math.floor((now - item.processingStartTime) / 1000)
-        };
-      }
-
-      return item;
-    });
-  }
-
-  handleProcess(item: AndonItem) {
-    const now = Date.now();
-    this.andonService.updateProcessingStatus(
-      item.id,
-      'PROCESSING'
-    ).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        if (res.message === 'success') {
-          // this.andonDataList.push(res.data);
-          const newItem = {
-            ...res.data, waitingTime: 0,
-            processingTime: 0,
-            status: 'WAITING'
-          };
-          this.andonDataList = [...this.andonDataList, newItem];
-          console.log(this.andonDataList);
-          this.cd.detectChanges();
-          this.popup.success('Đã cập nhật trạng thái đang xử lý');
-        } else {
-          this.popup.error('Có lỗi xảy ra vui lòng thử lại');
+        },
+        error: (err: any) => {
+          console.log(err);
         }
-      }
-    });
-
-    this.andonDataList = this.andonDataList.map(i => {
-      if (i.id === item.id) {
-        return {
-          ...i,
-          status: 'PROCESSING',
-          processingStartTime: now
-        };
-      }
-      return i;
-    });
+      });
   }
 
-  handleDone(item: AndonItem) {
-    this.andonDataList = this.andonDataList.map(i => {
-      if (i.id === item.id) {
-        return {
-          ...i,
-          status: 'DONE'
-        };
-      }
-      return i;
-    });
+  updateDoneStatus(item: any): void {
+    this.andonService.updateDoneStatus(item.id)
+      .subscribe({
+        next: (res: any) => {
+
+          if (res.message == 'success') {
+            // nếu chưa dùng websocket thì update local
+            console.log(res)
+            this.popup.success('Cập nhật trạng thái thành công');
+
+          } else {
+            this.popup.error('Cập nhật trạng thái thất bại');
+          }
+
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
   }
 
-
-
-
-  // Logic popup
-  isModalVisible = false;
-  isRepairMethod = true;
-
-  openModal(): void {
-    this.isModalVisible = true;
-    // Reset form logic
-    this.isRepairMethod = true;
-  }
-
-  closeModal(): void {
-    this.isModalVisible = false;
-  }
-
-  toggleMethodForm(): void {
-    this.isRepairMethod = this.isRepairMethod ? false : true;
-  }
-
-  // Logic xử lý form
-  submitResolution(): void {
-    if (this.isRepairMethod) {
-      // Logic sửa chữa tại chỗ
-      console.log("Sửa chữa tại chỗ");
-    } else {
-      // Logic thay thế thiết bị
-      console.log("Thay thế thiết bị");
-    }
-    this.isModalVisible = false;
-  }
-
-  Action(item: any) {
-    console.log(item);
-    this.openModal();
-  }
 
 
 }

@@ -24,7 +24,11 @@ export class AndonService {
     return this.http.post(`${this.baseUrl}/callgroup`, data);
   }
 
-  updateProcessingStatus(id: number, status: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/updateProcessingStatus`, { id, status });
+  updateProcessingStatus(id: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateProcessingStatus/${id}`, {});
+  }
+
+  updateDoneStatus(id: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateDoneStatus/${id}`, {});
   }
 }
