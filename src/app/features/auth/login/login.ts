@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private PopupService: PopupService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // ✅ check token

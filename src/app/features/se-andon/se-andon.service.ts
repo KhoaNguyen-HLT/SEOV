@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AndonService {
 
-  private baseUrl = 'http://localhost:8080/seov/andon';
+  private baseUrl = 'http://192.168.2.11:8080/seov/andon';
 
   constructor(private http: HttpClient) { }
 

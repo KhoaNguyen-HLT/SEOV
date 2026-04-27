@@ -10,7 +10,7 @@ export class AuthService {
   role: string[] = [];
   permissions: string[] = [];
 
-  private API_URL = 'http://localhost:8080/seov/auth';
+  private API_URL = 'http://192.168.2.11:8080/seov/auth';
 
   constructor(private http: HttpClient) { }
 
