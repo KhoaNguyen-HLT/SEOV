@@ -62,6 +62,7 @@ export class seAndonCallComponent implements OnInit {
   ErrorStage = '';
   Description = '';
   userName = '';
+  timerId: any;
   isLineModalVisible = false;
   andonDataList$ = new BehaviorSubject<any[]>([]);
   line_list =
@@ -95,6 +96,7 @@ export class seAndonCallComponent implements OnInit {
       const decoded: any = jwtDecode(token);
       this.userName = decoded.sub; // hoặc field backend trả về
     }
+
     this.getLines();
     this.route.queryParams.subscribe(params => {
       this.Line = params['Line'];
@@ -111,11 +113,14 @@ export class seAndonCallComponent implements OnInit {
       oldStatus: ['NG'],
       replaceReason: ['']
     });
+
+    this.startTimer();
   }
 
   confirmLine() {
     this.isLineModalVisible = false;
     console.log(this.Line);
+    this.getDataPending(this.Line);
   }
   getLineName(): string {
     const item = this.line_list.find(x => x.siteCode === this.Line);
@@ -139,7 +144,39 @@ export class seAndonCallComponent implements OnInit {
     console.log(this.line_list)
   }
 
-  callGroup(team: string): void {
+  // gọi API vào bảng andon data để lấy thông tin các request
+  getDataPending(siteCode: any) {
+    this.andonService.getDataPending(siteCode).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        const newItems = res.data;
+
+        setTimeout(() => {
+          this.andonDataList$.next([
+            ...this.andonDataList$.value,
+            ...newItems   // 👈 spread mảng
+          ]);
+        });
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
+
+  }
+
+  callGroup(team: any): void {
+
+    console.log(this.andonDataList$.value)
+    const hasSameTeam = this.andonDataList$.value.some(
+      (x: any) => x.team === Number(team)
+    );
+
+    if (hasSameTeam) {
+      this.popup.error('Vui lòng xử lý các yêu cầu trước khi tạo yêu cầu mới');
+      return;
+    }
+
     if (this.Line === '') {
       this.popup.error('Vui lòng nhập Line');
       return;
@@ -168,19 +205,11 @@ export class seAndonCallComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         if (res.message === 'success') {
-          // thêm dữ liệu vào danh sách ANDonDataList với thời gian chờ và thời gian xử lý mặc định là 0
-          const newItem = {
-            ...res.data,
-            waitingTime: '00:00:00',
-            processingTime: '00:00:00'
-          };
+          // add thêm dữ liệu vào danh sách ANDonDataList
+          const newItem = res.data;
           setTimeout(() => {
             this.andonDataList$.next([...this.andonDataList$.value, newItem]);
           });
-          // this.andonDataList = [...this.andonDataList, newItem];
-
-
-          // this.cd.detectChanges();
           this.popup.success('Báo lỗi thành công');
         } else {
           this.popup.error('Gọi nhóm thất bại');
@@ -256,41 +285,73 @@ export class seAndonCallComponent implements OnInit {
   }
 
   // hàm xử lý update time mỗi 1s. sẽ check thay đổi của data andonlist để hiển thị giao diện.
-  vm$ = this.timer$.pipe(
-    map(() => {
-      const list = this.andonDataList$.value;
+  // vm$ = this.timer$.pipe(
+  //   map(() => {
+  //     const list = this.andonDataList$.value;
+  //     const now = Date.now();
+
+  //     return list.map(item => {
+  //       const created = new Date(item.created_at.replace(' ', 'T')).getTime();
+
+  //       const status = item.status?.trim().toUpperCase();
+
+  //       let waitingTime = '00:00:00';
+  //       let processingTime = '00:00:00';
+
+  //       if (status === 'CALLING') {
+  //         waitingTime = this.formatTime(now - created);
+  //       }
+
+  //       if (status === 'PROCESSING' && item.processingAt) {
+  //         const start = new Date(item.processingAt.replace(' ', 'T')).getTime();
+  //         waitingTime = this.formatTime(start - created);
+  //         processingTime = this.formatTime(now - start);
+  //       }
+
+  //       return {
+  //         ...item,
+  //         waitingTime,
+  //         processingTime,
+
+  //         // 🔥 thêm flag UI
+  //         isCalling: status === 'CALLING',
+  //         isProcessing: status === 'PROCESSING'
+  //       };
+  //     });
+  //   })
+  // );
+
+  startTimer() {
+    this.timerId = setInterval(() => {
       const now = Date.now();
-
-      return list.map(item => {
+      const list = this.andonDataList$.value;
+      list.forEach(item => {
         const created = new Date(item.created_at.replace(' ', 'T')).getTime();
-
         const status = item.status?.trim().toUpperCase();
 
-        let waitingTime = '00:00:00';
-        let processingTime = '00:00:00';
-
         if (status === 'CALLING') {
-          waitingTime = this.formatTime(now - created);
+          item.waitingTime = this.formatTime(now - created);
+          item.processingTime = '00:00:00';
         }
 
         if (status === 'PROCESSING' && item.processingAt) {
           const start = new Date(item.processingAt.replace(' ', 'T')).getTime();
-          waitingTime = this.formatTime(start - created);
-          processingTime = this.formatTime(now - start);
+
+          item.waitingTime = this.formatTime(start - created);
+          item.processingTime = this.formatTime(now - start);
         }
 
-        return {
-          ...item,
-          waitingTime,
-          processingTime,
-
-          // 🔥 thêm flag UI
-          isCalling: status === 'CALLING',
-          isProcessing: status === 'PROCESSING'
-        };
       });
-    })
-  );
+      this.andonDataList$.next([...list]);
+
+      // ❌ KHÔNG next()
+    }, 1000);
+  }
+
+
+  trackById(index: number, item: any) {
+    return item.id;
+  }
 
   formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);

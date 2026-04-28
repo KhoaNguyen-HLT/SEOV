@@ -20,6 +20,10 @@ export class AndonService {
     return this.http.get(`${this.baseUrl}/getLines`);
   }
 
+  getDataPending(siteCode: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getDataPending/${siteCode}`);
+  }
+
   callGroup(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/callgroup`, data);
   }

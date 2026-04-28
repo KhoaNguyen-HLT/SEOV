@@ -31,9 +31,11 @@
       </div>
     </div>
     <div class="btn-group">
-      <button class="btn-call btn-it" (click)="callGroup('0')">GỌI IT</button>
-      <button class="btn-call btn-me" (click)="callGroup('1')">GỌI ME</button>
-      <button class="btn-call btn-pe" (click)="callGroup('2')">GỌI PE</button>
+      <button class="btn-call btn-me" (click)="callGroup('0')">GỌI ME</button>
+      <button class="btn-call btn-pe" (click)="callGroup('1')">GỌI PE</button>
+      <button class="btn-call btn-it" (click)="callGroup('2')">GỌI IT</button>
+      <button class="btn-call btn-cl" (click)="callGroup('3')">CHẤT LƯỢNG</button>
+      <button class="btn-call btn-at" (click)="callGroup('4')">AN TOÀN</button>
     </div>
   </div>
 
@@ -51,18 +53,18 @@
         </tr>
       </thead>
       <tbody id="errorTableBody">
-        <tr *ngFor="let item of vm$ | async">
-          <td>{{ item.team }}</td>
+        <tr *ngFor="let item of andonDataList$| async; trackBy: trackById">
+          <td>{{ item.groupName }}</td>
           <td>{{ item.errorStage }}</td>
           <td>{{ item.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
           <td>{{ item.waitingTime }}</td>
           <td>{{ item.processingTime }}</td>
           <td>
-            <button *ngIf="item.status === 'CALLING'" nz-button nzType="primary" nzSize="small"
-              (click)="updateProcessingStatus(item)">Bắt Đầu Xử Lý
+            <button *ngIf="item.status === 'CALLING'" class="btn-status calling" nz-button nzType="primary"
+              nzSize="small" (click)="updateProcessingStatus(item)">Bắt Đầu Xử Lý
             </button>
-            <button *ngIf="item.status === 'PROCESSING'" nz-button nzType="primary" nzSize="small"
-              (click)="openDoneModal(item)">Xác nhận xử lý
+            <button *ngIf="item.status === 'PROCESSING'" class="btn-status processing" nz-button nzType="primary"
+              nzSize="small" (click)="openDoneModal(item)">Xác nhận xử lý
             </button>
           </td>
         </tr>

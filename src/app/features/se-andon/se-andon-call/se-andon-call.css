@@ -317,25 +317,50 @@ th {
 }
 
 .btn-it {
-  background-color: #2a7ed3;
+  background-color: #e9c732;
   color: white;
 }
 
 .btn-it:hover {
-  background-color: #2674c8;
+  background-color: #d6a710;
 }
 
 .btn-me {
-  background-color: #cf5a39;
+  background-color: #5d97ee;
   color: white;
 }
 
 .btn-me:hover {
-  background-color: #c45030;
+  background-color: #487ccb;
 }
 
 .btn-pe {
-  background-color: #23c288;
+  background-color: #c2a9da;
+  color: white;
+}
+
+.btn-pe:hover {
+  background-color: #c2a9da;
+  color: white;
+}
+
+.btn-cl {
+  background-color: #ccc91c;
+  color: white;
+}
+
+.btn-cl:hover {
+  background-color: #bdba2b;
+  color: white;
+}
+
+.btn-at {
+  background-color: #23b406;
+  color: white;
+}
+
+.btn-at:hover {
+  background-color: #1f9907;
   color: white;
 }
 
@@ -365,4 +390,41 @@ th {
 ::ng-deep .custom-select:focus-within .ant-select-selector {
   border-color: #40a9ff !important;
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+
+.btn-status {
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* CALLING - màu đỏ cảnh báo */
+.btn-status.calling {
+  background: #e6b864;
+  border-color: #ffb84d;
+  color: white;
+}
+
+.btn-status.calling:hover {
+  opacity: 0.85;
+  background: #d98d36;
+  border-color: #d99236;
+}
+
+/* PROCESSING - màu xanh đang xử lý */
+.btn-status.processing {
+  background: #1677ff;
+  border-color: #1677ff;
+  color: white;
+}
+
+.btn-status.processing:hover {
+  opacity: 0.85;
+  background: #0958d9;
+  border-color: #0958d9;
 }
