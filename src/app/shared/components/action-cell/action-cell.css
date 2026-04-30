@@ -1,0 +1,9 @@
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+button {
+    padding: 0 4px;
+}

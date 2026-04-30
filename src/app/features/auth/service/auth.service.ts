@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthService {
   role: string[] = [];
   permissions: string[] = [];
 
-  private API_URL = 'http://192.168.2.11:8080/seov/auth';
+  private API_URL = environment.apiUrl + "/auth";
 
   constructor(private http: HttpClient) { }
 

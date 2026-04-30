@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AndonService {
 
-  private baseUrl = 'http://192.168.2.11:8080/seov/andon';
+  private baseUrl = environment.apiUrl + "/andon";
 
   constructor(private http: HttpClient) { }
 
@@ -32,7 +33,16 @@ export class AndonService {
     return this.http.put(`${this.baseUrl}/updateProcessingStatus/${id}`, {});
   }
 
-  updateDoneStatus(id: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/updateDoneStatus/${id}`, {});
+  updateDoneStatus(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateDoneStatus/${id}`, data);
+  }
+
+  changeGroup(data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/changeGroup`, data);
+  }
+
+
+  andonGetData(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/andonGetData`, data);
   }
 }

@@ -428,3 +428,15 @@ th {
   background: #0958d9;
   border-color: #0958d9;
 }
+
+.btn-status.change-pic {
+  background: #4f8a07;
+  border-color: #4f8a07;
+  color: white;
+}
+
+.btn-status.change-pic:hover {
+  opacity: 0.85;
+  background: #5cad10;
+  border-color: #2cd909;
+}

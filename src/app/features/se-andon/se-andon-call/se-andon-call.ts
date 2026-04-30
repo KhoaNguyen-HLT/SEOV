@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -57,13 +57,15 @@ export interface AndonItem {
 
 export class seAndonCallComponent implements OnInit {
   doneForm!: FormGroup;
-  timer$ = interval(1000);
+  Department: string = '';
+  ReasonChangePic: string = '';
   Line = '';
   ErrorStage = '';
   Description = '';
   userName = '';
   timerId: any;
   isLineModalVisible = false;
+  isChangePicModalVisible = false;
   andonDataList$ = new BehaviorSubject<any[]>([]);
   line_list =
     [
@@ -117,11 +119,6 @@ export class seAndonCallComponent implements OnInit {
     this.startTimer();
   }
 
-  confirmLine() {
-    this.isLineModalVisible = false;
-    console.log(this.Line);
-    this.getDataPending(this.Line);
-  }
   getLineName(): string {
     const item = this.line_list.find(x => x.siteCode === this.Line);
     return item ? item.lineName : this.Line;
@@ -148,7 +145,6 @@ export class seAndonCallComponent implements OnInit {
   getDataPending(siteCode: any) {
     this.andonService.getDataPending(siteCode).subscribe({
       next: (res: any) => {
-        console.log(res);
         const newItems = res.data;
 
         setTimeout(() => {
@@ -159,15 +155,13 @@ export class seAndonCallComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        console.log(err);
+        this.popup.error(err.error.message);
       }
     })
 
   }
 
   callGroup(team: any): void {
-
-    console.log(this.andonDataList$.value)
     const hasSameTeam = this.andonDataList$.value.some(
       (x: any) => x.team === Number(team)
     );
@@ -203,7 +197,6 @@ export class seAndonCallComponent implements OnInit {
       payload
     ).subscribe({
       next: (res: any) => {
-        console.log(res);
         if (res.message === 'success') {
           // add thêm dữ liệu vào danh sách ANDonDataList
           const newItem = res.data;
@@ -216,11 +209,9 @@ export class seAndonCallComponent implements OnInit {
         }
       },
       error: (err: any) => {
-        console.log(err);
+        this.popup.error(err.error.message);
       }
     })
-
-
   }
 
   updateProcessingStatus(item: any): void {
@@ -230,7 +221,6 @@ export class seAndonCallComponent implements OnInit {
 
           if (res.message == 'success') {
             // nếu chưa dùng websocket thì update local
-            console.log(res)
             const updatedList = this.andonDataList$.value.map(x =>
               x.id === item.id
                 ? {
@@ -250,77 +240,40 @@ export class seAndonCallComponent implements OnInit {
 
         },
         error: (err: any) => {
-          console.log(err);
+          this.popup.error(err.error.message);
         }
       });
   }
 
 
 
-  updateDoneStatus(item: any): void {
-    this.andonService.updateDoneStatus(item.id)
-      .subscribe({
-        next: (res: any) => {
+  // updateDoneStatus(item: any): void {
+  //   this.andonService.updateDoneStatus(item.id)
+  //     .subscribe({
+  //       next: (res: any) => {
 
-          if (res.message == 'success') {
-            console.log(res)
-            const updatedList = this.andonDataList$.value
-              .filter(x => x.id !== item.id);
-            this.andonDataList$.next(updatedList);
-            setTimeout(() => {
-              this.Description = '';
-              this.ErrorStage = '';
-            }, 100);
-            this.popup.success('Cập nhật trạng thái thành công');
+  //         if (res.message == 'success') {
+  //           const updatedList = this.andonDataList$.value
+  //             .filter(x => x.id !== item.id);
+  //           this.andonDataList$.next(updatedList);
+  //           setTimeout(() => {
+  //             this.Description = '';
+  //             this.ErrorStage = '';
+  //           }, 100);
+  //           this.popup.success('Cập nhật trạng thái thành công');
 
-          } else {
-            this.popup.error('Cập nhật trạng thái thất bại');
-          }
+  //         } else {
+  //           this.popup.error('Cập nhật trạng thái thất bại');
+  //         }
 
-        },
-        error: (err: any) => {
-          console.log(err);
-        }
-      });
-  }
+  //       },
+  //       error: (err: any) => {
+  //         this.popup.error(err.error.message);
+  //       }
+  //     });
+  // }
 
   // hàm xử lý update time mỗi 1s. sẽ check thay đổi của data andonlist để hiển thị giao diện.
-  // vm$ = this.timer$.pipe(
-  //   map(() => {
-  //     const list = this.andonDataList$.value;
-  //     const now = Date.now();
-
-  //     return list.map(item => {
-  //       const created = new Date(item.created_at.replace(' ', 'T')).getTime();
-
-  //       const status = item.status?.trim().toUpperCase();
-
-  //       let waitingTime = '00:00:00';
-  //       let processingTime = '00:00:00';
-
-  //       if (status === 'CALLING') {
-  //         waitingTime = this.formatTime(now - created);
-  //       }
-
-  //       if (status === 'PROCESSING' && item.processingAt) {
-  //         const start = new Date(item.processingAt.replace(' ', 'T')).getTime();
-  //         waitingTime = this.formatTime(start - created);
-  //         processingTime = this.formatTime(now - start);
-  //       }
-
-  //       return {
-  //         ...item,
-  //         waitingTime,
-  //         processingTime,
-
-  //         // 🔥 thêm flag UI
-  //         isCalling: status === 'CALLING',
-  //         isProcessing: status === 'PROCESSING'
-  //       };
-  //     });
-  //   })
-  // );
-
   startTimer() {
     this.timerId = setInterval(() => {
       const now = Date.now();
@@ -401,11 +354,13 @@ export class seAndonCallComponent implements OnInit {
       return;
     }
 
-    const payload = {
+    let payload: any = {
       ...formValue,
       id: this.selectedItem.id
     };
-    this.andonService.updateDoneStatus(this.selectedItem.id)
+    console.log(payload);
+    // return;
+    this.andonService.updateDoneStatus(this.selectedItem.id, payload)
       .subscribe({
         next: (res: any) => {
           if (res.message === 'success') {
@@ -423,6 +378,74 @@ export class seAndonCallComponent implements OnInit {
 
           } else {
             this.popup.error('Thất bại');
+          }
+        }
+      });
+  }
+
+
+  // confirm thay đổi phòng ban
+
+  id_change_pic: any = '';
+  current_team: any = '';
+  start_time: any = '';
+  from_user: any = '';
+  confirmLine() {
+    this.isLineModalVisible = false;
+    this.getDataPending(this.Line);
+  }
+
+  changePicModal(item: any) {
+    this.isChangePicModalVisible = true;
+    this.current_team = item.team;
+    this.id_change_pic = item.id;
+    this.start_time = item.updated_at;
+  }
+  handleCancelChangePic() {
+    this.isChangePicModalVisible = false;
+  }
+
+  confirmChangePic() {
+    if (this.from_user === '') {
+      this.popup.error('Nhập user');
+      return;
+    }
+    if (this.Department === '') {
+      this.popup.error('Nhập bộ phận');
+      return;
+    }
+    if (this.ReasonChangePic.trim() === '') {
+      this.popup.error('Nhập lý do chuyển bộ phận');
+      return;
+    }
+
+    if (Number(this.Department) === Number(this.current_team)) {
+      this.popup.error('Không chuyển đến cùng bộ phận');
+      return;
+    }
+
+    const payload = {
+      id: this.id_change_pic,
+      from_team: this.current_team,
+      to_team: this.Department,
+      reason: this.ReasonChangePic,
+      start_time: this.start_time,
+      from_user: this.from_user
+    };
+    // return;
+    this.andonService.changeGroup(payload)
+      .subscribe({
+        next: (res: any) => {
+          if (res.message === 'success') {
+            setTimeout(() => {
+              this.isChangePicModalVisible = false;
+              this.cd.detectChanges();
+              this.popup.success('Chuyển bộ phận thành công');
+            },);
+
+
+          } else {
+            this.popup.error('Chuyển bộ phận thất bại');
           }
         }
       });

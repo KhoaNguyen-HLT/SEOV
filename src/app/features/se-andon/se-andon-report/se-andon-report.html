@@ -1,3 +1,84 @@
 <div class="table-container">
-  <div class="table-title">Danh sách người dùng</div>
+  <div class="table-title">Danh sách báo cáo</div>
+  <!-- 🔍 HEADER SEARCH -->
+  <div class="search-header">
+    <form nz-form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+
+      <div nz-row [nzGutter]="16">
+
+        <!-- Line -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Line</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="line" nzAllowClear nzPlaceHolder="Chọn line">
+                <nz-option nzValue="1" nzLabel="Line 1"></nz-option>
+                <nz-option nzValue="2" nzLabel="Line 2"></nz-option>
+                <nz-option nzValue="3" nzLabel="Line 3"></nz-option>
+                <nz-option nzValue="4" nzLabel="Line 4"></nz-option>
+                <nz-option nzValue="5" nzLabel="Line 5"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Trạng thái -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Trạng thái</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="status" nzAllowClear nzPlaceHolder="Chọn trạng thái">
+                <nz-option nzValue="WAITING" nzLabel="Chờ xử lý"></nz-option>
+                <nz-option nzValue="PROCESSING" nzLabel="Đang xử lý"></nz-option>
+                <nz-option nzValue="DONE" nzLabel="Hoàn thành"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Ngày từ -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Từ ngày</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="fromDate" style="width: 100%" nzFormat="yyyy-MM-dd"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Ngày đến -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Đến ngày</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="toDate" style="width: 100%" nzFormat="yyyy-MM-dd"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Keyword -->
+        <!-- <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Từ khóa</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="keyword" placeholder="Tìm thiết bị, lỗi..." />
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+
+        <!-- Button -->
+        <div nz-col nzSpan="2">
+          <button nz-button nzType="primary" htmlType="submit">Search</button>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+  <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
+  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 300px" [columnDefs]="columnDefs"
+    [rowData]="rowData" (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+
 </div>

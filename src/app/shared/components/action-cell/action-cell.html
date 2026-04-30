@@ -1,0 +1,19 @@
+<div class="action-group">
+
+    <!-- VIEW -->
+    <button nz-button nzType="text" nzTooltipTitle="Xem" (click)="onView()">
+        <span nz-icon nzType="eye"></span>
+    </button>
+
+    <!-- EDIT -->
+    <button nz-button nzType="text" nzTooltipTitle="Sửa" (click)="onEdit()">
+        <span nz-icon nzType="edit"></span>
+    </button>
+
+    <!-- DELETE -->
+    <button nz-button nzType="text" nzDanger nz-popconfirm nzPopconfirmTitle="Bạn chắc chắn muốn xóa?"
+        (nzOnConfirm)="onDelete()">
+        <span nz-icon nzType="delete"></span>
+    </button>
+
+</div>

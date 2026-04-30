@@ -49,7 +49,7 @@
           <th>Thời gian báo</th>
           <th>Thời gian chờ</th>
           <th>Thời gian xử lý</th>
-          <th>Hành động</th>
+          <th style="width: 20%;">Hành động</th>
         </tr>
       </thead>
       <tbody id="errorTableBody">
@@ -66,6 +66,10 @@
             <button *ngIf="item.status === 'PROCESSING'" class="btn-status processing" nz-button nzType="primary"
               nzSize="small" (click)="openDoneModal(item)">Xác nhận xử lý
             </button>
+
+            <button *ngIf="item.status === 'PROCESSING'" class="btn-status change-pic" nz-button nzType="primary"
+              nzSize="small" (click)="changePicModal(item)">Chuyển bộ phận
+            </button>
           </td>
         </tr>
       </tbody>
@@ -75,7 +79,6 @@
 
 <nz-modal [(nzVisible)]="isDoneModalVisible" nzTitle="Xác Nhận Hoàn Thành Xử Lý" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleSubmit()" nzOkText="Lưu & Đóng Lỗi" nzCancelText="Hủy bỏ">
-  <div>khoa check</div>
   <ng-container *nzModalContent>
     <form nz-form [formGroup]="doneForm">
 
@@ -155,3 +158,46 @@
   </ng-container>
 
 </nz-modal>
+<form #f="ngForm">
+  <nz-modal [nzVisible]="isChangePicModalVisible" nzTitle="Chuyển bộ phận xử lý" nzOkText="Xác nhận chuyển"
+    nzCancelText="Hủy" (nzOnCancel)="handleCancelChangePic()" (nzOnOk)="confirmChangePic()">
+    <ng-container *nzModalContent>
+      <div>
+        <nz-form-label>Chọn User</nz-form-label>
+        <nz-select [(ngModel)]="from_user" name="from_user" style="width: 100%" nzShowSearch nzPlaceHolder="Chọn User">
+          <nz-option nzLabel="Nguyễn Văn A" nzValue="07521"></nz-option>
+          <nz-option nzLabel="Nguyễn Văn B" nzValue="07522"></nz-option>
+          <nz-option nzLabel="Nguyễn Văn C" nzValue="07523"></nz-option>
+        </nz-select>
+      </div>
+
+      <div>
+        <nz-form-label>Chọn bộ phận</nz-form-label>
+        <nz-select [(ngModel)]="Department" name="Department" style="width: 100%" nzShowSearch
+          nzPlaceHolder="Chọn bộ phận">
+          <nz-option nzLabel="ME" nzValue="0"></nz-option>
+          <nz-option nzLabel="IT" nzValue="2"></nz-option>
+          <nz-option nzLabel="PE" nzValue="1"></nz-option>
+          <nz-option nzLabel="CHẤT LƯỢNG" nzValue="3"></nz-option>
+          <nz-option nzLabel="AN TOÀN" nzValue="4"></nz-option>
+        </nz-select>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <form nz-form nzLayout="vertical">
+          <nz-form-item>
+            <nz-form-label>Nhập lý do:</nz-form-label>
+            <nz-form-control nzErrorTip="Nhập lý do (tối đa 100 ký tự)">
+              <nz-textarea-count [nzMaxCharacterCount]="100">
+                <textarea rows="3" nz-input [(ngModel)]="ReasonChangePic" name="ReasonChangePic">
+              </textarea>
+              </nz-textarea-count>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+
+    </ng-container>
+
+  </nz-modal>
+</form>
