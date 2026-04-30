@@ -95,3 +95,13 @@
 .search-header button[nzType="primary"]:hover {
   background: #3c63d6;
 }
+
+.detail-form input[nz-input] {
+  width: 100%;
+}
+
+.ant-form-item-label {
+  text-align: left !important;
+  justify-content: flex-start;
+
+}

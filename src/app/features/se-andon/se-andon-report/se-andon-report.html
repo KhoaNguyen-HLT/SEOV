@@ -77,8 +77,92 @@
   </div>
 
   <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
-  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 300px" [columnDefs]="columnDefs"
-    [rowData]="rowData" (gridReady)="onGridReady($event)">
+  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
+    [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }" [rowHeight]="42">
   </ag-grid-angular>
+
+  <!-- <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết báo cáo" (nzOnCancel)="handleCancel()"
+    [nzFooter]="footerTemplate">
+    <ng-template #footerTemplate>
+      <button nz-button nzType="primary" (click)="handleCancel()">
+        Đóng
+      </button>
+    </ng-template>
+    <div>
+      Nội dung chi tiết báo cáo
+    </div>
+  </nz-modal> -->
+
+
+  <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết gọi hỗ trợ" [nzFooter]="footerTemplate">
+    <ng-template #footerTemplate>
+      <button nz-button nzType="primary" (click)="handleCancel()">
+        Đóng
+      </button>
+    </ng-template>
+    <ng-container *nzModalContent>
+      <form nz-form [formGroup]="detailform" class="detail-form">
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">Trạng thái</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="method" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">Line</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="line_name" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">Mô tả</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="description" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">New Device</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="new_device" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">Old Device</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="old_device" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">Lý do</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="replace_reason" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="6">Ngày tạo</nz-form-label>
+          <nz-form-control nzSpan="18">
+            <input nz-input formControlName="created_at" readonly />
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+    </ng-container>
+  </nz-modal>
+
+
+
+
+
+
+
+
+
 
 </div>

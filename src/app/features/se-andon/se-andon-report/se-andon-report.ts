@@ -12,20 +12,24 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActionCellComponent } from '../../../shared/components/action-cell/action-cell';
 import dayjs from 'dayjs';
+import { NzModalComponent } from "ng-zorro-antd/modal";
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
-  selector: 'app-se-andon-report',
   standalone: true,
+  selector: 'app-se-andon-report',
   imports: [
-    AgGridAngular, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzDatePickerModule, ReactiveFormsModule
+    AgGridAngular, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzDatePickerModule, ReactiveFormsModule,
+    NzModalComponent, NzModalModule
   ],
   templateUrl: './se-andon-report.html',
   styleUrl: './se-andon-report.css',
 })
 export class seAndonReportComponent {
   searchForm!: FormGroup;
+  detailform!: FormGroup;
   rowData: any[] = [];
   columnDefs = [
     { field: 'line_name', filter: true, sortable: true },
@@ -38,22 +42,19 @@ export class seAndonReportComponent {
       headerName: 'Action',
       field: 'action',
       cellRenderer: ActionCellComponent,
-      width: 100
+      width: 80,
+      autoHeight: true,
+      cellRendererParams: {
+        actions: ['view']
+      }
     }
   ];
 
-
-  // defaultColDef = {
-  //   sortable: true,
-  //   filter: true,
-  //   resizable: true
-  // };
-
-  gridOptions = {
-    context: {
-      componentParent: this
-    }
-  };
+  // khi click vào row nào thì select row đó
+  selectedRow: any = null;
+  onRowClick(event: any) {
+    this.selectedRow = event.data;
+  }
 
 
 
@@ -64,10 +65,11 @@ export class seAndonReportComponent {
     this.searchForm = this.fb.group({
       line: [null],
       status: [null],
-      fromDate: [null],
-      toDate: [null],
+      fromDate: [dayjs().startOf('month').toDate()],
+      toDate: [dayjs().endOf('month').toDate()],
       keyword: [null]
     });
+
   }
 
   onSearch() {
@@ -86,6 +88,7 @@ export class seAndonReportComponent {
     console.log(payload);
     // call API lấy data từ database
     this.andonService.andonGetData(payload).subscribe(res => {
+      console.log(res);
       this.gridApi.setGridOption('rowData', res);
     });
   }
@@ -98,19 +101,35 @@ export class seAndonReportComponent {
   }
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.andonService.andonGetData(params).subscribe((res) => {
+    this.andonService.andonGetData({}).subscribe((res) => {
       this.gridApi.setGridOption('rowData', res);
     });
+  }
 
-    // bắt click trong grid
-    params.api.addEventListener('cellClicked', (event: any) => {
-      if (event.event.target.classList.contains('btn-view')) {
-        this.onView(event.data);
-      }
+
+  onView(row: any) {
+    console.log('VIEW:', row);
+    // TODO: mở modal xem chi tiết
+    this.isVisibleDetail = true;
+    this.selectedRow = row;
+
+    this.detailform = this.fb.group({
+      method: [row.method],
+      line_name: [row.line_name],
+      description: [row.description],
+      new_device: [row.new_device],
+      old_device: [row.old_device],
+      replace_reason: [row.replace_reason],
+      created_at: [dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss')]
     });
+
   }
 
-  onView(rowData: any) {
-    console.log('VIEW:', rowData);
+
+  // modaldetail
+  isVisibleDetail: boolean = false;
+  handleCancel() {
+    this.isVisibleDetail = false;
   }
+
 }
