@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -16,7 +16,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, interval, map } from 'rxjs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { ActivatedRoute, Router } from '@angular/router';
+
 
 
 const token = localStorage.getItem('token');
@@ -87,8 +87,6 @@ export class seAndonCallComponent implements OnInit {
     private popup: PopupService,
     private andonService: AndonService,
     private cd: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private router: Router
   ) {
 
   }
@@ -100,12 +98,10 @@ export class seAndonCallComponent implements OnInit {
     }
 
     this.getLines();
-    this.route.queryParams.subscribe(params => {
-      this.Line = params['Line'];
-      if (!this.Line) {
-        this.isLineModalVisible = true; // 🔥 open modal
-      }
-    });
+
+    if (!this.Line) {
+      this.isLineModalVisible = true; // 🔥 open modal
+    }
 
     this.doneForm = this.fb.group({
       method: ['repair'],
@@ -162,9 +158,17 @@ export class seAndonCallComponent implements OnInit {
   }
 
   callGroup(team: any): void {
+
+    console.log(this.andonDataList$.value);
     const hasSameTeam = this.andonDataList$.value.some(
-      (x: any) => x.team === Number(team)
+      (x: any) => x.team === Number(team) && String(x.errorStage) === String(this.ErrorStage)
     );
+
+    if (this.Line === null || this.Line === undefined || this.Line === '') {
+      this.popup.error('Vui lòng chọn Line');
+      this.isLineModalVisible = true;
+      return;
+    }
 
     if (hasSameTeam) {
       this.popup.error('Vui lòng xử lý các yêu cầu trước khi tạo yêu cầu mới');
@@ -338,6 +342,7 @@ export class seAndonCallComponent implements OnInit {
 
   handleCancel(): void {
     this.isDoneModalVisible = false;
+    this.isLineModalVisible = false;
   }
 
 
@@ -391,6 +396,10 @@ export class seAndonCallComponent implements OnInit {
   start_time: any = '';
   from_user: any = '';
   confirmLine() {
+    if (this.Line === '' || this.Line === undefined || this.Line === null) {
+      this.popup.error('Vui lòng chọn Line');
+      return;
+    }
     this.isLineModalVisible = false;
     this.getDataPending(this.Line);
   }
@@ -436,10 +445,23 @@ export class seAndonCallComponent implements OnInit {
     this.andonService.changeGroup(payload)
       .subscribe({
         next: (res: any) => {
+          console.log(res);
           if (res.message === 'success') {
             setTimeout(() => {
               this.isChangePicModalVisible = false;
+              const updatedList = this.andonDataList$.value.map(x =>
+                x.id === res.data.id
+                  ? {
+                    ...x,
+                    team: res.data.team,
+                    groupName: res.data.groupName
+                  }
+                  : x
+              );
+              this.andonDataList$.next(updatedList);
+              console.log(this.andonDataList$.value);
               this.cd.detectChanges();
+
               this.popup.success('Chuyển bộ phận thành công');
             },);
 

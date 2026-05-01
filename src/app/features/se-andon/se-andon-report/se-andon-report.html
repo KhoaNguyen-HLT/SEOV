@@ -94,12 +94,13 @@
   </nz-modal> -->
 
 
-  <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết gọi hỗ trợ" [nzFooter]="footerTemplate">
-    <ng-template #footerTemplate>
+  <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết gọi hỗ trợ" [nzFooter]="null"
+    (nzOnCancel)="handleCancel()">
+    <!-- <ng-template #footerTemplate>
       <button nz-button nzType="primary" (click)="handleCancel()">
         Đóng
       </button>
-    </ng-template>
+    </ng-template> -->
     <ng-container *nzModalContent>
       <form nz-form [formGroup]="detailform" class="detail-form">
 

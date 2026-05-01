@@ -145,7 +145,8 @@
 </nz-modal>
 
 
-<nz-modal [(nzVisible)]="isLineModalVisible" nzTitle="Bạn cần nhập line trước" [nzFooter]="null">
+<nz-modal [(nzVisible)]="isLineModalVisible" nzTitle="Bạn cần nhập line trước" [nzFooter]="null"
+  (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
     <nz-select [(ngModel)]="Line" name="Line" style="width: 100%" nzShowSearch nzPlaceHolder="Chọn line">
       <nz-option *ngFor="let item of line_list" [nzValue]="item.siteCode" [nzLabel]="item.lineName">

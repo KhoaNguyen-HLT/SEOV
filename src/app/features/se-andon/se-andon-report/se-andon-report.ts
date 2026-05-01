@@ -42,10 +42,12 @@ export class seAndonReportComponent {
       headerName: 'Action',
       field: 'action',
       cellRenderer: ActionCellComponent,
-      width: 80,
+      width: 100,
       autoHeight: true,
       cellRendererParams: {
-        actions: ['view']
+        showView: true,
+        showEdit: false,
+        showDelete: false
       }
     }
   ];
@@ -77,6 +79,7 @@ export class seAndonReportComponent {
 
     const payload = {
       ...raw,
+      line: raw.line ? raw.line : '',
       fromDate: raw.fromDate
         ? dayjs(raw.fromDate).format('YYYY-MM-DD HH:mm:ss')
         : null,

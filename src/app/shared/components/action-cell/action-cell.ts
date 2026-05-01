@@ -5,6 +5,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-action-cell',
@@ -15,22 +16,38 @@ import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
         NzButtonModule,
         NzIconModule,
         NzTooltipModule,
-        NzPopconfirmModule
+        NzPopconfirmModule,
+        CommonModule
     ],
 })
 export class ActionCellComponent implements ICellRendererAngularComp {
     params!: ICellRendererParams;
+    showView: boolean = false;
+    showEdit: boolean = false;
+    showDelete: boolean = false;
 
     agInit(params: ICellRendererParams): void {
         this.params = params;
+        this.setupPermissions();
+    }
+
+    setupPermissions() {
+        // Dễ dàng mở rộng
+        const config = this.params?.colDef?.cellRendererParams || {};
+        console.log(config);
+        this.showView = config.showView ?? true;
+        this.showEdit = config.showEdit ?? true;
+        this.showDelete = config.showDelete ?? true
     }
 
     refresh(params: ICellRendererParams): boolean {
         this.params = params;
+        this.setupPermissions();
         return true;
     }
 
     onView() {
+        console.log(this.params);
         (this.params.context as any).componentParent.onView(this.params.data);
     }
 
