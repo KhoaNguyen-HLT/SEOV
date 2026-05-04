@@ -67,4 +67,8 @@ export class MainLayoutComponent {
   AndonRequest() {
     this.router.navigate(['/welcome/andon/se-andon-request']);
   }
+
+  Machine() {
+    this.router.navigate(['/welcome/machine']);
+  }
 }

@@ -58,6 +58,11 @@ export const routes: Routes = [
         path: 'andon',
         loadChildren: () =>
           import('./features/se-andon/se-andon.routes').then(m => m.andonRoutes)
+      },
+      {
+        path: 'machine',
+        loadChildren: () =>
+          import('./features/common/machine/machine.routes').then(m => m.machineRoutes)
       }
     ]
   },
