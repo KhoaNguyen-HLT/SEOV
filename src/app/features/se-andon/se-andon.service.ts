@@ -45,4 +45,8 @@ export class AndonService {
   andonGetData(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/andonGetData`, data);
   }
+
+  sendRequest(id: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/sendRequest/${id}`, {});
+  }
 }

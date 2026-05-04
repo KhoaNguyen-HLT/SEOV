@@ -63,4 +63,8 @@ export class MainLayoutComponent {
   AndonReport() {
     this.router.navigate(['/welcome/andon/se-andon-report']);
   }
+
+  AndonRequest() {
+    this.router.navigate(['/welcome/andon/se-andon-request']);
+  }
 }

@@ -1,0 +1,39 @@
+<div class="container">
+  <form nz-form [formGroup]="requestForm" (ngSubmit)="onSubmit()" style="width: 80%;">
+
+    <nz-form-item>
+      <nz-form-label nzSpan="6" nzRequired>Tên yêu cầu</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <input nz-input formControlName="title" placeholder="Nhập tiêu đề" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzSpan="6">Mô tả</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <textarea nz-input formControlName="description" rows="3"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzSpan="6">Độ ưu tiên</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <nz-select formControlName="priority">
+          <nz-option nzValue="LOW" nzLabel="Thấp"></nz-option>
+          <nz-option nzValue="MEDIUM" nzLabel="Trung bình"></nz-option>
+          <nz-option nzValue="HIGH" nzLabel="Cao"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control nzSpan="24" style="text-align: right;">
+        <button nz-button nzType="primary" [disabled]="requestForm.invalid">
+          Gửi yêu cầu
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</div>

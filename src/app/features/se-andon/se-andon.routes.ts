@@ -15,5 +15,11 @@ export const andonRoutes: Routes = [
       import('./se-andon-report/se-andon-report')
         .then(m => m.seAndonReportComponent)
   },
+  {
+    path: 'se-andon-request',
+    loadComponent: () =>
+      import('./se-andon-request/se-andon-request')
+        .then(m => m.seAndonRequestComponent)
+  }
 
 ];
