@@ -60,9 +60,9 @@ export const routes: Routes = [
           import('./features/se-andon/se-andon.routes').then(m => m.andonRoutes)
       },
       {
-        path: 'machine',
+        path: 'device',
         loadChildren: () =>
-          import('./features/common/machine/machine.routes').then(m => m.machineRoutes)
+          import('./features/common/device/device.routes').then(m => m.deviceRoutes)
       }
     ]
   },

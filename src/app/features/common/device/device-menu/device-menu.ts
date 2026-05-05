@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzButtonModule, NzButtonSize } from 'ng-zorro-antd/button';
@@ -10,9 +10,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
+  selector: 'menu-device',
   standalone: true,
-  imports: [RouterOutlet, FormsModule,
+  imports: [
+    RouterOutlet, FormsModule,
     NzGridModule,
     FormsModule,
     NzButtonModule,
@@ -21,11 +22,19 @@ import { RouterOutlet } from '@angular/router';
     NzDividerModule,
     NzIconModule,
   ],
-  templateUrl: './machine.html',
-  styleUrls: ['./machine.css']
+  templateUrl: './device-menu.html',
+  styleUrls: ['./device-menu.css']
 })
-export class MachineComponent {
+export class MenuDeviceComponent {
   size: NzButtonSize = 'large';
-  router: any;
 
+  constructor(private deviceRoutes: Router) { }
+
+  create_device() {
+    this.deviceRoutes.navigate(['/welcome/device/create-device']);
+  }
+
+  list_devices() {
+    this.deviceRoutes.navigate(['/welcome/device/list-device']);
+  }
 }

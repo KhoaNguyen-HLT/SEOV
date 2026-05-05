@@ -4,6 +4,8 @@ import { RouterOutlet, Router } from '@angular/router';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { ToolOutline, ControlOutline } from '@ant-design/icons-angular/icons';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -22,6 +24,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzButtonModule,
     NzInputModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    {
+      provide: NZ_ICONS,
+      useValue: [ToolOutline, ControlOutline]
+    }
   ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.css']
@@ -68,7 +76,7 @@ export class MainLayoutComponent {
     this.router.navigate(['/welcome/andon/se-andon-request']);
   }
 
-  Machine() {
-    this.router.navigate(['/welcome/machine']);
+  Device() {
+    this.router.navigate(['/welcome/device']);
   }
 }
