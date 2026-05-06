@@ -1,7 +1,96 @@
 <div class="table-container">
   <div class="table-title">Danh sách thiết bị</div>
+  <div class="search-header">
+    <form nz-form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+
+      <div nz-row [nzGutter]="16">
+
+        <!-- Line -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Location</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="location" placeholder="Location" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Ngày từ -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Từ ngày</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="fromDate" style="width: 100%" nzFormat="yyyy-MM-dd"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Ngày đến -->
+        <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Đến ngày</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="toDate" style="width: 100%" nzFormat="yyyy-MM-dd"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Keyword -->
+        <!-- <div nz-col nzSpan="4">
+          <nz-form-item class="form-item">
+            <nz-form-label>Từ khóa</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="keyword" placeholder="Tìm thiết bị, lỗi..." />
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+
+        <!-- Button -->
+        <div nz-col nzSpan="2">
+          <button nz-button nzType="primary" htmlType="submit">Search</button>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
   <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
   <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 300px" [columnDefs]="columnDefs"
-    [rowData]="rowData" (gridReady)="onGridReady($event)">
+    [getRowId]="getRowId" [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }">
   </ag-grid-angular>
 </div>
+
+<nz-modal [(nzVisible)]="isEditModalVisible" nzTitle="Sửa thiết bị" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="editForm">
+      <nz-form-item>
+        <nz-form-label nzSpan="6">Location</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="location" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzSpan="6">Code</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="code" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzSpan="6">Serial</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="serialNumber" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzSpan="6">Supplier</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="supplier" />
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+</nz-modal>

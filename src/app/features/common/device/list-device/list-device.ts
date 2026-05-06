@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import dayjs from 'dayjs';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -13,6 +14,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DeviceService } from '../device.service';
 import { AgGridAngular } from 'ag-grid-angular';
+import { ActionCellComponent } from '../../../../shared/components/action-cell/action-cell';
+import { PopupService } from '../../../../shared/service/popup.service';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
@@ -33,26 +36,41 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   styleUrls: ['./list-device.css']
 })
 export class ListDeviceComponent {
+  searchForm!: FormGroup;
   rowData: any[] = [];
+  getRowId = (params: any) => params.data.id;
   columnDefs = [
-    { field: 'machine_id', filter: true, sortable: true },
-    { field: 'machine_name' },
-    { field: 'model' },
-    { field: 'ip_address' },
-    { field: 'mac_address' },
-    { field: 'type' },
-    { field: 'status' },
+    { field: 'location', filter: true, sortable: true },
+    { field: 'code' },
+    { field: 'serialNumber' },
+    { field: 'supplier' },
+    { field: 'fa' },
+    { field: 'faCode' },
+    { field: 'poNumber' },
+    { field: 'kianNo' },
     {
       headerName: 'Action',
       field: 'action',
-      cellRenderer: (params: any) => {
-        return `
-          <button class="btn-edit">Edit</button>
-          <button class="btn-delete">Delete</button>
-        `;
-      },
-    },
+      cellRenderer: ActionCellComponent,
+      width: 100,
+      autoHeight: true,
+      cellRendererParams: {
+        showView: false,
+        showEdit: true,
+        showDelete: true,
+        // onView: (row: any) => this.onView(row),
+        // onEdit: (row: any) => this.onEdit(row),
+        // onDelete: (row: any) => this.onDelete(row)
+      }
+    }
   ];
+
+
+  // khi click vào row nào thì select row đó
+  selectedRow: any = null;
+  onRowClick(event: any) {
+    this.selectedRow = event.data;
+  }
 
   // defaultColDef = {
   //   sortable: true,
@@ -61,6 +79,8 @@ export class ListDeviceComponent {
   // };
 
   // 👉 Export Excel
+
+  gridApi: any;
   exportExcel() {
     this.gridApi.exportDataAsExcel({
       fileName: 'danh-sach.xlsx',
@@ -68,35 +88,120 @@ export class ListDeviceComponent {
     });
   }
 
-  gridApi: any;
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(private deviceService: DeviceService, private fb: FormBuilder, private popup: PopupService,) { }
+  ngOnInit(): void {
+    this.editForm = this.fb.group({
+      location: [''],
+      code: [''],
+      serialNumber: [''],
+      supplier: ['']
+    });
+
+    // 👉 FIX ở đây
+    this.searchForm = this.fb.group({
+      location: [''],
+      fromDate: [dayjs().startOf('month').toDate()],
+      toDate: [dayjs().endOf('month').toDate()],
+    });
+
+
+
+  }
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.deviceService.getDevices().subscribe((res) => {
-      this.gridApi.setGridOption('rowData', res);
-    });
-
-    // bắt click trong grid
-    params.api.addEventListener('cellClicked', (event: any) => {
-      if (event.event.target.classList.contains('btn-edit')) {
-        this.onEdit(event.data);
-      }
-
-      if (event.event.target.classList.contains('btn-delete')) {
-        this.onDelete(event.data);
-      }
-    });
   }
+
+  onView(row: any) {
+    console.log('VIEW:', row);
+  }
+
   onEdit(row: any) {
     console.log('EDIT:', row);
-    // ví dụ: mở form / modal
-    // this.selectedUser = row;
+    this.currentRow = row;
+    this.editForm.patchValue(row);
+    this.isEditModalVisible = true;
   }
+
   onDelete(row: any) {
     console.log('DELETE:', row);
+    if (row.id) {
+      this.deviceService.deleteDevice(row.id).subscribe((res: any) => {
+        if (res.message == "success") {
+          this.gridApi.applyTransaction({
+            remove: [row]
+          });
+          this.popup.success("Xóa thiết bị thành công");
+        }
+        else {
+          this.popup.error(res.message);
+        }
+      });
+    }
 
-    // ví dụ: mở form / modal
-    // this.selectedUser = row;
   }
+
+
+  isEditModalVisible = false;
+  editForm!: FormGroup;
+  currentRow: any;
+
+  handleCancel() {
+    this.isEditModalVisible = false;
+  }
+  handleOk() {
+    if (this.editForm.invalid) return;
+
+    const updated = {
+      ...this.currentRow,
+      ...this.editForm.value
+    };
+
+    console.log('UPDATED:', updated);
+
+    // 👉 gọi API update
+    this.deviceService.updateDevice(updated).subscribe((res: any) => {
+      console.log('UPDATED:', res);
+      if (res.message == "success") {
+
+        this.gridApi.applyTransaction({
+          update: [updated]
+        });
+        this.isEditModalVisible = false;
+        this.popup.success("Cập nhật thiết bị thành công");
+        // this.loadData();
+      }
+      else {
+        this.popup.error(res.message);
+        this.isEditModalVisible = false;
+      }
+    });
+
+    this.isEditModalVisible = false;
+  }
+
+
+  // search
+
+  onSearch() {
+    const raw = this.searchForm.value;
+
+    const payload = {
+      ...raw,
+      fromDate: raw.fromDate
+        ? dayjs(raw.fromDate).format('YYYY-MM-DD')
+        : null,
+      toDate: raw.toDate
+        ? dayjs(raw.toDate).format('YYYY-MM-DD')
+        : null
+    };
+
+    console.log(payload);
+    this.deviceService.getDevices(payload).subscribe((res) => {
+      console.log(res);
+      this.gridApi.setGridOption('rowData', res.data);
+    });
+  }
+
+
 }

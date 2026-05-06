@@ -17,7 +17,15 @@ export class DeviceService {
     return this.http.post(`${this.baseUrl}/create`, data);
   }
 
-  getDevices(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getDevices`);
+  getDevices(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/getDevices`, data);
+  }
+
+  updateDevice(data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update`, data);
+  }
+
+  deleteDevice(id: any): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete/${id}`);
   }
 }
