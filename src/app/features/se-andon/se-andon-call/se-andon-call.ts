@@ -78,6 +78,7 @@ export class seAndonCallComponent implements OnInit {
   isLineModalVisible = false;
   isChangePicModalVisible = false;
   andonDataList$ = new BehaviorSubject<any[]>([]);
+  andonDataListLog$ = new BehaviorSubject<any[]>([]);
   line_list =
     [
       {
@@ -160,7 +161,8 @@ export class seAndonCallComponent implements OnInit {
     this.andonService.getDataPending(siteCode).subscribe({
       next: (res: any) => {
         const newItems = res.data;
-
+        this.andonDataListLog$ = res.changeGroupData;
+        console.log(this.andonDataListLog$);
         setTimeout(() => {
           this.andonDataList$.next([
             ...this.andonDataList$.value,
@@ -449,8 +451,18 @@ export class seAndonCallComponent implements OnInit {
                   }
                   : x
               );
+
+              const updatedListlog = this.andonDataListLog$.value.map(x =>
+                x.id === res.changeGroupData.id
+                  ? {
+                    ...x
+                  }
+                  : x
+              );
               this.andonDataList$.next(updatedList);
+              this.andonDataListLog$.next(updatedListlog);
               console.log(this.andonDataList$.value);
+              console.log(this.andonDataListLog$.value);
               this.cd.detectChanges();
 
               this.popup.success('Chuyển bộ phận thành công');
@@ -466,4 +478,6 @@ export class seAndonCallComponent implements OnInit {
   goToHomePage() {
     this.router.navigate(['/welcome']);
   }
+
+
 }
