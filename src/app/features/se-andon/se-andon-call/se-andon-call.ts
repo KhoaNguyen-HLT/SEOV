@@ -16,6 +16,13 @@ import { jwtDecode } from 'jwt-decode';
 import { ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, interval, map } from 'rxjs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzIconModule, provideNzIcons } from 'ng-zorro-antd/icon';
+import { HomeOutline } from '@ant-design/icons-angular/icons';
+import { Router, Routes } from '@angular/router';
+import { NzTableComponent } from "ng-zorro-antd/table";
+
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 
 
@@ -48,7 +55,11 @@ export interface AndonItem {
     NzGridModule,
     FormsModule,
     NzSpaceModule,
-    NzRadioModule
+    NzRadioModule,
+    NzIconModule,
+    NzTableComponent,
+    NzTableModule,
+    NzTagModule
   ],
   templateUrl: './se-andon-call.html',
   styleUrls: ['./se-andon-call.css']
@@ -87,8 +98,15 @@ export class seAndonCallComponent implements OnInit {
     private popup: PopupService,
     private andonService: AndonService,
     private cd: ChangeDetectorRef,
+    private router: Router
   ) {
 
+  }
+  expandedRowId: number | null = null;
+
+  toggleExpand(id: number): void {
+    this.expandedRowId =
+      this.expandedRowId === id ? null : id;
   }
 
   ngOnInit(): void {
@@ -249,33 +267,6 @@ export class seAndonCallComponent implements OnInit {
       });
   }
 
-
-
-  // updateDoneStatus(item: any): void {
-  //   this.andonService.updateDoneStatus(item.id)
-  //     .subscribe({
-  //       next: (res: any) => {
-
-  //         if (res.message == 'success') {
-  //           const updatedList = this.andonDataList$.value
-  //             .filter(x => x.id !== item.id);
-  //           this.andonDataList$.next(updatedList);
-  //           setTimeout(() => {
-  //             this.Description = '';
-  //             this.ErrorStage = '';
-  //           }, 100);
-  //           this.popup.success('Cập nhật trạng thái thành công');
-
-  //         } else {
-  //           this.popup.error('Cập nhật trạng thái thất bại');
-  //         }
-
-  //       },
-  //       error: (err: any) => {
-  //         this.popup.error(err.error.message);
-  //       }
-  //     });
-  // }
 
   // hàm xử lý update time mỗi 1s. sẽ check thay đổi của data andonlist để hiển thị giao diện.
   startTimer() {
@@ -471,5 +462,8 @@ export class seAndonCallComponent implements OnInit {
           }
         }
       });
+  }
+  goToHomePage() {
+    this.router.navigate(['/welcome']);
   }
 }

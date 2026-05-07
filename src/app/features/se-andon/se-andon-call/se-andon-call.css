@@ -33,7 +33,9 @@ body {
 .andon-box,
 .table-box {
   background-color: var(--card-bg);
-  padding: 25px 30px;
+  padding-top: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
@@ -43,15 +45,15 @@ body {
   font-size: 24px;
   font-weight: 700;
   color: var(--text-main);
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   text-transform: uppercase;
 }
 
 .form-grid {
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  margin-bottom: 20px;
 }
 
 .form-group {
@@ -439,4 +441,35 @@ th {
   opacity: 0.85;
   background: #5cad10;
   border-color: #2cd909;
+}
+
+
+/* home btn */
+.home-btn-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  transition: all 0.2s ease;
+}
+
+.home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.home-btn .anticon {
+  font-size: 22px;
 }

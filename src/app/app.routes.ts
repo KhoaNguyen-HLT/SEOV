@@ -7,7 +7,19 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/login/login').then(m => m.LoginComponent)
   },
-
+  {
+    path: 'andon',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./layout/andon-layout/andon-layout').then(m => m.AndonLayoutComponent),
+    children: [
+      {
+        path: 'andon',
+        loadChildren: () =>
+          import('./features/se-andon/se-andon.routes').then(m => m.andonRoutes)
+      },
+    ]
+  },
   {
     path: 'welcome',
     canActivate: [AuthGuard],

@@ -14,8 +14,7 @@ import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
-registerLocaleData(vi);
+import { HomeOutline } from '@ant-design/icons-angular/icons';
 
 import {
   DashboardOutline,
@@ -26,6 +25,7 @@ import {
   PlusOutline,
   FormOutline,
   HistoryOutline,
+  CaretDownOutline
 } from '@ant-design/icons-angular/icons';
 
 export const appConfig: ApplicationConfig = {
@@ -45,6 +45,8 @@ export const appConfig: ApplicationConfig = {
       CaretRightOutline,
       FormOutline,
       HistoryOutline,
+      HomeOutline,
+      CaretDownOutline
     ]),
 
     NzMessageService,
