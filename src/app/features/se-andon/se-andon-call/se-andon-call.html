@@ -160,37 +160,9 @@
           </td>
         </tr>
 
-        <!-- EXPAND DETAIL -->
-        <tr [nzExpand]="item.expand">
-          <nz-table #detailTable [nzData]="[item]" nzSize="small" [nzShowPagination]="false">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Trạng thái</th>
-                <th>Người xử lý</th>
-                <th>Mô tả</th>
-                <th>Line</th>
-              </tr>
-            </thead>
-      <tbody>
-
-        @for (detail of detailTable.data; track detail.id) {
-        <tr>
-          <td>{{ detail.id }}</td>
-          <td>>
-            {{ detail.status }}
-          </td>
-          <td>{{ detail.pic }}</td>
-          <td>{{ detail.description }}</td>
-          <td>{{ detail.line }}</td>
-        </tr>
         }
-      </tbody>
-    </nz-table>
-    </tr>
-    }
 
-    </tbody>
+      </tbody>
 
     </nz-table>
   </div>

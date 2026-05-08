@@ -79,6 +79,16 @@ export class seAndonCallComponent implements OnInit {
   isChangePicModalVisible = false;
   andonDataList$ = new BehaviorSubject<any[]>([]);
   andonDataListLog$ = new BehaviorSubject<any[]>([]);
+  logMap: Record<number, any[]> = {};
+  updateLogMap() {
+    const logs = this.andonDataListLog$.value;
+
+    this.logMap = logs.reduce((acc, log) => {
+      if (!acc[log.id]) acc[log.id] = [];
+      acc[log.id].push(log);
+      return acc;
+    }, {} as Record<number, any[]>);
+  }
   line_list =
     [
       {
@@ -161,7 +171,8 @@ export class seAndonCallComponent implements OnInit {
     this.andonService.getDataPending(siteCode).subscribe({
       next: (res: any) => {
         const newItems = res.data;
-        this.andonDataListLog$ = res.changeGroupData;
+        this.andonDataListLog$.next(res.changeGroupData); // ✅ FIX
+        // this.updateLogMap(); // 🔥 MUST CALL
         console.log(this.andonDataListLog$);
         setTimeout(() => {
           this.andonDataList$.next([
@@ -440,6 +451,7 @@ export class seAndonCallComponent implements OnInit {
         next: (res: any) => {
           console.log(res);
           if (res.message === 'success') {
+            this.andonDataListLog$ = res.changeGroupData;
             setTimeout(() => {
               this.isChangePicModalVisible = false;
               const updatedList = this.andonDataList$.value.map(x =>
@@ -452,17 +464,10 @@ export class seAndonCallComponent implements OnInit {
                   : x
               );
 
-              const updatedListlog = this.andonDataListLog$.value.map(x =>
-                x.id === res.changeGroupData.id
-                  ? {
-                    ...x
-                  }
-                  : x
-              );
               this.andonDataList$.next(updatedList);
-              this.andonDataListLog$.next(updatedListlog);
+              // this.andonDataListLog$.next(updatedListlog);
               console.log(this.andonDataList$.value);
-              console.log(this.andonDataListLog$.value);
+              console.log(this.andonDataListLog$);
               this.cd.detectChanges();
 
               this.popup.success('Chuyển bộ phận thành công');
