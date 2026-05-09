@@ -473,3 +473,19 @@ th {
 .home-btn .anticon {
   font-size: 22px;
 }
+
+
+/* expand table */
+
+.ant-table-row {
+  padding-bottom: 5px;
+}
+
+.andon-row {
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+/* .andon-row:hover {
+  background-color: #94e452 !important;
+} */

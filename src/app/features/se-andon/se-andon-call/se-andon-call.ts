@@ -80,6 +80,7 @@ export class seAndonCallComponent implements OnInit {
   andonDataList$ = new BehaviorSubject<any[]>([]);
   andonDataListLog$ = new BehaviorSubject<any[]>([]);
   logMap: Record<number, any[]> = {};
+  // expand: boolean = true;
   updateLogMap() {
     const logs = this.andonDataListLog$.value;
 
@@ -142,6 +143,7 @@ export class seAndonCallComponent implements OnInit {
     });
 
     this.startTimer();
+    this.buildDetailMap();
   }
 
   getLineName(): string {
@@ -163,22 +165,24 @@ export class seAndonCallComponent implements OnInit {
     //     console.log(err);
     //   }
     // });
-    console.log(this.line_list)
+    // console.log(this.line_list)
   }
 
   // gọi API vào bảng andon data để lấy thông tin các request
   getDataPending(siteCode: any) {
     this.andonService.getDataPending(siteCode).subscribe({
       next: (res: any) => {
+        // thêm expand cho từng item
         const newItems = res.data;
         this.andonDataListLog$.next(res.changeGroupData); // ✅ FIX
         // this.updateLogMap(); // 🔥 MUST CALL
-        console.log(this.andonDataListLog$);
+        // console.log(this.andonDataListLog$);
         setTimeout(() => {
           this.andonDataList$.next([
             ...this.andonDataList$.value,
-            ...newItems   // 👈 spread mảng
+            ...newItems // 👈 spread mảng
           ]);
+          this.buildDetailMap();
         });
       },
       error: (err: any) => {
@@ -189,8 +193,6 @@ export class seAndonCallComponent implements OnInit {
   }
 
   callGroup(team: any): void {
-
-    console.log(this.andonDataList$.value);
     const hasSameTeam = this.andonDataList$.value.some(
       (x: any) => x.team === Number(team) && String(x.errorStage) === String(this.ErrorStage)
     );
@@ -261,7 +263,8 @@ export class seAndonCallComponent implements OnInit {
                 ? {
                   ...x,
                   status: 'PROCESSING',
-                  processingAt: res.data.processingAt
+                  processingAt: res.data.processingAt,
+                  updated_at: res.data.updated_at
                 }
                 : x
             );
@@ -367,7 +370,6 @@ export class seAndonCallComponent implements OnInit {
       ...formValue,
       id: this.selectedItem.id
     };
-    console.log(payload);
     // return;
     this.andonService.updateDoneStatus(this.selectedItem.id, payload)
       .subscribe({
@@ -445,34 +447,36 @@ export class seAndonCallComponent implements OnInit {
       start_time: this.start_time,
       from_user: this.from_user
     };
+    // console.log('payload', payload);
     // return;
     this.andonService.changeGroup(payload)
       .subscribe({
         next: (res: any) => {
-          console.log(res);
+          // console.log(res);
           if (res.message === 'success') {
-            this.andonDataListLog$ = res.changeGroupData;
-            setTimeout(() => {
-              this.isChangePicModalVisible = false;
-              const updatedList = this.andonDataList$.value.map(x =>
-                x.id === res.data.id
-                  ? {
-                    ...x,
-                    team: res.data.team,
-                    groupName: res.data.groupName
-                  }
-                  : x
-              );
+            this.andonDataListLog$.next(res.changeGroupData);
+            // setTimeout(() => {
+            this.isChangePicModalVisible = false;
+            const updatedList = this.andonDataList$.value.map(x =>
+              x.id === res.data.id
+                ? {
+                  ...x,
+                  team: res.data.team,
+                  groupName: res.data.groupName,
+                  updated_at: res.data.updated_at,
+                  expand: true
+                }
+                : x
+            );
 
-              this.andonDataList$.next(updatedList);
-              // this.andonDataListLog$.next(updatedListlog);
-              console.log(this.andonDataList$.value);
-              console.log(this.andonDataListLog$);
-              this.cd.detectChanges();
+            this.andonDataList$.next(updatedList);
+            // });
+            // console.log(this.andonDataList$.value);
+            // console.log(this.andonDataListLog$);
+            this.cd.detectChanges();
+            this.buildDetailMap();
 
-              this.popup.success('Chuyển bộ phận thành công');
-            },);
-
+            this.popup.success('Chuyển bộ phận thành công');
 
           } else {
             this.popup.error('Chuyển bộ phận thất bại');
@@ -482,6 +486,65 @@ export class seAndonCallComponent implements OnInit {
   }
   goToHomePage() {
     this.router.navigate(['/welcome']);
+  }
+
+
+  // expand info.
+  andonDetailData(id: number) {
+    // console.log('id', id);
+    this.buildDetailMap();
+
+  }
+
+  detailMap: { [key: number]: any[] } = {};
+  listExpand: any[] = [];
+
+  buildDetailMap() {
+    this.detailMap = {};
+    // console.log(this.andonDataListLog$.value);
+    const items = this.andonDataListLog$.value;
+    this.listExpand = [...new Set(items.map(x => x.id))];
+    // update expand
+    const updated = this.andonDataList$.value.map(item => ({
+      ...item,
+      expand: item.expand ?? this.listExpand.includes(item.id)
+    }));
+
+    // cập nhật table
+    this.andonDataList$.next(updated);
+
+
+    items.forEach((item: any) => {
+
+      if (!this.detailMap[item.id]) {
+        this.detailMap[item.id] = [];
+      }
+
+      this.detailMap[item.id].push(item);
+    });
+
+  }
+
+
+  formatDuration(start: string, end: string): string {
+
+    const diffMs =
+      new Date(end).getTime() -
+      new Date(start).getTime();
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+
+    const hours = Math.floor(totalSeconds / 3600);
+
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+    const seconds = totalSeconds % 60;
+
+    return [
+      hours.toString().padStart(2, '0'),
+      minutes.toString().padStart(2, '0'),
+      seconds.toString().padStart(2, '0')
+    ].join(':');
   }
 
 

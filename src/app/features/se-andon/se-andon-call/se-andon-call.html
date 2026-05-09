@@ -31,10 +31,10 @@
         <div>
           <nz-select id="errorStage" nzShowSearch nzPlaceHolder="Chọn công đoạn" nzSize="large" [(ngModel)]="ErrorStage"
             class="custom-select" style="width: 100%;">
-            <nz-option nzLabel="Lỗi Smart Check" nzValue="SMART_CHECK"></nz-option>
-            <nz-option nzLabel="Lỗi Cân KCS" nzValue="KCS"></nz-option>
-            <nz-option nzLabel="Lỗi Đóng Gói" nzValue="PACKING"></nz-option>
-            <nz-option nzLabel="Lỗi Máy Tính" nzValue="PC"></nz-option>
+            <nz-option nzLabel="Smart Check" nzValue="SMART_CHECK"></nz-option>
+            <nz-option nzLabel="Cân KCS" nzValue="KCS"></nz-option>
+            <nz-option nzLabel="Đóng Gói" nzValue="PACKING"></nz-option>
+            <nz-option nzLabel="Máy Tính" nzValue="PC"></nz-option>
           </nz-select>
         </div>
 
@@ -116,8 +116,8 @@
         </tr>
       </tbody>
     </table> -->
-    <nz-table #andonTable [nzData]="(andonDataList$ | async) || []" [nzBordered]="true" [nzPageSize]="10"
-      nzSize="middle">
+    <nz-table #andonTable [nzData]="(andonDataList$ | async) || []" [nzBordered]="true" nzSize="middle"
+      [nzShowPagination]="false">
 
       <thead>
         <tr>
@@ -134,9 +134,11 @@
       <tbody>
         @for (item of andonTable.data; track item.id) {
         <!-- MAIN ROW -->
-        <tr>
+        <tr class="andon-row"
+          [style.background-color]="item.team == 0 ? 'rgb(142 187 255)' : item.team == 1 ? 'rgb(230 213 247)' : item.team == 2 ? 'rgb(247 234 179)' : item.team == 3 ? 'rgb(204 201 28 / 44%)': 'rgb(35 180 6 / 31%)' ">
           <!-- EXPAND -->
-          <td [(nzExpand)]="item.expand"></td>
+          <td [(nzExpand)]=" item.expand" (click)="andonDetailData(item.id)">
+          </td>
           <td>{{ item.groupName }}</td>
           <td>{{ item.errorStage }}</td>
           <td>
@@ -159,10 +161,43 @@
             </button>
           </td>
         </tr>
-
-        }
-
+        <tr *ngIf="item.expand" style="background-color: #f0f0f0;">
+          <td colspan="7">
+            <nz-table #basicTable [nzData]="detailMap[item.id] || []" [nzShowPagination]="false">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Type</th>
+                  <th>UserName</th>
+                  <th>From(Team)</th>
+                  <th>To(Team)</th>
+                  <th>Description</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+      <tbody>
+        <tr *ngFor="let data of detailMap[item.id] || []">
+          <td>{{data.id}}</td>
+          <td>{{data.action_type}}</td>
+          <td>{{data.from_user}}</td>
+          <td>{{data.from_team_name}}</td>
+          <td>{{data.to_team_name}}</td>
+          <td>{{data.description}}</td>
+          <td>{{data.start_time| date: 'HH:mm:ss'}}</td>
+          <td>{{data.end_time| date: 'HH:mm:ss'}}</td>
+          <td>
+            {{ formatDuration(data.start_time, data.end_time) }}
+          </td>
+        </tr>
       </tbody>
+    </nz-table>
+    </td>
+    </tr>
+    }
+
+    </tbody>
 
     </nz-table>
   </div>
