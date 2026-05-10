@@ -15,6 +15,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HomeOutline } from '@ant-design/icons-angular/icons';
+import { provideEchartsCore } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 import {
   DashboardOutline,
@@ -34,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withFetch()),
     provideNzI18n(vi_VN),
+    provideEchartsCore({ echarts }),
 
     // ✅ đăng ký icon
     provideNzIcons([

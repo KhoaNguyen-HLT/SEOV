@@ -4,12 +4,11 @@ import { Component, enableProdMode, provideZoneChangeDetection } from '@angular/
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ActionCellComponent } from '../../../shared/components/action-cell/action-cell';
 import dayjs from 'dayjs';
 import { NzModalComponent } from "ng-zorro-antd/modal";

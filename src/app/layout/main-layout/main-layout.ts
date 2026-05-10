@@ -79,6 +79,9 @@ export class MainLayoutComponent {
   AndonScreen() {
     this.router.navigate(['/andon/andon/se-andon-call']);
   }
+  AndonDashboard() {
+    this.router.navigate(['/andon/andon/se-andon-dashboard']);
+  }
 
   Device() {
     this.router.navigate(['/welcome/device']);

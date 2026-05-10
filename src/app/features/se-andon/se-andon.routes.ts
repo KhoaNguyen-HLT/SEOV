@@ -20,6 +20,12 @@ export const andonRoutes: Routes = [
     loadComponent: () =>
       import('./se-andon-request/se-andon-request')
         .then(m => m.seAndonRequestComponent)
+  },
+  {
+    path: 'se-andon-dashboard',
+    loadComponent: () =>
+      import('./se-andon-dashboard/se-andon-dasboard')
+        .then(m => m.seAndonDashboardComponent)
   }
 
 ];
