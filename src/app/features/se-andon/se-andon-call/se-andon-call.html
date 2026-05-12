@@ -1,7 +1,7 @@
 <div class="container">
   <div class="andon-box">
     <div nz-row style="display: flex;">
-      <div nz-col nzSpan="8">
+      <div nz-col nzSpan="4">
         <div style="float: left; margin-left: 10px;">
           <button nz-button nzType="primary" nzSize="large" class="home-btn" (click)="goToHomePage()">
             <!-- <span>Home Page</span> -->
@@ -9,7 +9,7 @@
           </button>
         </div>
       </div>
-      <div nz-col nzSpan="8">
+      <div nz-col nzSpan="16">
         <div style="margin-left: 10px;">
           <h2 class="header-title">Báo Cáo Sự Cố Dây Chuyền <span *ngIf="Line">(Line:{{getLineName()}})</span></h2>
         </div>
@@ -56,66 +56,6 @@
 
   <div class="table-box">
     <h2 class="header-title" style="text-align: left; font-size: 20px;">📋 Danh Sách Sự Cố Hiện Hành</h2>
-    <!-- <table>
-      <thead>
-        <tr>
-          <th>Bộ phận</th>
-          <th>Công đoạn</th>
-          <th>Thời gian báo</th>
-          <th>Thời gian chờ</th>
-          <th>Thời gian xử lý</th>
-          <th style="width: 20%;">Hành động</th>
-        </tr>
-      </thead>
-      <tbody id="errorTableBody">
-        <tr *ngFor="let item of andonDataList$| async; trackBy: trackById">
-          <td>{{ item.groupName }}</td>
-          <td>{{ item.errorStage }}</td>
-          <td>{{ item.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
-          <td>{{ item.waitingTime }}</td>
-          <td>{{ item.processingTime }}</td>
-          <td>
-            <button *ngIf="item.status === 'CALLING'" class="btn-status calling" nz-button nzType="primary"
-              nzSize="small" (click)="updateProcessingStatus(item)">Bắt Đầu Xử Lý
-            </button>
-            <button *ngIf="item.status === 'PROCESSING'" class="btn-status processing" nz-button nzType="primary"
-              nzSize="small" (click)="openDoneModal(item)">Xác nhận xử lý
-            </button>
-
-            <button *ngIf="item.status === 'PROCESSING'" class="btn-status change-pic" nz-button nzType="primary"
-              nzSize="small" (click)="changePicModal(item)">Chuyển bộ phận
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-    <!-- <table>
-      <thead>
-        <tr>
-          <th>Bộ phận</th>
-          <th>Công đoạn</th>
-          <th>Thời gian báo</th>
-          <th>Thời gian chờ</th>
-          <th>Thời gian xử lý</th>
-          <th style="width: 20%;">Hành động</th>
-        </tr>
-      </thead>
-      <tbody id="errorTableBody">
-        <tr *ngFor="let item of andonDataList$| async; trackBy: trackById">
-          <td>{{ item.groupName }}</td>
-          <td>{{ item.errorStage }}</td>
-          <td>{{ item.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
-          <td>{{ item.waitingTime }}</td>
-          <td>{{ item.processingTime }}</td>
-          <td> <button *ngIf="item.status === 'CALLING'" class="btn-status calling" nz-button nzType="primary"
-              nzSize="small" (click)="updateProcessingStatus(item)">Bắt Đầu Xử Lý </button> <button
-              *ngIf="item.status === 'PROCESSING'" class="btn-status processing" nz-button nzType="primary"
-              nzSize="small" (click)="openDoneModal(item)">Xác nhận xử lý </button> <button
-              *ngIf="item.status === 'PROCESSING'" class="btn-status change-pic" nz-button nzType="primary"
-              nzSize="small" (click)="changePicModal(item)">Chuyển bộ phận </button> </td>
-        </tr>
-      </tbody>
-    </table> -->
     <nz-table #andonTable [nzData]="(andonDataList$ | async) || []" [nzBordered]="true" nzSize="middle"
       [nzShowPagination]="false">
 

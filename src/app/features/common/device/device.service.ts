@@ -28,4 +28,16 @@ export class DeviceService {
   deleteDevice(id: any): Observable<any> {
     return this.http.delete(`${this.baseUrl}/delete/${id}`);
   }
+
+  printData1(id: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/printData/${id}`);
+  }
+  printData(location: any) {
+    return this.http.get(
+      `${this.baseUrl}/printData/${location}`,
+      {
+        responseType: 'blob'
+      }
+    );
+  }
 }

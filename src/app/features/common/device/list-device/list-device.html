@@ -55,6 +55,7 @@
     </form>
   </div>
   <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
+  <button nz-button (click)="PrintData('IT')">Print</button>
   <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 300px" [columnDefs]="columnDefs"
     [getRowId]="getRowId" [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }">
   </ag-grid-angular>

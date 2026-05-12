@@ -17,7 +17,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { HomeOutline } from '@ant-design/icons-angular/icons';
 import { provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts';
-
+registerLocaleData(vi);
 import {
   DashboardOutline,
   SettingOutline,

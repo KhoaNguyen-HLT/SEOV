@@ -16,6 +16,8 @@ import { DeviceService } from '../device.service';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ActionCellComponent } from '../../../../shared/components/action-cell/action-cell';
 import { PopupService } from '../../../../shared/service/popup.service';
+import { NZ_DATE_LOCALE } from 'ng-zorro-antd/i18n';
+import localeVi from '@angular/common/locales/vi';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
@@ -31,6 +33,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     NzModalModule,
     NzFormModule,
     AgGridAngular
+  ],
+  providers: [
+    { provide: NZ_DATE_LOCALE, useValue: localeVi },
   ],
   templateUrl: './list-device.html',
   styleUrls: ['./list-device.css']
@@ -200,6 +205,23 @@ export class ListDeviceComponent {
     this.deviceService.getDevices(payload).subscribe((res) => {
       console.log(res);
       this.gridApi.setGridOption('rowData', res.data);
+    });
+  }
+
+  PrintData(location: any) {
+
+    this.deviceService.printData(location).subscribe(blob => {
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+
+      a.href = url;
+      a.download = 'form.xlsx';
+
+      a.click();
+
+      window.URL.revokeObjectURL(url);
     });
   }
 
