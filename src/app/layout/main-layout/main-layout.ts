@@ -86,4 +86,9 @@ export class MainLayoutComponent {
   Device() {
     this.router.navigate(['/welcome/device']);
   }
+
+
+  IQC() {
+    this.router.navigate(['/welcome/qa/se-qa-iqc']);
+  }
 }

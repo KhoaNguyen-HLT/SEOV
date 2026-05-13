@@ -1,0 +1,84 @@
+.page {
+  height: 100vh;
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+
+  background: #f5f5f7;
+  /* Apple light gray */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+.card {
+  height: 200px;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 18px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  text-align: center;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 3px;
+}
+
+.upload-box {
+  border: 1px dashed #d2d2d7;
+  border-radius: 6px;
+  padding: 5px;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.upload-box:hover {
+  border-color: #0071e3;
+  background: #f9fbff;
+}
+
+.upload-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.upload-inner .anticon {
+  font-size: 26px;
+  color: #0071e3;
+}
+
+.text {
+  font-size: 14px;
+  color: #1d1d1f;
+}
+
+.hint {
+  font-size: 12px;
+  color: #86868b;
+}
+
+.file-info {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #1d1d1f;
+}
+
+.btn {
+  margin-top: 20px;
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  font-weight: 500;
+}

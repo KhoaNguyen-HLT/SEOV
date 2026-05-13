@@ -75,7 +75,12 @@ export const routes: Routes = [
         path: 'device',
         loadChildren: () =>
           import('./features/common/device/device.routes').then(m => m.deviceRoutes)
-      }
+      },
+      {
+        path: 'qa',
+        loadChildren: () =>
+          import('./features/se-qa/se-qa.routes').then(m => m.seQaRoutes)
+      },
     ]
   },
 

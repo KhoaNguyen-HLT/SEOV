@@ -1,0 +1,27 @@
+<div class="page">
+
+    <div class="card">
+
+        <!-- Upload area -->
+        <nz-upload class="upload-box" [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false">
+            <div class="upload-inner">
+                <span nz-icon nzType="upload"></span>
+                <div class="text">
+                    Chọn file để xử lý dữ liệu
+                </div>
+            </div>
+        </nz-upload>
+
+        <!-- File name -->
+        <div class="file-info" *ngIf="fileName">
+            📄 {{ fileName }}
+        </div>
+
+        <!-- Action -->
+        <button nz-button nzType="primary" class="btn" [disabled]="!selectedFile" (click)="upload()">
+            Xử lý file
+        </button>
+
+    </div>
+
+</div>

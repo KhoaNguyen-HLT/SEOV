@@ -27,7 +27,11 @@ import {
   PlusOutline,
   FormOutline,
   HistoryOutline,
-  CaretDownOutline
+  CaretDownOutline,
+  ScanOutline,
+  FileTextOutline,
+  InboxOutline,
+  BarChartOutline
 } from '@ant-design/icons-angular/icons';
 
 export const appConfig: ApplicationConfig = {
@@ -49,7 +53,11 @@ export const appConfig: ApplicationConfig = {
       FormOutline,
       HistoryOutline,
       HomeOutline,
-      CaretDownOutline
+      CaretDownOutline,
+      ScanOutline,
+      FileTextOutline,
+      InboxOutline,
+      BarChartOutline
     ]),
 
     NzMessageService,
