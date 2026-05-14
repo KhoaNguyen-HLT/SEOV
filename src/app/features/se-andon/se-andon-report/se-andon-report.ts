@@ -102,8 +102,20 @@ export class seAndonReportComponent {
     });
   }
   onGridReady(params: any) {
+    const raw = this.searchForm.value;
+
+    const payload = {
+      ...raw,
+      line: raw.line ? raw.line : '',
+      fromDate: raw.fromDate
+        ? dayjs(raw.fromDate).format('YYYY-MM-DD HH:mm:ss')
+        : null,
+      toDate: raw.toDate
+        ? dayjs(raw.toDate).format('YYYY-MM-DD HH:mm:ss')
+        : null
+    };
     this.gridApi = params.api;
-    this.andonService.andonGetData({}).subscribe((res) => {
+    this.andonService.andonGetData(payload).subscribe((res) => {
       this.gridApi.setGridOption('rowData', res);
     });
   }
