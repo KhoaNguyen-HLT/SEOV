@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
@@ -33,27 +35,30 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private PopupService: PopupService,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
 
   ngOnInit(): void {
-    // ✅ check token
-    const token = (() => {
-      if (typeof window !== 'undefined' && localStorage) {
-        return localStorage.getItem('token');
+    if (!isPlatformBrowser(this.platformId)) {
+      // ✅ check token
+      const token = (() => {
+        if (typeof window !== 'undefined' && localStorage) {
+          return localStorage.getItem('token');
+        }
+        return null;
+      })();
+      if (token) {
+        this.authService.checkToken().subscribe({
+          next: (res) => {
+            if (res) {
+              this.router.navigate(['/welcome']);
+            }
+          },
+          error: () => {
+            localStorage.removeItem('token');
+          },
+        });
       }
-      return null;
-    })();
-    if (token) {
-      this.authService.checkToken().subscribe({
-        next: (res) => {
-          if (res) {
-            this.router.navigate(['/welcome']);
-          }
-        },
-        error: () => {
-          localStorage.removeItem('token');
-        },
-      });
     }
 
     // ✅ init form

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
-
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -36,11 +37,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class MainLayoutComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) { }
 
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
+
   }
 
   Dashboard() {

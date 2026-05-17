@@ -6,13 +6,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
-// import { NzOptionComponent } from "ng-zorro-antd/select";
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AndonService } from '../se-andon.service';
-
-
-
-const token = localStorage.getItem('token');
 
 @Component({
   selector: 'se-andon-request',

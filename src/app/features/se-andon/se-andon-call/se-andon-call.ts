@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -24,9 +25,6 @@ import { NzTableComponent } from "ng-zorro-antd/table";
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
-
-
-const token = localStorage.getItem('token');
 export interface AndonItem {
   id: number;
   created_at: string;
@@ -110,7 +108,8 @@ export class seAndonCallComponent implements OnInit {
     private popup: PopupService,
     private andonService: AndonService,
     private cd: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
 
   }
@@ -122,9 +121,12 @@ export class seAndonCallComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (token) {
-      const decoded: any = jwtDecode(token);
-      this.userName = decoded.sub; // hoặc field backend trả về
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decoded: any = jwtDecode(token);
+        this.userName = decoded.sub; // hoặc field backend trả về
+      }
     }
 
     this.getLines();

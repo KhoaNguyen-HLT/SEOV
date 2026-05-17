@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) { }
 
   canActivate(): Observable<boolean> {
     // ❗ Nếu đang chạy trên server → bỏ qua check
@@ -21,8 +21,7 @@ export class AuthGuard implements CanActivate {
       return of(true);
     }
     const token = localStorage.getItem('token');
-    console.log('AuthGuard: Checking token', token);
-    if (!token || token === null || token === undefined) {
+    if (!token) {
       this.router.navigate(['/login']);
       return of(false);
     }
