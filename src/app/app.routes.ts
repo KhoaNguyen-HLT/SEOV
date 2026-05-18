@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './auth-guard';
+import { AuthGuard } from './core/auth/auth-guard/auth-guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./features/auth/login/login').then(m => m.LoginComponent)
+      import('./core/auth/login/login').then(m => m.LoginComponent)
   },
   {
     path: 'andon',
@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'welcome',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadComponent: () =>
       import('./layout/main-layout/main-layout').then(m => m.MainLayoutComponent),
     children: [
@@ -44,7 +44,7 @@ export const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () =>
-          import('./features/auth/auth.routes').then(m => m.authRoutes)
+          import('./core/auth/auth.routes').then(m => m.authRoutes)
       },
       {
         path: 'e-leave',
@@ -54,17 +54,17 @@ export const routes: Routes = [
       {
         path: 'role-management',
         loadComponent: () =>
-          import('./features/auth/role-permission/role-management/role-management').then(m => m.RoleManagementComponent)
+          import('./core/auth/role-permission/role-management/role-management').then(m => m.RoleManagementComponent)
       },
       {
         path: 'permission-management',
         loadComponent: () =>
-          import('./features/auth/role-permission/permission-management1/permission-management1').then(m => m.PermissionManagementComponent1)
+          import('./core/auth/role-permission/permission-management1/permission-management1').then(m => m.PermissionManagementComponent1)
       },
       {
         path: 'user-role-management',
         loadComponent: () =>
-          import('./features/auth/role-permission/user-role-management/user-role-management').then(m => m.UserRoleManagementComponent)
+          import('./core/auth/role-permission/user-role-management/user-role-management').then(m => m.UserRoleManagementComponent)
       },
       {
         path: 'andon',

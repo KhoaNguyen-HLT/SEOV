@@ -11,6 +11,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TokenStorageService } from '../../core/auth/service/token-storage.service';
 
 
 @Component({
@@ -38,12 +39,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class MainLayoutComponent {
 
   constructor(private router: Router,
+    private TokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
+      this.TokenStorageService.removeToken();
       this.router.navigate(['/login']);
     }
 
@@ -58,7 +60,6 @@ export class MainLayoutComponent {
   }
 
   Auth() {
-    console.log("khoacheck")
     this.router.navigate(['/welcome/auth']);
   }
 

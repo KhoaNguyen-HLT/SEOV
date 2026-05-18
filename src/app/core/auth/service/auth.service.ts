@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-import { environment } from '../../../environments/environments';
+import { environment } from '../../environments/environments';
+import { TokenStorageService } from './token-storage.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +16,32 @@ export class AuthService {
 
   private API_URL = environment.apiUrl + "/auth";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private tokenStorage: TokenStorageService
+  ) { }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.API_URL}/login`, {
       username,
       password
-    });
+    }).pipe(
+      tap((res: any) => {
+        this.tokenStorage.setToken(res.token);
+      })
+    );
   }
 
   checkToken() {
-    const token = localStorage.getItem('token');
-
-    return this.http.post<boolean>(`${this.API_URL}/check-token`,
-      {
-        token: token
-      }
+    const token = this.tokenStorage.getToken();
+    return this.http.post<boolean>(
+      `${this.API_URL}/check-token`,
+      { token }
     );
   }
+
   getUserInfobyToken() {
-    const token = localStorage.getItem('token');
+    const token = this.tokenStorage.getToken();
+
     if (!token) return;
 
     const decoded: any = jwtDecode(token);

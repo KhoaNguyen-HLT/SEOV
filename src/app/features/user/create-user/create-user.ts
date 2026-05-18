@@ -15,7 +15,7 @@ import { UserService } from '../user.service';
 import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
 import { PopupService } from '../../../shared/service/popup.service';
 import { LoadingService } from '../../../shared/service/loading.service';
-import { AuthService } from '../../auth/service/auth.service';
+import { AuthService } from '../../../core/auth/service/auth.service';
 
 @Component({
   selector: 'create-user',

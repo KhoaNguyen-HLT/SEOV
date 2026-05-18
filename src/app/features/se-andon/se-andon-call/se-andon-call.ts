@@ -24,6 +24,7 @@ import { NzTableComponent } from "ng-zorro-antd/table";
 
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { TokenStorageService } from '../../../core/auth/service/token-storage.service';
 
 export interface AndonItem {
   id: number;
@@ -78,6 +79,7 @@ export class seAndonCallComponent implements OnInit {
   andonDataList$ = new BehaviorSubject<any[]>([]);
   andonDataListLog$ = new BehaviorSubject<any[]>([]);
   logMap: Record<number, any[]> = {};
+  // token: string = '';
   // expand: boolean = true;
   updateLogMap() {
     const logs = this.andonDataListLog$.value;
@@ -109,6 +111,7 @@ export class seAndonCallComponent implements OnInit {
     private andonService: AndonService,
     private cd: ChangeDetectorRef,
     private router: Router,
+    private TokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
 
@@ -122,7 +125,7 @@ export class seAndonCallComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
+      const token = this.TokenStorageService.getToken();
       if (token) {
         const decoded: any = jwtDecode(token);
         this.userName = decoded.sub; // hoặc field backend trả về

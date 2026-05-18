@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Mã Vai Trò</th>
       <th>Tên Vai Trò (Role)</th>
       <th>Mô tả</th>
       <th>Hành động</th>
@@ -16,6 +17,7 @@
   <tbody>
     <tr *ngFor="let data of roles">
       <td>{{ data.id }}</td>
+      <td>{{ data.code }}</td>
       <td>{{ data.name }}</td>
       <td>{{ data.description }}</td>
       <td>
@@ -36,6 +38,12 @@
 
   <ng-container *nzModalContent>
     <form nz-form [formGroup]="validateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Mã vai trò</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập mã vai trò!">
+          <input nz-input formControlName="code" id="code" />
+        </nz-form-control>
+      </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên Vai Trò</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên vai trò!">

@@ -1,5 +1,5 @@
 <div class="page-container">
-  <h2 class="page-title">Tạo User</h2>
+  <h2 class="page-title">Thêm mới User vào hệ thống</h2>
 
   <form nz-form nzLayout="vertical" [formGroup]="form">
     <div nz-row [nzGutter]="16">
@@ -55,11 +55,7 @@
           <nz-form-label>Chức vụ</nz-form-label>
           <nz-form-control>
             <nz-select formControlName="positionId">
-              <nz-option
-                *ngFor="let p of positions"
-                [nzValue]="p.id"
-                [nzLabel]="p.name"
-              ></nz-option>
+              <nz-option *ngFor="let p of positions" [nzValue]="p.id" [nzLabel]="p.name"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -84,9 +80,9 @@
     </div>
   </form>
   <div class="global-loading" *ngIf="isLoading$ | async">
-  <div class="loading-box">
-    <div class="spinner"></div>
-    <div class="text">Đang xử lý...</div>
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="text">Đang xử lý...</div>
+    </div>
   </div>
-</div>
 </div>

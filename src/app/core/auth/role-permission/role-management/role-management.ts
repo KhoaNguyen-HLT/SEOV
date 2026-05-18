@@ -14,11 +14,13 @@ import { ChangeDetectorRef } from '@angular/core';
 import { PopupService } from '../../../../shared/service/popup.service';
 interface Role {
   id: string;
+  code: string;
   name: string;
   description: string;
 }
 
 interface CreateRole {
+  code: string;
   name: string;
   description: string;
 }
@@ -71,6 +73,7 @@ export class RoleManagementComponent {
 
   getAllRoles() {
     this.authService.getAllRoles().subscribe((res: any) => {
+      console.log(res);
       this.roles = res[0];
       console.log(this.roles);
       this.cdr.detectChanges();
@@ -80,6 +83,7 @@ export class RoleManagementComponent {
 
   initForm(): void {
     this.validateForm = this.fb.group({
+      code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null]
     });
@@ -127,6 +131,7 @@ export class RoleManagementComponent {
       } else {
         // Create mode
         const newRole: CreateRole = {
+          code: formValue.code,
           name: formValue.name,
           description: formValue.description || ''
         };

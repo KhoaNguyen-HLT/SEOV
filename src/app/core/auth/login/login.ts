@@ -4,12 +4,14 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { Router } from '@angular/router';
-import { AuthService } from '../service/auth.service';
 import { PopupService } from '../../../shared/service/popup.service';
 import { CommonModule } from '@angular/common';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { AuthService } from '../service/auth.service';
+import { TokenStorageService } from '../service/token-storage.service';
+
 
 
 @Component({
@@ -35,29 +37,31 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private PopupService: PopupService,
+    private TokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
 
   ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      // ✅ check token
-      const token = (() => {
-        if (typeof window !== 'undefined' && localStorage) {
-          return localStorage.getItem('token');
-        }
-        return null;
-      })();
+    if (isPlatformBrowser(this.platformId)) {
+
+      const token = this.TokenStorageService.getToken();
+
       if (token) {
         this.authService.checkToken().subscribe({
           next: (res) => {
             if (res) {
               this.router.navigate(['/welcome']);
+            } else {
+              this.TokenStorageService.removeToken();
             }
           },
           error: () => {
-            localStorage.removeItem('token');
+            this.TokenStorageService.removeToken();
           },
         });
+
+      } else {
+        this.router.navigate(['/login']);
       }
     }
 
@@ -81,7 +85,7 @@ export class LoginComponent implements OnInit {
       next: (res) => {
         console.log('Login success', res);
         if (res.authenticated) {
-          localStorage.setItem('token', res.token);
+          this.TokenStorageService.setToken(res.token);
           this.PopupService.success('Đăng nhập thành công');
           setTimeout(() => {
             this.router.navigate(['/welcome']);
