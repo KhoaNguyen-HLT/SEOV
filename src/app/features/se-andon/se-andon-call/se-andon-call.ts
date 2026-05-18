@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Inject, PLATFORM_ID } from '@angular/core';
-
+import { Inject, PLATFORM_ID, DestroyRef, inject } from '@angular/core';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-
 import { AndonService } from '../se-andon.service';
 import { PopupService } from '../../../shared/service/popup.service';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -18,13 +16,13 @@ import { ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, interval, map } from 'rxjs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzIconModule, provideNzIcons } from 'ng-zorro-antd/icon';
-import { HomeOutline } from '@ant-design/icons-angular/icons';
-import { Router, Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import { NzTableComponent } from "ng-zorro-antd/table";
-
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { TokenStorageService } from '../../../core/auth/service/token-storage.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 export interface AndonItem {
   id: number;
@@ -66,6 +64,7 @@ export interface AndonItem {
 
 
 export class seAndonCallComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   doneForm!: FormGroup;
   Department: string = '';
   ReasonChangePic: string = '';
@@ -73,7 +72,6 @@ export class seAndonCallComponent implements OnInit {
   ErrorStage = '';
   Description = '';
   userName = '';
-  timerId: any;
   isLineModalVisible = false;
   isChangePicModalVisible = false;
   andonDataList$ = new BehaviorSubject<any[]>([]);
@@ -128,7 +126,7 @@ export class seAndonCallComponent implements OnInit {
       const token = this.TokenStorageService.getToken();
       if (token) {
         const decoded: any = jwtDecode(token);
-        this.userName = decoded.sub; // hoặc field backend trả về
+        this.userName = decoded.sub;
       }
     }
 
@@ -156,11 +154,6 @@ export class seAndonCallComponent implements OnInit {
     return item ? item.lineName : this.Line;
   }
 
-  ngAfterViewInit() {
-    setInterval(() => {
-    }, 1000);
-  }
-
   getLines(): void {
     // this.andonService.getLines().subscribe({
     //   next: (res: any) => {
@@ -175,25 +168,23 @@ export class seAndonCallComponent implements OnInit {
 
   // gọi API vào bảng andon data để lấy thông tin các request
   getDataPending(siteCode: any) {
-    this.andonService.getDataPending(siteCode).subscribe({
-      next: (res: any) => {
-        // thêm expand cho từng item
-        const newItems = res.data;
-        this.andonDataListLog$.next(res.changeGroupData); // ✅ FIX
-        // this.updateLogMap(); // 🔥 MUST CALL
-        // console.log(this.andonDataListLog$);
-        setTimeout(() => {
+    this.andonService.getDataPending(siteCode)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => {
+          // thêm expand cho từng item
+          const newItems = res.data;
+          this.andonDataListLog$.next(res.changeGroupData); // ✅ FIX
           this.andonDataList$.next([
             ...this.andonDataList$.value,
             ...newItems // 👈 spread mảng
           ]);
           this.buildDetailMap();
-        });
-      },
-      error: (err: any) => {
-        this.popup.error(err.error.message);
-      }
-    })
+        },
+        error: (err: any) => {
+          this.popup.error(err.error.message);
+        }
+      })
 
   }
 
@@ -235,29 +226,28 @@ export class seAndonCallComponent implements OnInit {
       status: 'CALLING'
     };
     // gọi API call và lưu thông tin vào database
-    this.andonService.callGroup(
-      payload
-    ).subscribe({
-      next: (res: any) => {
-        if (res.message === 'success') {
-          // add thêm dữ liệu vào danh sách ANDonDataList
-          const newItem = res.data;
-          setTimeout(() => {
+    this.andonService.callGroup(payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => {
+          if (res.message === 'success') {
+            // add thêm dữ liệu vào danh sách ANDonDataList
+            const newItem = res.data;
             this.andonDataList$.next([...this.andonDataList$.value, newItem]);
-          });
-          this.popup.success('Báo lỗi thành công');
-        } else {
-          this.popup.error('Gọi nhóm thất bại');
+            this.popup.success('Báo lỗi thành công');
+          } else {
+            this.popup.error('Gọi nhóm thất bại');
+          }
+        },
+        error: (err: any) => {
+          this.popup.error(err.error.message);
         }
-      },
-      error: (err: any) => {
-        this.popup.error(err.error.message);
-      }
-    })
+      })
   }
 
   updateProcessingStatus(item: any): void {
     this.andonService.updateProcessingStatus(item.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: any) => {
 
@@ -290,31 +280,77 @@ export class seAndonCallComponent implements OnInit {
 
 
   // hàm xử lý update time mỗi 1s. sẽ check thay đổi của data andonlist để hiển thị giao diện.
+
+  // startTimer() {
+  //   interval(1000)
+  //     .pipe(takeUntilDestroyed(this.destroyRef))
+  //     .subscribe(() => {
+  //       const now = Date.now();
+  //       const list = this.andonDataList$.value;
+
+  //       const updated = list.map(item => {
+  //         const created = new Date(item.created_at.replace(' ', 'T')).getTime();
+  //         const status = item.status?.trim().toUpperCase();
+
+  //         if (status === 'CALLING') {
+  //           return {
+  //             ...item,
+  //             waitingTime: this.formatTime(now - created),
+  //             processingTime: '00:00:00'
+  //           };
+  //         }
+
+  //         if (status === 'PROCESSING' && item.processingAt) {
+  //           const start = new Date(item.processingAt.replace(' ', 'T')).getTime();
+
+  //           return {
+  //             ...item,
+  //             waitingTime: this.formatTime(start - created),
+  //             processingTime: this.formatTime(now - start)
+  //           };
+  //         }
+
+  //         return item;
+  //       });
+
+  //       this.andonDataList$.next(updated);
+  //     });
+  // }
+
   startTimer() {
-    this.timerId = setInterval(() => {
-      const now = Date.now();
-      const list = this.andonDataList$.value;
-      list.forEach(item => {
-        const created = new Date(item.created_at.replace(' ', 'T')).getTime();
-        const status = item.status?.trim().toUpperCase();
+    interval(1000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        const now = Date.now();
 
-        if (status === 'CALLING') {
-          item.waitingTime = this.formatTime(now - created);
-          item.processingTime = '00:00:00';
-        }
+        const updated = this.andonDataList$.value.map(item => {
+          const created = new Date(item.created_at.replace(' ', 'T')).getTime();
+          const status = item.status?.trim().toUpperCase();
 
-        if (status === 'PROCESSING' && item.processingAt) {
-          const start = new Date(item.processingAt.replace(' ', 'T')).getTime();
+          let waitingTime = item.waitingTime;
+          let processingTime = item.processingTime;
 
-          item.waitingTime = this.formatTime(start - created);
-          item.processingTime = this.formatTime(now - start);
-        }
+          if (status === 'CALLING') {
+            waitingTime = this.formatTime(now - created);
+            processingTime = '00:00:00';
+          }
 
+          if (status === 'PROCESSING' && item.processingAt) {
+            const start = new Date(item.processingAt.replace(' ', 'T')).getTime();
+
+            waitingTime = this.formatTime(start - created);
+            processingTime = this.formatTime(now - start);
+          }
+
+          return {
+            ...item,
+            waitingTime,
+            processingTime
+          };
+        });
+
+        this.andonDataList$.next(updated);
       });
-      this.andonDataList$.next([...list]);
-
-      // ❌ KHÔNG next()
-    }, 1000);
   }
 
 
@@ -377,19 +413,15 @@ export class seAndonCallComponent implements OnInit {
     };
     // return;
     this.andonService.updateDoneStatus(this.selectedItem.id, payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: any) => {
           if (res.message === 'success') {
-
-            // 🔥 remove item
             const updatedList = this.andonDataList$.value
               .filter(x => x.id !== this.selectedItem.id);
 
             this.andonDataList$.next(updatedList);
-
-            // 🔥 delay để tránh NG0100
             this.isDoneModalVisible = false;
-            this.cd.detectChanges(); // 🔥 fix NG0100
             this.popup.success('Hoàn thành xử lý');
 
           } else {
@@ -401,7 +433,6 @@ export class seAndonCallComponent implements OnInit {
 
 
   // confirm thay đổi phòng ban
-
   id_change_pic: any = '';
   current_team: any = '';
   start_time: any = '';
@@ -452,15 +483,12 @@ export class seAndonCallComponent implements OnInit {
       start_time: this.start_time,
       from_user: this.from_user
     };
-    // console.log('payload', payload);
-    // return;
     this.andonService.changeGroup(payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: any) => {
-          // console.log(res);
           if (res.message === 'success') {
             this.andonDataListLog$.next(res.changeGroupData);
-            // setTimeout(() => {
             this.isChangePicModalVisible = false;
             const updatedList = this.andonDataList$.value.map(x =>
               x.id === res.data.id
@@ -475,10 +503,6 @@ export class seAndonCallComponent implements OnInit {
             );
 
             this.andonDataList$.next(updatedList);
-            // });
-            // console.log(this.andonDataList$.value);
-            // console.log(this.andonDataListLog$);
-            this.cd.detectChanges();
             this.buildDetailMap();
 
             this.popup.success('Chuyển bộ phận thành công');
@@ -494,11 +518,9 @@ export class seAndonCallComponent implements OnInit {
   }
 
 
-  // expand info.
+  // expand info. xử lý expan thông tin chi tiết theo từng id chính
   andonDetailData(id: number) {
-    // console.log('id', id);
     this.buildDetailMap();
-
   }
 
   detailMap: { [key: number]: any[] } = {};
@@ -506,7 +528,6 @@ export class seAndonCallComponent implements OnInit {
 
   buildDetailMap() {
     this.detailMap = {};
-    // console.log(this.andonDataListLog$.value);
     const items = this.andonDataListLog$.value;
     this.listExpand = [...new Set(items.map(x => x.id))];
     // update expand
@@ -517,14 +538,10 @@ export class seAndonCallComponent implements OnInit {
 
     // cập nhật table
     this.andonDataList$.next(updated);
-
-
     items.forEach((item: any) => {
-
       if (!this.detailMap[item.id]) {
         this.detailMap[item.id] = [];
       }
-
       this.detailMap[item.id].push(item);
     });
 
@@ -536,15 +553,10 @@ export class seAndonCallComponent implements OnInit {
     const diffMs =
       new Date(end).getTime() -
       new Date(start).getTime();
-
     const totalSeconds = Math.floor(diffMs / 1000);
-
     const hours = Math.floor(totalSeconds / 3600);
-
     const minutes = Math.floor((totalSeconds % 3600) / 60);
-
     const seconds = totalSeconds % 60;
-
     return [
       hours.toString().padStart(2, '0'),
       minutes.toString().padStart(2, '0'),
