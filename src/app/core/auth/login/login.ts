@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
       next: (res) => {
         console.log('Login success', res);
         if (res.authenticated) {
-          this.TokenStorageService.setToken(res.token);
+          // this.TokenStorageService.setToken(res.token);
           this.PopupService.success('Đăng nhập thành công');
           setTimeout(() => {
             this.router.navigate(['/welcome']);
