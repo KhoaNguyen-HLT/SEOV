@@ -2,25 +2,86 @@
 
     <div class="card">
 
-        <!-- Upload area -->
-        <nz-upload class="upload-box" [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false">
-            <div class="upload-inner">
-                <span nz-icon nzType="upload"></span>
-                <div class="text">
-                    Chọn file để xử lý dữ liệu
-                </div>
-            </div>
-        </nz-upload>
+        <!-- Top Bar -->
+        <div nz-row [nzGutter]="16" class="top-bar" nzAlign="middle">
 
-        <!-- File name -->
-        <div class="file-info" *ngIf="fileName">
-            📄 {{ fileName }}
+            <!-- Search Form -->
+            <!-- Search Form -->
+            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="5">
+
+                <form nz-form [formGroup]="searchForm">
+
+                    <div nz-row [nzGutter]="12">
+
+                        <!-- User -->
+                        <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+
+                            <nz-select formControlName="user" nzAllowClear nzSize="large" nzPlaceHolder="Select User"
+                                class="full-width">
+                                <nz-option nzValue="1" nzLabel="Nguyễn văn A"></nz-option>
+                                <nz-option nzValue="2" nzLabel="Nguyễn văn B"></nz-option>
+                                <nz-option nzValue="3" nzLabel="Nguyễn văn C"></nz-option>
+                                <nz-option nzValue="4" nzLabel="Nguyễn văn D"></nz-option>
+                                <nz-option nzValue="5" nzLabel="Nguyễn văn E"></nz-option>
+
+                            </nz-select>
+
+                        </div>
+
+                        <!-- Status -->
+                        <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+
+                            <nz-select formControlName="status" nzAllowClear nzSize="large"
+                                nzPlaceHolder="Select Status" class="full-width">
+                                <nz-option nzValue="WAITING" nzLabel="Waiting"></nz-option>
+                                <nz-option nzValue="PROCESSING" nzLabel="Processing"></nz-option>
+                                <nz-option nzValue="DONE" nzLabel="Done"></nz-option>
+
+                            </nz-select>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- Action Area -->
+            <div nz-col [nzXs]="24" [nzLg]="8">
+                <div class="action-area">
+                    <!-- Upload + File Name -->
+                    <div class="upload-group">
+                        <!-- Upload -->
+                        <nz-upload [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false">
+                            <button nz-button nzType="default" nzSize="large">
+                                <span nz-icon nzType="upload"></span>
+                                Chọn file Excel
+                            </button>
+                        </nz-upload>
+                        <!-- File Name -->
+                        <div class="file-info" *ngIf="fileName">
+                            📄 {{ fileName }}
+                        </div>
+                        <!-- Process -->
+                        <button nz-button nzType="primary" nzSize="large" [disabled]="!selectedFile" (click)="upload()">
+                            Xử lý file
+                        </button>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- Action -->
-        <button nz-button nzType="primary" class="btn" [disabled]="!selectedFile" (click)="upload()">
-            Xử lý file
-        </button>
+        <!-- Body -->
+        <div class="card-body">
+            <nz-empty nzNotFoundContent="Chưa có dữ liệu">
+            </nz-empty>
+        </div>
 
     </div>
 
