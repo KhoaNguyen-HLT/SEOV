@@ -1,1 +1,7 @@
 <router-outlet></router-outlet>
+<div class="global-loading" *ngIf="isLoading$ | async">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="text">Đang xử lý...</div>
+    </div>
+  </div>

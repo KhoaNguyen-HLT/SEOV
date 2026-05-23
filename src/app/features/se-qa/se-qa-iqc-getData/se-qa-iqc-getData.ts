@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { Router } from 'express';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
@@ -14,6 +13,8 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { qaService } from '../se-qa.service';
+import { PopupService } from '../../../shared/service/popup.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -43,7 +44,7 @@ export class seQaIqcGetDataComponent {
   selectedFile: File | null = null;
   fileName: string = '';
 
-  constructor(private message: NzMessageService, private qaService: qaService, private fb: FormBuilder) { }
+  constructor(private message: NzMessageService, private qaService: qaService, private fb: FormBuilder, private popupService: PopupService) { }
   ngOnInit() {
     this.searchForm = this.fb.group({
       user: [null],
@@ -60,15 +61,20 @@ export class seQaIqcGetDataComponent {
   upload() {
     if (!this.selectedFile) return;
     const formData = new FormData();
-    console.log(this.searchForm.value);
     formData.append('file', this.selectedFile);
     formData.append('user', this.searchForm.value.user);
     formData.append('status', this.searchForm.value.status);
-    // gọi API backend
     console.log(formData);
-    this.qaService.getDataExcel(formData).subscribe((res) => {
-      console.log(res.data);
-    });
+    this.qaService.getDataExcel(formData).subscribe({
+    next: (res) => {
+      if(res.message === 'success') {
+        console.log(res.data);
+        this.popupService.success('Upload thành công!');
+      } else {
+        this.popupService.error('Upload thất bại cần kiềm tra lại');
+      }
+    }
+  });
   }
 
 }
