@@ -16,9 +16,12 @@ export class materialService {
   // createMaterial(data: any): Observable<any> {
   //   return this.http.post(`${this.baseUrl}/createAndon`, data);
   // }
+  getTransactionFlow(flowCode: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getTransactionFlow/${flowCode}`);
+  }
 
-  getLines(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getLines`);
+  createMaterialRequest(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/createMaterialRequest`, data);
   }
 
 }

@@ -63,8 +63,14 @@ export class MainLayoutComponent {
     this.router.navigate(['/welcome/auth']);
   }
 
-  ELeave() {
-    this.router.navigate(['/welcome/e-leave']);
+  inputMaterial() {
+    this.router.navigate(['/welcome/material/se-material-transaction'],
+      {
+        queryParams: {
+          flow_code: 'RECEIVE_TO_WH'
+        }
+      }
+    );
   }
 
   Expenses() {

@@ -10,7 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
+  selector: 'app-se-material',
   standalone: true,
   imports: [RouterOutlet, FormsModule,
     NzGridModule,
@@ -24,7 +24,7 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './se-material.html',
   styleUrls: ['./se-material.css']
 })
-export class seMaterialComponent {
+export class SeMaterialComponent {
   size: NzButtonSize = 'large';
   router: any;
 

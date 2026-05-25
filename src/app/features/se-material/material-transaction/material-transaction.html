@@ -1,0 +1,76 @@
+<div class="material-transaction">
+    <h1>Material Transaction</h1>
+
+    <form nz-form [formGroup]="searchForm" nzLayout="vertical">
+
+        <div nz-row [nzGutter]="16">
+
+            <!-- Flow -->
+            <div nz-col nzSpan="6">
+                <nz-form-item class="form-item">
+                    <nz-form-label>Tên Giao Dịch</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="flowName" readonly />
+                    </nz-form-control>
+
+                </nz-form-item>
+            </div>
+            <!-- request_no -->
+            <div nz-col nzSpan="6">
+                <nz-form-item class="form-item">
+                    <nz-form-label>Số Phiếu</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-input-group [nzAddOnAfter]="addRequestBtn">
+                            <nz-select formControlName="request_no" nzShowSearch nzAllowClear
+                                nzPlaceHolder="Select Request No" style="width: 100%;">
+
+                                <nz-option *ngFor="let item of materialRequests" [nzValue]="item.requestNo"
+                                    [nzLabel]="item.requestNo">
+                                </nz-option>
+
+                            </nz-select>
+                        </nz-input-group>
+
+                        <ng-template #addRequestBtn>
+                            <button nz-button nzType="primary" type="button" (click)="createRequestNo()">
+                                + Thêm Mới
+                            </button>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Date -->
+            <div nz-col nzSpan="6">
+                <nz-form-item class="form-item">
+                    <nz-form-label>Ngày</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker formControlName="date" style="width: 100%" nzFormat="yyyy-MM-dd">
+                        </nz-date-picker>
+                    </nz-form-control>
+
+                </nz-form-item>
+            </div>
+
+        </div>
+        <!-- Scan input -->
+        <div nz-col nzSpan="16">
+            <nz-form-item>
+                <nz-form-label>Scan Lot / QR</nz-form-label>
+
+                <nz-form-control>
+
+                    <nz-input-group nzPrefixIcon="scan">
+
+                        <input nz-input formControlName="scanInput" placeholder="Scan barcode hoặc QR tại đây" autofocus
+                            (keyup.enter)="onScan()" />
+
+                    </nz-input-group>
+
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+    </form>
+</div>

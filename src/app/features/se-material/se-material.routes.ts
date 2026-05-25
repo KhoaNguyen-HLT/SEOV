@@ -3,11 +3,11 @@ import { Routes } from '@angular/router';
 
 export const materialRoutes: Routes = [
 
-  // {
-  //   path: 'se-andon-call',
-  //   loadComponent: () =>
-  //     import('./se-andon-call/se-andon-call')
-  //       .then(m => m.seAndonCallComponent),
-  // }
+  {
+    path: 'se-material-transaction',
+    loadComponent: () =>
+      import('./material-transaction/material-transaction')
+        .then(m => m.MaterialTransactionComponent),
+  }
 
 ];
