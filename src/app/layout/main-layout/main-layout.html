@@ -11,7 +11,7 @@
         <span nz-icon nzType="dashboard"></span>
         <span (click)="Dashboard()">Dashboard</span>
       </li>
-      <li nz-submenu nzTitle="ANDON SYSTEM" nzIcon="dashboard">
+      <li nz-submenu nzTitle="ANDON SYSTEM" nzIcon="sync">
         <ul>
           <li nz-menu-item (click)="AndonCall()">ANDON Call</li>
           <li nz-menu-item (click)="AndonReport()">ANDON Report</li>
@@ -20,27 +20,35 @@
           <li nz-menu-item (click)="AndonDashboard()">ANDON Dashboard</li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="PM" nzIcon="team">
+      <li nz-submenu nzTitle="PM" nzIcon="home">
         <ul>
+          <li nz-menu-item (click)="printLabel()">In Tem</li>
           <li nz-menu-item (click)="inputMaterial()">Nhập Nguyên vật liệu</li>
+          
           <!-- <li nz-menu-item>E-INOUT</li> -->
         </ul>
       </li>
-      <li nz-submenu nzTitle="QA" nzIcon="team">
+      <li nz-submenu nzTitle="QA" nzIcon="idcard">
         <ul>
           <li nz-menu-item (click)="IQC()">IQC</li>
           <li nz-menu-item>New Project</li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="COMMON" nzIcon="setting">
+      <li nz-submenu nzTitle="COMMON" nzIcon="check">
         <ul>
           <li nz-menu-item (click)="Device()">Quản lý thiết bị</li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Hệ thống" nzIcon="setting">
+      <li nz-submenu nzTitle="Systems" nzIcon="setting">
         <ul>
           <li nz-menu-item (click)="User()">Quản lý user</li>
           <li nz-menu-item (click)="Auth()">Phân quyền</li>
+        </ul>
+      </li>
+       <li nz-submenu nzTitle="REPORT" nzIcon="bar-chart">
+        <ul>
+          <li nz-menu-item>Báo cáo nguyên vật liệu</li>
+          <li nz-menu-item>Báo cáo hàng tồn kho</li>
         </ul>
       </li>
     </ul>

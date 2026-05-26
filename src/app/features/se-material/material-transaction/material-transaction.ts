@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormGroup,
@@ -52,23 +52,25 @@ import dayjs from 'dayjs';
 export class MaterialTransactionComponent {
   searchForm!: FormGroup;
   size: NzButtonSize = 'large';
-  flow_name: string = '';
-  request_no: string = '';
-  scanInput: string = '';
-  flowCode: string = '';
-  flowName: string = '';
-  transactionType: string = '';
-
+  mr_code:string = '';
+  materialRequests: any[] = [];
+  loading = false;
+  creating = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
     private materialService: materialService,
-    private PopupService: PopupService
+    private popupService: PopupService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.initForm();
+    this.handleQueryParams();
+  }
+
+  private initForm(): void {
     this.searchForm = this.fb.group({
       flowName: [null],
       flowCode: [null],
@@ -77,102 +79,93 @@ export class MaterialTransactionComponent {
       date: [dayjs().startOf('month').toDate()],
       scanInput: ['']
     });
+  }
 
+  private handleQueryParams(): void {
     this.route.queryParams.subscribe(params => {
       const flowCode = params['flow_code'];
-      if (flowCode) {
-        this.loadFlow(flowCode);
+      if (!flowCode) {return}
+      this.loadFlow(flowCode);
+      this.getMaterialRequest(flowCode);
+    });
+  }
+
+  private loadFlow(flowCode: string): void {
+    this.materialService.getTransactionFlow(flowCode).subscribe({
+      next: (res: any) => {
+        const data = res.data;
+        this.mr_code = data.mrCode;
+        this.searchForm.patchValue({
+          flowName: data.flowName,
+          flowCode: data.flowCode,
+          transactionType: data.transactionType
+        });
+      },
+      error: () => {
+        this.popupService.error('Không lấy được thông tin flow');
       }
-
-    });
-
-  }
-
-  loadFlow(flowCode: string) {
-    this.materialService.getTransactionFlow(flowCode).subscribe((res: any) => {
-      console.log(res);
-      console.log(res.data.flowName);
-      this.searchForm.patchValue({
-        flowName: res.data.flowName,
-        flowCode: res.data.flowCode,
-        transactionType: res.data.transactionType
-      });
     });
   }
 
+  private getMaterialRequest(flowCode: string): void {
+    this.loading = true;
+
+    this.materialService.getMaterialRequest(flowCode).subscribe({
+      next: (res: any) => {
+        this.materialRequests = res.data ?? [];
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.popupService.error('Không lấy được danh sách phiếu');
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
 
   onScan(): void {
+    const value = this.searchForm.get('scanInput')?.value?.trim();
 
-    const value = this.searchForm.get('scanInput')?.value;
-
-    if (!value) {
-      return;
-    }
+    if (!value) return;
 
     console.log('scan:', value);
-
-    /**
-     * gọi API:
-     * GET /material-lot/{value}
-     */
 
     this.searchForm.patchValue({
       scanInput: ''
     });
-
   }
 
-
-  materialRequests = [
-    {
-      id: 1,
-      requestNo: 'MR_20260525_080001',
-      status: 'OPEN'
-    },
-    {
-      id: 2,
-      requestNo: 'MR_20260525_083015',
-      status: 'OPEN'
-    },
-    {
-      id: 3,
-      requestNo: 'MR_20260524_160210',
-      status: 'IN_PROGRESS'
-    },
-    {
-      id: 4,
-      requestNo: 'MR_20260524_103500',
-      status: 'DONE'
-    }
-  ];
-
   createRequestNo(): void {
+    if (this.creating) return;
     const now = dayjs().format('YYYYMMDD_HHmmss');
-    const requestNo = `MR_${now}`;
     const data = {
-      requestNo: requestNo,
+      requestNo: `${this.mr_code}_${now}`,
       flowCode: this.searchForm.get('flowCode')?.value,
       flowName: this.searchForm.get('flowName')?.value,
       transactionType: this.searchForm.get('transactionType')?.value
     };
-    console.log('create request no:', requestNo);
 
-    this.materialService.createMaterialRequest(data).subscribe((res: any) => {
-      if (res.message == 'success') {
+    this.creating = true;
 
+    this.materialService.createMaterialRequest(data).subscribe({
+      next: (res: any) => {
+        if (res.message !== 'success') return;
         this.materialRequests = [
           res.data,
           ...this.materialRequests
         ];
-
         this.searchForm.patchValue({
           request_no: res.data.requestNo
         });
-        this.PopupService.success('Tạo phiếu thành công');
+        this.popupService.success('Tạo phiếu thành công');
+      },
+      error: () => {
+        this.popupService.error('Tạo phiếu thất bại');
+      },
+      complete: () => {
+        this.creating = false;
       }
-
     });
   }
-
-
 }

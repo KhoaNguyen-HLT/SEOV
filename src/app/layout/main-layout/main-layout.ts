@@ -73,6 +73,10 @@ export class MainLayoutComponent {
     );
   }
 
+  printLabel() {
+    this.router.navigate(['/welcome/material/se-material-print-label']);
+  }
+
   Expenses() {
     this.router.navigate(['/welcome/expenses']);
   }

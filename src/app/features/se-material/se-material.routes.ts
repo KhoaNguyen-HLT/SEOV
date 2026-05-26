@@ -8,6 +8,12 @@ export const materialRoutes: Routes = [
     loadComponent: () =>
       import('./material-transaction/material-transaction')
         .then(m => m.MaterialTransactionComponent),
+  },
+  {
+    path: 'se-material-print-label',
+    loadComponent: () =>
+      import('./material-print-label/material-print-label')
+        .then(m => m.MaterialPrintLabelComponent),
   }
 
 ];

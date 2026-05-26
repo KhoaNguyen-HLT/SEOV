@@ -20,6 +20,10 @@ export class materialService {
     return this.http.get(`${this.baseUrl}/getTransactionFlow/${flowCode}`);
   }
 
+  getMaterialRequest(flowCode: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getMaterialRequest/${flowCode}`);
+  }
+
   createMaterialRequest(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/createMaterialRequest`, data);
   }

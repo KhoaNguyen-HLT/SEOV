@@ -1,0 +1,22 @@
+<nz-card nzTitle="Print Material Label">
+
+  <nz-form-item>
+    <nz-form-label>Số tem</nz-form-label>
+
+    <nz-form-control>
+      <nz-input-number
+        [(ngModel)]="labelCount"
+        [nzMin]="1"
+        [nzStep]="1">
+      </nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button
+    nz-button
+    nzType="primary"
+    (click)="printLabel()">
+    In tem
+  </button>
+
+</nz-card>

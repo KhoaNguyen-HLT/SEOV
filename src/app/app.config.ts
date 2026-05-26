@@ -6,7 +6,6 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { vi_VN, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import vi from '@angular/common/locales/vi';
@@ -14,25 +13,10 @@ import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { HomeOutline } from '@ant-design/icons-angular/icons';
+import * as AllIcons from '@ant-design/icons-angular/icons';
 import { provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts';
 registerLocaleData(vi);
-import {
-  DashboardOutline,
-  SettingOutline,
-  UserOutline,
-  TeamOutline,
-  CaretRightOutline,
-  PlusOutline,
-  FormOutline,
-  HistoryOutline,
-  CaretDownOutline,
-  ScanOutline,
-  FileTextOutline,
-  InboxOutline,
-  BarChartOutline
-} from '@ant-design/icons-angular/icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,28 +25,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideNzI18n(vi_VN),
     provideEchartsCore({ echarts }),
-
     // ✅ đăng ký icon
-    provideNzIcons([
-      DashboardOutline,
-      SettingOutline,
-      UserOutline,
-      TeamOutline,
-      PlusOutline,
-      CaretRightOutline,
-      FormOutline,
-      HistoryOutline,
-      HomeOutline,
-      CaretDownOutline,
-      ScanOutline,
-      FileTextOutline,
-      InboxOutline,
-      BarChartOutline
-    ]),
-
+    provideNzIcons(Object.values(AllIcons)),
     NzMessageService,
-
-    // ✅ ĐÚNG: import module vào đây
     importProvidersFrom(NzGridModule, NzModalModule),
   ],
 };
