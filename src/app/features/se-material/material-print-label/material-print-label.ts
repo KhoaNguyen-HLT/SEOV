@@ -67,6 +67,7 @@ ngOnInit(): void {
 
 
 previewLabel(): void {
+  this.isVisible = true;
 
   const lotNo =
     this.labelForm.get('lotNo')?.value;

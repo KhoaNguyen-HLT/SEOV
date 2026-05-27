@@ -1,0 +1,143 @@
+<div class="page-container">
+  <h2 class="page-title">Thêm thiết bị</h2>
+
+  <form nz-form [formGroup]="deviceForm" (ngSubmit)="submitForm()" nzLayout="horizontal">
+
+    <div nz-row [nzGutter]="16">
+
+      <!-- Location -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" nzRequired>Location</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Vui lòng nhập Location">
+            <input nz-input formControlName="location" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Code -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" nzRequired>Code</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Vui lòng nhập Code">
+            <input nz-input formControlName="code" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Serial Number -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">Serial Number</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="serialNumber" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Supplier -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">Supplier</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="supplier" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- FA -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">FA</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="fa" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- FA Code -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">FA Code</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="faCode" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- PO Number -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">PO Number</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="poNumber" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Kian No -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">Kian No</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="kianNo" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Status -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">Status</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <nz-select formControlName="status" nzPlaceHolder="Chọn trạng thái">
+              <nz-option nzValue="inused" nzLabel="In-used"></nz-option>
+              <nz-option nzValue="stdused" nzLabel="Standby-Used"></nz-option>
+              <nz-option nzValue="BROKEN" nzLabel="Broken"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Date Time Used -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">Date Time Used</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <nz-date-picker formControlName="dateTimeUsed" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss">
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Date -->
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8">Date</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <nz-date-picker formControlName="dateTime"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <!-- Submit -->
+    <nz-form-item>
+      <nz-form-control [nzOffset]="8">
+        <button nz-button nzType="primary" [disabled]="deviceForm.invalid">
+          Submit
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+  <!-- Loading -->
+  <div class="global-loading" *ngIf="isLoading$ | async">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="text">Đang xử lý...</div>
+    </div>
+  </div>
+</div>
