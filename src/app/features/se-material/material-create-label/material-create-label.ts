@@ -12,6 +12,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { LoadingService } from '../../../shared/service/loading.service';
 import { PopupService } from '../../../shared/service/popup.service';
+import { materialService } from '../../se-material/se-material.service';
 
 @Component({
   selector: 'create-machine',
@@ -40,7 +41,8 @@ export class MaterialCreateLabelComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private popupService: PopupService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private MaterialService: materialService
   ) {
     this.isLoading$ = this.loadingService.isLoading$;
   }
@@ -70,17 +72,17 @@ export class MaterialCreateLabelComponent implements OnInit {
         ...this.deviceForm.value
       };
 
-      console.log(payload);
-      // call API
-      this.deviceService.createDevice(payload).subscribe({
-        next: (res: any) => {
-          console.log(res)
-          this.popupService.success('Tạo thiết bị thành công');
-        },
-        error: (error: any) => {
-          this.popupService.error(error.error.message);
-        }
-      });
+      // console.log(payload);
+      // // call API
+      // this.MaterialService.createDevice(payload).subscribe({
+      //   next: (res: any) => {
+      //     console.log(res)
+      //     this.popupService.success('Tạo thiết bị thành công');
+      //   },
+      //   error: (error: any) => {
+      //     this.popupService.error(error.error.message);
+      //   }
+      // });
     }
   }
 }

@@ -81,19 +81,21 @@ previewLabel(): void {
 
   labels = [
   {
-    materialCode: 'NVL001',
-    lotNo: 'LOT001',
+    materialCode: 'ABCD123',
+    materialName: 'ABCD123 Material',
+    lotNo: 'ABCD123_20260101_001',
     qty: 100,
     uom: 'PCS',
-    location: 'WH-A1'
+    location: 'WH-A1',
+    date: '2026-01-01'
   },
-  {
-    materialCode: 'NVL002',
-    lotNo: 'LOT002',
-    qty: 50,
-    uom: 'PCS',
-    location: 'WH-A2'
-  }
+  // {
+  //   materialCode: 'NVL002',
+  //   lotNo: 'LOT002',
+  //   qty: 50,
+  //   uom: 'PCS',
+  //   location: 'WH-A2'
+  // }
 ];
 
 getQrUrl(lotNo: string): string {

@@ -72,14 +72,15 @@
       <div id="label-print-area">
         <div class="label-grid">
           <div class="label" *ngFor="let label of labels">
-            <div class="title">MATERIAL LABEL</div>
+            <div class="title">SEI OPTIFRONTIER Vietnam</div>
+            <div><b>Name:</b> {{label.materialName }}</div>
+            <div><b>Lot:</b> {{label.lotNo }}</div>
 
             <div class="content">
               <div class="info">
-                <div><b>Material:</b> {{ label.materialCode }}</div>
-                <div><b>Lot:</b> {{ label.lotNo }}</div>
+                <div><b>Code:</b> {{label.materialCode }}</div>
                 <div><b>Qty:</b> {{ label.qty }} {{ label.uom }}</div>
-                <div><b>Location:</b> {{ label.location }}</div>
+                <div><b style="font-weight:800; font-size:20px;"> {{ label.date }}</b></div>
               </div>
 
               <div class="qr">

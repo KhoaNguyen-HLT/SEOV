@@ -3,55 +3,30 @@
     <div class="card">
 
         <!-- Top Bar -->
-        <div nz-row [nzGutter]="16" class="top-bar" nzAlign="middle">
+        <div nz-row [nzGutter]="12" class="top-bar" nzAlign="middle">
 
             <!-- Search Form -->
-            <!-- Search Form -->
-            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="5">
+            <div nz-col [nzSpan]="4">
 
                 <form nz-form [formGroup]="searchForm">
 
-                    <div nz-row [nzGutter]="12">
-
-                        <!-- User -->
-                        <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12">
-
-                            <nz-select formControlName="user" nzAllowClear nzSize="large" nzPlaceHolder="Select User"
-                                class="full-width">
-                                <nz-option nzValue="1" nzLabel="Nguyễn văn A"></nz-option>
-                                <nz-option nzValue="2" nzLabel="Nguyễn văn B"></nz-option>
-                                <nz-option nzValue="3" nzLabel="Nguyễn văn C"></nz-option>
-                                <nz-option nzValue="4" nzLabel="Nguyễn văn D"></nz-option>
-                                <nz-option nzValue="5" nzLabel="Nguyễn văn E"></nz-option>
-
-                            </nz-select>
-
-                        </div>
-
-                        <!-- Status -->
-                        <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12">
-
-                            <nz-select formControlName="status" nzAllowClear nzSize="large"
-                                nzPlaceHolder="Select Status" class="full-width">
-                                <nz-option nzValue="WAITING" nzLabel="Waiting"></nz-option>
-                                <nz-option nzValue="PROCESSING" nzLabel="Processing"></nz-option>
-                                <nz-option nzValue="DONE" nzLabel="Done"></nz-option>
-
-                            </nz-select>
-
-                        </div>
-
-                    </div>
+                    <nz-select formControlName="status" nzAllowClear nzSize="large" nzPlaceHolder="Chọn chương trình đo"
+                        class="full-width">
+                        <nz-option nzValue="Master" nzLabel="Master"></nz-option>
+                        <nz-option nzValue="Random" nzLabel="Random"></nz-option>
+                    </nz-select>
 
                 </form>
 
             </div>
 
             <!-- Action Area -->
-            <div nz-col [nzXs]="24" [nzLg]="8">
+            <div nz-col [nzSpan]="20">
+
                 <div class="action-area">
-                    <!-- Upload + File Name -->
+
                     <div class="upload-group">
+
                         <!-- Upload -->
                         <nz-upload [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false">
                             <button nz-button nzType="default" nzSize="large">
@@ -59,17 +34,18 @@
                                 Chọn file Excel
                             </button>
                         </nz-upload>
-                        <!-- File Name -->
+
+                        <!-- File name -->
                         <div class="file-info" *ngIf="fileName">
                             📄 {{ fileName }}
                         </div>
+
                         <!-- Process -->
                         <button nz-button nzType="primary" nzSize="large" [disabled]="!selectedFile" (click)="upload()">
                             Xử lý file
                         </button>
+
                     </div>
-
-
 
                 </div>
 
@@ -77,10 +53,78 @@
 
         </div>
 
-        <!-- Body -->
-        <div class="card-body">
-            <nz-empty nzNotFoundContent="Chưa có dữ liệu">
-            </nz-empty>
+        <!-- form lấy báo cáo -->
+        <div nz-row [nzGutter]="24" class="top-bar reportform" nzAlign="middle">
+
+            <!-- report Form -->
+            <div nz-col [nzSpan]="18">
+
+                <form nz-form [formGroup]="reportForm" >
+
+                    <div nz-row [nzGutter]="12" nzAlign="middle">
+
+                        <!-- PROGRAM -->
+                        <div nz-col [nzSpan]="6">
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-select formControlName="program" nzAllowClear nzSize="large"
+                                        nzPlaceHolder="Chọn chương trình">
+                                        <nz-option nzValue="M" nzLabel="MASTER"></nz-option>
+                                        <nz-option nzValue="R" nzLabel="RANDOM"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <!-- LOT A -->
+                        <div nz-col [nzSpan]="5" *ngIf="reportForm.get('program')?.value === 'M'">
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-select formControlName="lotA" nzAllowClear nzSize="large"
+                                        nzPlaceHolder="Chọn Lot-No A" nzShowSearch>
+                                        <nz-option *ngFor="let lot of lotData" [nzValue]="lot.lot_no" [nzLabel]="lot.lot_no"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <!-- LOT B -->
+                        <div nz-col [nzSpan]="5" *ngIf="reportForm.get('program')?.value === 'M'">
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-select formControlName="lotB" nzAllowClear nzSize="large"
+                                        nzPlaceHolder="Chọn Lot-No B" nzShowSearch>
+                                        <nz-option *ngFor="let lot of lotData" [nzValue]="lot.lot_no" [nzLabel]="lot.lot_no"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <!-- LOT_no -->
+                        <div nz-col [nzSpan]="5" *ngIf="reportForm.get('program')?.value === 'R'">
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-select formControlName="lotNo" nzAllowClear nzSize="large"
+                                        nzPlaceHolder="Chọn Lot-No" nzShowSearch>
+                                        <nz-option *ngFor="let lot of lotData" [nzValue]="lot.lot_no" [nzLabel]="lot.lot_no"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        
+
+                        <!-- BUTTON -->
+                        <div nz-col [nzSpan]="6">
+                            <button nz-button nzType="primary" nzSize="large" class="full-width" (click)="getReport()">
+                                Lấy báo cáo
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
         </div>
 
     </div>
