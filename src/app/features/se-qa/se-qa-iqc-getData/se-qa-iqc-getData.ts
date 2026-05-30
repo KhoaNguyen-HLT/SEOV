@@ -56,7 +56,7 @@ export class seQaIqcGetDataComponent {
     this.reportForm = this.fb.group({
       lotA: [null, Validators.required],
       lotB: [null, Validators.required],
-      lotNo: [null, Validators.required],
+      // lotNo: [null, Validators.required],
       program: [null, [Validators.required]]
     });
 

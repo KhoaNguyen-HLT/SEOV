@@ -77,7 +77,7 @@
                         </div>
 
                         <!-- LOT A -->
-                        <div nz-col [nzSpan]="5" *ngIf="reportForm.get('program')?.value === 'M'">
+                        <div nz-col [nzSpan]="5">
                             <nz-form-item>
                                 <nz-form-control>
                                     <nz-select formControlName="lotA" nzAllowClear nzSize="large"
@@ -88,23 +88,11 @@
                             </nz-form-item>
                         </div>
                         <!-- LOT B -->
-                        <div nz-col [nzSpan]="5" *ngIf="reportForm.get('program')?.value === 'M'">
+                        <div nz-col [nzSpan]="5">
                             <nz-form-item>
                                 <nz-form-control>
                                     <nz-select formControlName="lotB" nzAllowClear nzSize="large"
                                         nzPlaceHolder="Chọn Lot-No B" nzShowSearch>
-                                        <nz-option *ngFor="let lot of lotData" [nzValue]="lot.lot_no" [nzLabel]="lot.lot_no"></nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-
-                        <!-- LOT_no -->
-                        <div nz-col [nzSpan]="5" *ngIf="reportForm.get('program')?.value === 'R'">
-                            <nz-form-item>
-                                <nz-form-control>
-                                    <nz-select formControlName="lotNo" nzAllowClear nzSize="large"
-                                        nzPlaceHolder="Chọn Lot-No" nzShowSearch>
                                         <nz-option *ngFor="let lot of lotData" [nzValue]="lot.lot_no" [nzLabel]="lot.lot_no"></nz-option>
                                     </nz-select>
                                 </nz-form-control>

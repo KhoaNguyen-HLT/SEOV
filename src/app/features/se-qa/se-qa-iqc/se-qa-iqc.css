@@ -67,3 +67,19 @@
   font-size: 28px;
   color: #1877F2;
 }
+
+.read_file {
+  background: #e6f0ff;
+  border-color: #1877F2;
+  color: #1877F2;
+}
+
+.report-btn {
+  background: #f0fff4;
+  color: #22a06b;
+}
+
+.trace-btn {
+  background: #fff7e6;
+  color: #fa8c16;
+}
