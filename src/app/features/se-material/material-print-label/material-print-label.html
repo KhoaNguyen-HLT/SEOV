@@ -1,86 +1,68 @@
-<nz-card class="label-form-card" nzTitle="In tem NVL">
-  <form nz-form [formGroup]="labelForm" nzLayout="vertical">
-
-    <div class="form-grid">
+<nz-card class="label-form-card" nzTitle="">
+  <form nz-form [formGroup]="generateForm" nzLayout="vertical">
+    <div class="generate-form">
       <nz-form-item>
-        <nz-form-label>Material Code</nz-form-label>
+        <nz-form-label>Nguyên vật liệu</nz-form-label>
         <nz-form-control>
-          <input nz-input formControlName="materialCode" placeholder="VD: NVL001" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label>Lot No</nz-form-label>
-        <nz-form-control>
-          <input nz-input formControlName="lotNo" placeholder="VD: LOT20260526" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label>Total Qty</nz-form-label>
-        <nz-form-control>
-          <input nz-input type="number" formControlName="qty" placeholder="1000" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label>UOM</nz-form-label>
-        <nz-form-control>
-          <nz-select formControlName="uom">
-            <nz-option nzValue="PCS" nzLabel="PCS"></nz-option>
-            <nz-option nzValue="M" nzLabel="M"></nz-option>
-            <nz-option nzValue="KG" nzLabel="KG"></nz-option>
-            <nz-option nzValue="BOX" nzLabel="BOX"></nz-option>
+          <nz-select formControlName="materialName">
+            <nz-option nzLabel="Material A" nzValue="MaterialA"></nz-option>
+            <nz-option nzLabel="Material B" nzValue="MaterialB"></nz-option>
+            <nz-option nzLabel="Material C" nzValue="MaterialC"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>Location</nz-form-label>
+        <nz-form-label>Tổng số lượng</nz-form-label>
         <nz-form-control>
-          <input nz-input formControlName="location" placeholder="VD: WH-A1" />
+          <input nz-input formControlName="totalQty" />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>Số tem cần in</nz-form-label>
+        <nz-form-label>Số lượng tem</nz-form-label>
         <nz-form-control>
-          <input nz-input type="number" formControlName="printQty" placeholder="10" />
+          <input nz-input formControlName="labelQty" />
         </nz-form-control>
       </nz-form-item>
-    </div>
 
+      <!-- Date -->
+        <nz-form-item>
+          <nz-form-label >Date</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker formControlName="dateTime"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+    </div>
     <div class="label-preview-box">
-      <div>
-        <div class="preview-title">Label Code</div>
-        <div class="preview-code">
-          {{ labelForm.get('labelCode')?.value}}
-        </div>
-      </div>
-
-      <button nz-button nzType="default" (click)="previewLabel()">
-        Preview
-      </button>
+      <button nz-button nzType="primary" (click)="generateLot()">Generate LotNo</button>
+      <button nz-button nzType="default" (click)="previewLabel()">Preview</button>
     </div>
-
   </form>
 </nz-card>
 
-<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="footerTpl" [nzWidth]="'90%'">
+<nz-modal
+  [(nzVisible)]="isVisible"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="footerTpl"
+  [nzWidth]="'90%'"
+>
   <ng-container *nzModalContent>
     <div class="modal-scroll-body">
       <div id="label-print-area">
         <div class="label-grid">
           <div class="label" *ngFor="let label of labels">
             <div class="title">SEI OPTIFRONTIER Vietnam</div>
-            <div><b>Name:</b> {{label.materialName }}</div>
-            <div><b>Lot:</b> {{label.lotNo }}</div>
+            <div><b>Name:</b> {{ label.materialName }}</div>
+            <div><b>Lot:</b> {{ label.lotNo }}</div>
 
             <div class="content">
               <div class="info">
-                <div><b>Code:</b> {{label.materialCode }}</div>
+                <div><b>Code:</b> {{ label.materialCode }}</div>
                 <div><b>Qty:</b> {{ label.qty }} {{ label.uom }}</div>
-                <div><b style="font-weight:800; font-size:20px;"> {{ label.date }}</b></div>
+                <div>
+                  <b style="font-weight: 800; font-size: 20px"> {{ label.date }}</b>
+                </div>
               </div>
 
               <div class="qr">
@@ -91,15 +73,18 @@
         </div>
       </div>
     </div>
-
   </ng-container>
   <ng-template #footerTpl>
-    <button nz-button (click)="handleCancel()">
-      Đóng
-    </button>
+    <button nz-button (click)="handleCancel()">Đóng</button>
 
-    <button nz-button nzType="primary" ngxPrint printSectionId="label-print-area" [useExistingCss]="true"
-      (click)="handleCancel()">
+    <button
+      nz-button
+      nzType="primary"
+      ngxPrint
+      printSectionId="label-print-area"
+      [useExistingCss]="true"
+      (click)="handleCancel()"
+    >
       In tem
     </button>
   </ng-template>

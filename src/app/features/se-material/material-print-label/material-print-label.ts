@@ -48,13 +48,14 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 export class MaterialPrintLabelComponent {
 
   labelForm!: FormGroup;
+  generateForm!: FormGroup;
   constructor(
   private fb: FormBuilder
 ) {}
 
 ngOnInit(): void {
   this.labelForm = this.fb.group({
-    materialCode: ['', Validators.required],
+    materialName: ['', Validators.required],
     lotNo: ['', Validators.required],
     qty: [0],
     uom: ['PCS'],
@@ -62,7 +63,22 @@ ngOnInit(): void {
     labelCode: [''],
     printQty: [1]
   });
+
+  this.generateForm = this.fb.group({
+    MaterialName: ['', Validators.required],
+    totalQty: [null],
+    labelQty: [1],
+    dateTime: [null]
+  });
+
 }
+
+
+generateLot(): void {
+ console.log('Generate Lot clicked!');
+}
+
+
 
 
 

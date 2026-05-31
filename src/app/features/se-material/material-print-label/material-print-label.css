@@ -79,3 +79,12 @@
   overflow-y: auto;
   padding-right: 8px;
 }
+
+
+/* tạo form generate */
+.generate-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
