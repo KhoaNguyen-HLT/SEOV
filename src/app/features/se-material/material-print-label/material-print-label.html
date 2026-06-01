@@ -2,7 +2,7 @@
   <form nz-form [formGroup]="generateForm" nzLayout="vertical">
     <div class="generate-form">
       <nz-form-item>
-        <nz-form-label>Nguyên vật liệu</nz-form-label>
+        <nz-form-label [nzRequired]="true">Nguyên vật liệu</nz-form-label>
         <nz-form-control>
           <nz-select formControlName="materialName">
             <nz-option nzLabel="Material A" nzValue="MaterialA"></nz-option>
@@ -27,31 +27,39 @@
       </nz-form-item>
 
       <!-- Date -->
-        <nz-form-item>
-          <nz-form-label >Date</nz-form-label>
-          <nz-form-control>
-            <nz-date-picker formControlName="dateTime"></nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Date</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="dateTime"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <div class="action-buttons">
+        <button nz-button class="btn-generate" (click)="generateLot()">Generate LotNo</button>
+        <button nz-button class="btn-save" (click)="saveData()" *ngIf="btn_save">Save</button>
+        <button nz-button class="btn-preview" (click)="previewLabel()" *ngIf="btn_preview">Preview</button>
+      </div>
     </div>
-    <div class="label-preview-box">
-      <button nz-button nzType="primary" (click)="generateLot()">Generate LotNo</button>
-      <button nz-button nzType="default" (click)="previewLabel()">Preview</button>
-    </div>
+
   </form>
 </nz-card>
+<div>
+  <ag-grid-angular
+  class="ag-theme-quartz"
+  style="width: 100%; height: 500px;"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [pagination]="true"
+  [paginationPageSize]="20">
+</ag-grid-angular>
+</div>
 
-<nz-modal
-  [(nzVisible)]="isVisible"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="footerTpl"
-  [nzWidth]="'90%'"
->
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="footerTpl" [nzWidth]="'90%'">
   <ng-container *nzModalContent>
     <div class="modal-scroll-body">
       <div id="label-print-area">
         <div class="label-grid">
-          <div class="label" *ngFor="let label of labels">
+          <div class="label" *ngFor="let label of rowData">
             <div class="title">SEI OPTIFRONTIER Vietnam</div>
             <div><b>Name:</b> {{ label.materialName }}</div>
             <div><b>Lot:</b> {{ label.lotNo }}</div>
@@ -77,14 +85,8 @@
   <ng-template #footerTpl>
     <button nz-button (click)="handleCancel()">Đóng</button>
 
-    <button
-      nz-button
-      nzType="primary"
-      ngxPrint
-      printSectionId="label-print-area"
-      [useExistingCss]="true"
-      (click)="handleCancel()"
-    >
+    <button nz-button nzType="primary" ngxPrint printSectionId="label-print-area" [useExistingCss]="true"
+      (click)="handleCancel()">
       In tem
     </button>
   </ng-template>

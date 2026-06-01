@@ -9,6 +9,7 @@
 }
 
 .header {
+  height: 45px;
   background: #fff;
   display: flex;
   justify-content: flex-end;
@@ -31,7 +32,7 @@
 }
 
 .logo {
-  height: 64px;
+  height: 45px;
   display: flex;
   align-items: center;
   padding: 0 16px;
