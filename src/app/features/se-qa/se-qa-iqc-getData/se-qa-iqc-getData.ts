@@ -41,7 +41,8 @@ export class seQaIqcGetDataComponent {
   reportForm!: FormGroup;
 
   user = '';
-  status = '';
+  msType = '';
+  program = true;
   router: any;
   selectedFile: File | null = null;
   fileName: string = '';
@@ -51,24 +52,25 @@ export class seQaIqcGetDataComponent {
   ngOnInit() {
     this.searchForm = this.fb.group({
       user: [null],
-      status: [null]
+      msType: [null]
     });
     this.reportForm = this.fb.group({
       lotA: [null, Validators.required],
       lotB: [null, Validators.required],
       // lotNo: [null, Validators.required],
-      program: [null, [Validators.required]]
+      program: [null, [Validators.required]],
+      msTypeRp: [null, [Validators.required]]
     });
 
-    this.searchForm.get('program')?.valueChanges.subscribe(value => {
-    if (value !== 'M') {
-      this.searchForm.patchValue({
-        lotA: null
-      });
-    }
-  });
+    // this.searchForm.get('program')?.valueChanges.subscribe(value => {
+    //   if (value !== 'M') {
+    //     this.searchForm.patchValue({
+    //       lotA: null
+    //     });
+    //   }
+    // });
 
-    this.getDataLot();
+    // this.getDataLot();
   }
 
   beforeUpload = (file: NzUploadFile, fileList: NzUploadFile[]) => {
@@ -82,12 +84,11 @@ export class seQaIqcGetDataComponent {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     formData.append('user', this.searchForm.value.user);
-    formData.append('status', this.searchForm.value.status);
+    formData.append('msType', this.searchForm.value.msType);
     console.log(formData);
     this.qaService.getDataExcel(formData).subscribe({
       next: (res) => {
         if (res.message === 'success') {
-          console.log(res.data);
           this.popupService.success('Upload thành công!');
         } else {
           this.popupService.error('Upload thất bại cần kiềm tra lại');
@@ -97,9 +98,9 @@ export class seQaIqcGetDataComponent {
   }
 
 
-  getDataLot(){
+  getDataLot(program: string) {
     // Gọi service để lấy dữ liệu Lot-No
-    this.qaService.getLotData().subscribe({
+    this.qaService.getLotData(program).subscribe({
       next: (res) => {
         if (res.message === 'success') {
           this.lotData = res.data;
@@ -124,11 +125,15 @@ export class seQaIqcGetDataComponent {
     const formData = {
       lotA: this.reportForm.value.lotA,
       lotB: this.reportForm.value.lotB,
-      program: this.reportForm.value.program
+      program: this.reportForm.value.program,
+      msTypeRp: this.reportForm.value.msTypeRp
     };
-    console.log(formData);
+    if(formData.lotA === formData.lotB) {
+      this.popupService.error('Lot A và Lot B không được giống nhau!');
+      return;
+    }
     // Gọi service để lấy báo cáo dựa trên formData
-    this.qaService.getReport(formData.lotA, formData.lotB, formData.program).subscribe({
+    this.qaService.getReport(formData.lotA, formData.lotB, formData.program, formData.msTypeRp).subscribe({
       next: (res) => {
         if (res.message === 'success') {
           console.log(res.data);
@@ -140,5 +145,16 @@ export class seQaIqcGetDataComponent {
     });
 
   }
+
+
+  // bắt sự kiện thay đổi select chương trình.
+  onProgramChange(value: string): void {
+  this.getDataLot(value);
+  if(value !== 'M') {
+    this.program = false;
+  } 
+  console.log(value);
+  console.log(this.program);
+}
 
 }

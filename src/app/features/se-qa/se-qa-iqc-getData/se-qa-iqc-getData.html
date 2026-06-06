@@ -10,10 +10,10 @@
 
                 <form nz-form [formGroup]="searchForm">
 
-                    <nz-select formControlName="status" nzAllowClear nzSize="large" nzPlaceHolder="Chọn chương trình đo"
+                    <nz-select formControlName="msType" nzAllowClear nzSize="large" nzPlaceHolder="Chọn chương trình đo"
                         class="full-width">
-                        <nz-option nzValue="Master" nzLabel="Master"></nz-option>
-                        <nz-option nzValue="Random" nzLabel="Random"></nz-option>
+                        <nz-option nzValue="M" nzLabel="Đa Tâm"></nz-option>
+                        <nz-option nzValue="S" nzLabel="Đơn Tâm"></nz-option>
                     </nz-select>
 
                 </form>
@@ -57,20 +57,33 @@
         <div nz-row [nzGutter]="24" class="top-bar reportform" nzAlign="middle">
 
             <!-- report Form -->
-            <div nz-col [nzSpan]="18">
+            <div nz-col [nzSpan]="24">
 
                 <form nz-form [formGroup]="reportForm" >
 
                     <div nz-row [nzGutter]="12" nzAlign="middle">
 
                         <!-- PROGRAM -->
-                        <div nz-col [nzSpan]="6">
+                        <div nz-col [nzSpan]="5">
                             <nz-form-item>
                                 <nz-form-control>
                                     <nz-select formControlName="program" nzAllowClear nzSize="large"
-                                        nzPlaceHolder="Chọn chương trình">
+                                        nzPlaceHolder="Chọn chương trình"
+                                        (ngModelChange)="onProgramChange($event)">
+                                        <nz-option nzValue="M" nzLabel="Đa Tâm"></nz-option>
+                                        <nz-option nzValue="S" nzLabel="Đơn Tâm"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <!-- Type -->
+                        <div nz-col [nzSpan]="5">
+                            <nz-form-item>
+                                <nz-form-control>
+                                    <nz-select formControlName="msTypeRp" nzAllowClear nzSize="large"
+                                        nzPlaceHolder="Chọn kiểu đo">
                                         <nz-option nzValue="M" nzLabel="MASTER"></nz-option>
-                                        <nz-option nzValue="R" nzLabel="RANDOM"></nz-option>
+                                        <nz-option nzValue="R" nzLabel="RANDOM" *ngIf="program"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
@@ -102,7 +115,7 @@
                         
 
                         <!-- BUTTON -->
-                        <div nz-col [nzSpan]="6">
+                        <div nz-col [nzSpan]="4">
                             <button nz-button nzType="primary" nzSize="large" class="full-width" (click)="getReport()">
                                 Lấy báo cáo
                             </button>

@@ -24,13 +24,13 @@ export class qaService {
       );
   }
 
-  getLotData(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getLotData`);
+  getLotData(program: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getLotData/${program}`);
   }
 
-  getReport(lotA: string, lotB: string, program: string): Observable<any> {
+  getReport(lotA: string, lotB: string, program: string, msTypeRp: string): Observable<any> {
     this.loadingService.show();
-    return this.http.post(`${this.baseUrl}/getReport`, null, { params: { lotA, lotB, program } })
+    return this.http.post(`${this.baseUrl}/getReport`, null, { params: { lotA, lotB, program, msTypeRp } })
       .pipe(
         finalize(() => {
           this.loadingService.hide();
