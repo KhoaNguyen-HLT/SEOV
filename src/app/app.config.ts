@@ -1,7 +1,7 @@
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  importProvidersFrom,
+  importProvidersFrom, isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
@@ -16,6 +16,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { provideServiceWorker } from '@angular/service-worker';
 registerLocaleData(vi);
 
 export const appConfig: ApplicationConfig = {
@@ -28,6 +29,9 @@ export const appConfig: ApplicationConfig = {
     // ✅ đăng ký icon
     provideNzIcons(Object.values(AllIcons)),
     NzMessageService,
-    importProvidersFrom(NzGridModule, NzModalModule),
+    importProvidersFrom(NzGridModule, NzModalModule), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }),
   ],
 };
