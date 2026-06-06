@@ -152,7 +152,9 @@ export class seQaIqcGetDataComponent {
   this.getDataLot(value);
   if(value !== 'M') {
     this.program = false;
-  } 
+  } else {
+    this.program = true;
+  }
   console.log(value);
   console.log(this.program);
 }
