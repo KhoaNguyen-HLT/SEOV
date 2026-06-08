@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { AuthService } from '../service/auth.service';
 import { TokenStorageService } from '../service/token-storage.service';
+import { environment } from '../../environments/environments.prod';
 
 
 
@@ -90,7 +91,7 @@ export class LoginComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/welcome']);
           }, 1000);
-        } else this.PopupService.error('Sai thông tin đăng nhập, vui lòng thử lại');
+        } else this.PopupService.error('Sai thông tin đăng nhập, vui lòng thử lại sau');
       },
       error: (err) => {
         console.error('Login failed', err);

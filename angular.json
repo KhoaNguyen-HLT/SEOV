@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "seov-fe1": {
+    "seov-fe": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -21,7 +21,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/theme.less",
@@ -66,10 +67,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "seov-fe1:build:production"
+              "buildTarget": "seov-fe:build:production"
             },
             "development": {
-              "buildTarget": "seov-fe1:build:development"
+              "buildTarget": "seov-fe:build:development"
             }
           },
           "defaultConfiguration": "development"

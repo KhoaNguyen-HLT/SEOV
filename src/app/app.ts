@@ -21,5 +21,5 @@ export class App {
   ngOnInit() {
     this.isLoading$ = this.loadingService.isLoading$;
   }
-  protected readonly title = signal('seov-fe1');
+  protected readonly title = signal('seov-fe');
 }

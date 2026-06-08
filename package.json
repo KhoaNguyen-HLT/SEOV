@@ -1,13 +1,13 @@
 {
-  "name": "seov-fe1",
+  "name": "seov-fe",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --port 4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:seov-fe1": "node dist/seov-fe1/server/server.mjs"
+    "start:pwa": "ng build --configuration production && npx http-server dist/seov-fe/browser -p 4200 -a 0.0.0.0"
   },
   "private": true,
   "packageManager": "npm@9.8.0",
