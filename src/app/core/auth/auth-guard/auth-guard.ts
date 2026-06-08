@@ -1,5 +1,11 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import {
+  CanActivate,
+  CanActivateChild,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '../service/token-storage.service';
 
@@ -14,15 +20,21 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
 
-  canActivate(): boolean {
-    return this.checkAuth();
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    return this.checkAuth(state.url);
   }
 
-  canActivateChild(): boolean {
-    return this.checkAuth();
+  canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    return this.checkAuth(state.url);
   }
 
-  private checkAuth(): boolean {
+  private checkAuth(returnUrl: string): boolean {
 
     if (!isPlatformBrowser(this.platformId)) {
       return true;
@@ -31,7 +43,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     const token = this.TokenStorageService.getToken();
 
     if (!token) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl }
+      });
       return false;
     }
 

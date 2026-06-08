@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PopupService } from '../../../shared/service/popup.service';
 import { CommonModule } from '@angular/common';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService,
     private fb: FormBuilder,
     private PopupService: PopupService,
@@ -43,15 +44,25 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    this.form = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
+    });
 
+    if (isPlatformBrowser(this.platformId)) {
       const token = this.TokenStorageService.getToken();
 
       if (token) {
         this.authService.checkToken().subscribe({
           next: (res) => {
             if (res) {
-              this.router.navigate(['/welcome']);
+              const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+              alert(returnUrl);
+              if (returnUrl) {
+                this.router.navigateByUrl(returnUrl);
+              } else {
+                this.router.navigate(['/welcome']);
+              }
             } else {
               this.TokenStorageService.removeToken();
             }
@@ -60,17 +71,10 @@ export class LoginComponent implements OnInit {
             this.TokenStorageService.removeToken();
           },
         });
-
-      } else {
-        this.router.navigate(['/login']);
       }
-    }
 
-    // ✅ init form
-    this.form = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(3)]],
-    });
+      // KHÔNG navigate /login ở đây nữa
+    }
   }
 
   login() {
@@ -89,7 +93,13 @@ export class LoginComponent implements OnInit {
           // this.TokenStorageService.setToken(res.token);
           this.PopupService.success('Đăng nhập thành công');
           setTimeout(() => {
-            this.router.navigate(['/welcome']);
+            const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+            if (returnUrl) {
+              this.router.navigateByUrl(returnUrl);
+            } else {
+              this.router.navigate(['/welcome']);
+            }
           }, 1000);
         } else this.PopupService.error('Sai thông tin đăng nhập, vui lòng thử lại sau');
       },

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { RouterOutlet, Router, RouterModule } from '@angular/router';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -25,7 +25,8 @@ import { TokenStorageService } from '../../core/auth/service/token-storage.servi
     NzAvatarModule,
     NzButtonModule,
     NzInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: [
     {
@@ -39,15 +40,8 @@ import { TokenStorageService } from '../../core/auth/service/token-storage.servi
 export class MobileLayoutComponent {
 
   constructor(private router: Router,
-    private TokenStorageService: TokenStorageService,
+    // private TokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
-
-  
-
-  Dashboard() {
-    this.router.navigate(['/welcome/dashboard']);
-  }
-
   
 }

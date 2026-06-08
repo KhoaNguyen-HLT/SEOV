@@ -8,24 +8,32 @@ export const routes: Routes = [
       import('./core/auth/login/login').then(m => m.LoginComponent)
   },
   {
-  path: 'mobile',
-  loadComponent: () =>
-    import('./layout/mobile-layout/mobile-layout')
-      .then(m => m.MobileLayoutComponent),
-  children: [
-    {
-      path: 'home',
-      loadComponent: () =>
-        import('./features/mobile/mobile-home/mobile-home')
-          .then(m => m.MobileHomeComponent)
-    },
-    {
-      path: '',
-      redirectTo: 'home',
-      pathMatch: 'full'
-    }
-  ]
-},
+    path: 'mobile',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    loadComponent: () =>
+      import('./layout/mobile-layout/mobile-layout')
+        .then(m => m.MobileLayoutComponent),
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./features/mobile/mobile-home/mobile-home')
+            .then(m => m.MobileHomeComponent)
+      },
+      {
+        path: 'mobile-scan',
+        loadComponent: () =>
+          import('./features/mobile/mobile-scan/mobile-scan')
+            .then(m => m.MobileScanComponent)
+      }
+    ]
+  },
   {
     path: 'andon',
     canActivate: [AuthGuard],
