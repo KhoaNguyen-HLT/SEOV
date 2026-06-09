@@ -15,3 +15,137 @@
    overflow-wrap: break-word;
    word-break: break-word;
  }
+
+
+ .menu-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.menu-header {
+  margin-bottom: 40px;
+}
+
+.menu-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.menu-header span {
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+/* ===== BUTTON ===== */
+
+.menu-btn {
+  height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+
+  transition: all 0.25s ease;
+}
+
+.menu-btn:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.menu-btn .anticon {
+  font-size: 34px;
+  transition: all 0.25s ease;
+}
+
+.menu-btn:hover .anticon {
+  transform: scale(1.15);
+}
+
+.menu-btn span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ===== CREATE USER ===== */
+
+.create-btn {
+  background: linear-gradient(135deg, #e8f3ff, #d7ebff);
+}
+
+.create-btn .anticon,
+.create-btn span {
+  color: #1677ff;
+}
+
+/* ===== REPORT ===== */
+
+.report-btn {
+  background: linear-gradient(135deg, #eafbf2, #d6f5e4);
+}
+
+.report-btn .anticon,
+.report-btn span {
+  color: #16a34a;
+}
+
+/* ===== TRACE ===== */
+
+.trace-btn {
+  background: linear-gradient(135deg, #fff4e5, #ffe7c2);
+}
+
+.trace-btn .anticon,
+.trace-btn span {
+  color: #fa8c16;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 20px;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .menu-btn {
+    height: 100px;
+  }
+
+  .menu-btn .anticon {
+    font-size: 28px;
+  }
+
+  .menu-btn span {
+    font-size: 14px;
+  }
+}

@@ -12,8 +12,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'menu-device',
   standalone: true,
-  imports: [
-    RouterOutlet, FormsModule,
+  imports: [ FormsModule,
     NzGridModule,
     FormsModule,
     NzButtonModule,

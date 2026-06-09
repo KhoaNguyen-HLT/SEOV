@@ -7,13 +7,11 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'auth-menu',
   standalone: true,
-  imports: [
-    RouterOutlet, FormsModule,
+  imports: [ FormsModule,
     NzGridModule,
     FormsModule,
     NzButtonModule,

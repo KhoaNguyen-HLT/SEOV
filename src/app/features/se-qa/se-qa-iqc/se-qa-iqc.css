@@ -24,62 +24,109 @@
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(5, 220px);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
 }
 
+/* ===== BUTTON ===== */
+
 .menu-btn {
-  height: 110px;
+  height: 120px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  gap: 10px;
+  gap: 12px;
 
   background: #ffffff;
-  color: #1c1e21;
+  border: none;
+  border-radius: 16px;
 
-  border: 1px solid #e4e6eb;
-  border-radius: 12px;
+  cursor: pointer;
 
-  font-size: 15px;
-  font-weight: 500;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.08);
 
-  transition: all 0.2s ease;
-
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
 }
 
 .menu-btn:hover {
-  background: #f5faff;
-  border-color: #1877F2;
+  transform: translateY(-6px);
 
-  transform: translateY(-2px);
-
-  box-shadow: 0 6px 16px rgba(24, 119, 242, 0.12);
-
-  color: #1877F2;
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .menu-btn .anticon {
-  font-size: 28px;
-  color: #1877F2;
+  font-size: 34px;
+  transition: all 0.25s ease;
 }
+
+.menu-btn:hover .anticon {
+  transform: scale(1.15);
+}
+
+.menu-btn span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ===== READ FILE ===== */
 
 .read_file {
-  background: #e6f0ff;
-  border-color: #1877F2;
-  color: #1877F2;
+  background: linear-gradient(135deg, #e8f3ff, #d7ebff);
 }
+
+.read_file .anticon,
+.read_file span {
+  color: #1677ff;
+}
+
+/* ===== REPORT ===== */
 
 .report-btn {
-  background: #f0fff4;
-  color: #22a06b;
+  background: linear-gradient(135deg, #eafbf2, #d6f5e4);
 }
 
+.report-btn .anticon,
+.report-btn span {
+  color: #16a34a;
+}
+
+/* ===== TRACE ===== */
+
 .trace-btn {
-  background: #fff7e6;
+  background: linear-gradient(135deg, #fff4e5, #ffe7c2);
+}
+
+.trace-btn .anticon,
+.trace-btn span {
   color: #fa8c16;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 20px;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .menu-btn {
+    height: 100px;
+  }
+
+  .menu-btn .anticon {
+    font-size: 28px;
+  }
+
+  .menu-btn span {
+    font-size: 14px;
+  }
 }
