@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
       const token = this.TokenStorageService.getToken();
 
       if (token) {
+        alert(window.location.href);
         this.authService.checkToken().subscribe({
           next: (res) => {
             if (res) {
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit {
               } else {
                 this.router.navigate(['/welcome']);
               }
+
             } else {
               this.TokenStorageService.removeToken();
             }
@@ -93,13 +95,8 @@ export class LoginComponent implements OnInit {
           // this.TokenStorageService.setToken(res.token);
           this.PopupService.success('Đăng nhập thành công');
           setTimeout(() => {
-            const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-
-            if (returnUrl) {
-              this.router.navigateByUrl(returnUrl);
-            } else {
-              this.router.navigate(['/welcome']);
-            }
+            const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/welcome';
+            this.router.navigateByUrl(returnUrl);
           }, 1000);
         } else this.PopupService.error('Sai thông tin đăng nhập, vui lòng thử lại sau');
       },

@@ -1,18 +1,19 @@
 {
   "name": "SEOV",
   "short_name": "SEOV",
-  "start_url": "/",
+  "start_url": "./mobile",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#1976d2",
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "assets/icons/icon-192x192.png",
+      "src": "/assets/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/icons/icon-512x512.png",
+      "src": "/assets/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
