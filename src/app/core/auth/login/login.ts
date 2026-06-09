@@ -51,14 +51,11 @@ export class LoginComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       const token = this.TokenStorageService.getToken();
-
       if (token) {
-        alert(window.location.href);
         this.authService.checkToken().subscribe({
           next: (res) => {
             if (res) {
               const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-              alert(returnUrl);
               if (returnUrl) {
                 this.router.navigateByUrl(returnUrl);
               } else {
@@ -75,7 +72,6 @@ export class LoginComponent implements OnInit {
         });
       }
 
-      // KHÔNG navigate /login ở đây nữa
     }
   }
 

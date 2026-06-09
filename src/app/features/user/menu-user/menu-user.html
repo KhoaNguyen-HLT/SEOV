@@ -1,7 +1,6 @@
-<div nz-row [nzGutter]="16">
+<!-- <div nz-row [nzGutter]="16">
   <div nz-col class="gutter-row" [nzSpan]="4">
     <button nz-button class="btn-big" nzType="primary" (click)="create_user()">
-      <!-- <span nz-icon nzType="form"></span> -->
        <span><img src="/assets/img/common/pen_11116007.png" alt=""  width="23" style="margin-right: 6px;"></span>
       <span>Tạo User</span>
     </button>
@@ -9,12 +8,40 @@
   <div nz-col class="gutter-row" [nzSpan]="4">
     <div class="inner-box">
       <button class="btn-big" nz-button nzType="primary" (click)="list_users()">
-        <!-- <span nz-icon nzType="check"></span> -->
         <span><img src="/assets/img/common/list.png" alt=""  width="23" style="margin-right: 6px;"></span>
         Danh sách User
       </button>
     </div>
   </div>
   <router-outlet></router-outlet>
+</div> -->
+
+<div class="menu-container">
+
+    <div class="menu-header">
+        <h2>User Managerment</h2>
+        <span>Admin Control System</span>
+    </div>
+
+    <div class="menu-grid">
+
+        <button nz-button nzType="default" class="menu-btn create-btn" (click)="create_user()">
+            <span nz-icon nzType="file"></span>
+            Tạo Mới User
+        </button>
+
+        <button nz-button nzType="default" class="menu-btn report-btn" (click)="list_users()">
+             <span nz-icon nzType="user"></span>
+             Danh sách User
+        </button>
+
+        <!-- <button nz-button nzType="default" class="menu-btn trace-btn">
+            <span nz-icon nzType="search"></span>
+            Truy vết lịch sử
+        </button> -->
+
+
+    </div>
+
 </div>
 

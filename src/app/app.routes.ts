@@ -10,7 +10,6 @@ export const routes: Routes = [
   {
     path: 'mobile',
     canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
     loadComponent: () =>
       import('./layout/mobile-layout/mobile-layout')
         .then(m => m.MobileLayoutComponent),
