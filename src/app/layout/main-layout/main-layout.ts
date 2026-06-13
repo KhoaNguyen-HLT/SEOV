@@ -104,12 +104,20 @@ export class MainLayoutComponent {
     this.router.navigate(['/welcome/device']);
   }
 
-
+// QA department
   IQC() {
     this.router.navigate(['/welcome/qa/se-qa-iqc']);
   }
-
+// Pu department
   CFR() {
     this.router.navigate(['/welcome/pu/se-pu-cfr']);
+  }
+// MF department
+  mfMaterialRequest() {
+    this.router.navigate(['/welcome/mf-order-material/mf-order-request']);
+  }
+// PE department
+  BOM() {
+    this.router.navigate(['/welcome/pe/se-pe-bom']);
   }
 }

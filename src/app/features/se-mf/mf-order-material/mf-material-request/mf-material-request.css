@@ -1,0 +1,107 @@
+.table-container {
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.table-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.action-cell {
+  display: flex;
+  gap: 6px;
+}
+
+.btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.btn-view:hover {
+  color: #1890ff;
+  cursor: pointer;
+}
+
+.btn-edit:hover {
+  color: #faad14;
+}
+
+.btn-delete:hover {
+  color: #ff4d4f;
+}
+
+
+.ag-theme-alpine .ag-cell:focus {
+  outline: none;
+}
+
+.ag-theme-alpine .ag-cell-focus {
+  border: none;
+}
+
+.search-header {
+  background: #ffffff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+
+  /* bóng nhẹ */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  /* border subtle */
+  border: 1px solid #f0f0f0;
+}
+
+/* label rõ ràng hơn */
+.search-header .ant-form-item-label>label {
+  font-weight: 500;
+  color: #333;
+}
+
+/* input, select, date */
+.search-header .ant-input,
+.search-header .ant-select-selector,
+.search-header .ant-picker {
+  border-radius: 6px !important;
+}
+
+/* focus đẹp hơn */
+.search-header .ant-input:focus,
+.search-header .ant-select-focused .ant-select-selector,
+.search-header .ant-picker-focused {
+  border-color: #4d7af6;
+  box-shadow: 0 0 0 2px rgba(77, 122, 246, 0.15);
+}
+
+/* spacing form item */
+.form-item {
+  margin-bottom: 12px;
+}
+
+/* button search */
+.search-header button[nzType="primary"] {
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* hover nhẹ */
+.search-header button[nzType="primary"]:hover {
+  background: #3c63d6;
+}
+
+.detail-form input[nz-input] {
+  width: 100%;
+}
+
+.ant-form-item-label {
+  text-align: left !important;
+  justify-content: flex-start;
+
+}

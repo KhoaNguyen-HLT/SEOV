@@ -22,7 +22,7 @@
       </li>
       <li nz-submenu nzTitle="MF" nzIcon="database">
         <ul>
-          <li nz-menu-item>Quản lý Order NVL</li>
+          <li nz-menu-item (click)="mfMaterialRequest()">Quản lý Order NVL</li>
         </ul>
       </li>
       <li nz-submenu nzTitle="PM" nzIcon="home">
@@ -42,6 +42,11 @@
       <li nz-submenu nzTitle="PU" nzIcon="shopping-cart">
         <ul>
           <li nz-menu-item (click)="CFR()">CFR</li>
+        </ul>
+      </li>
+            <li nz-submenu nzTitle="PE" nzIcon="build">
+        <ul>
+          <li nz-menu-item (click)="BOM()">Quản lý BOM</li>
         </ul>
       </li>
       <li nz-submenu nzTitle="COMMON" nzIcon="check">
