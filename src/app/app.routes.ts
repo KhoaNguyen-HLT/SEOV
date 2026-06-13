@@ -108,6 +108,11 @@ export const routes: Routes = [
           import('./features/se-qa/se-qa.routes').then(m => m.seQaRoutes)
       },
       {
+        path: 'pu',
+        loadChildren: () =>
+          import('./features/se-pu/se-pu.routes').then(m => m.sePuRoutes)
+      },
+      {
         path: 'material',
         loadChildren: () =>
           import('./features/se-material/se-material.routes').then(m => m.materialRoutes)

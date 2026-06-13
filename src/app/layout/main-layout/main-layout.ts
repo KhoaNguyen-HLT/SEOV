@@ -108,4 +108,8 @@ export class MainLayoutComponent {
   IQC() {
     this.router.navigate(['/welcome/qa/se-qa-iqc']);
   }
+
+  CFR() {
+    this.router.navigate(['/welcome/pu/se-pu-cfr']);
+  }
 }

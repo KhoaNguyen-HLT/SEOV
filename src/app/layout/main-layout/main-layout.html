@@ -1,4 +1,4 @@
-<nz-layout style="height: 100vh">
+<nz-layout style="height: auto; min-height: 100vh;">
   <!-- Sidebar -->
   <nz-sider nzCollapsible nzWidth="220px">
     <div class="logo">
@@ -37,6 +37,11 @@
         <ul>
           <li nz-menu-item (click)="IQC()">IQC</li>
           <!-- <li nz-menu-item>New Project</li> -->
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="PU" nzIcon="shopping-cart">
+        <ul>
+          <li nz-menu-item (click)="CFR()">CFR</li>
         </ul>
       </li>
       <li nz-submenu nzTitle="COMMON" nzIcon="check">

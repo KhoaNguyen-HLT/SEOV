@@ -1,0 +1,124 @@
+import { Component } from '@angular/core';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzButtonModule, NzButtonSize } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { CommonModule } from '@angular/common';
+import { SePuService } from '../se-pu.service';
+import { PopupService } from '../../../shared/service/popup.service';
+import { Observable } from 'rxjs';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import dayjs from 'dayjs';
+
+@Component({
+  selector: 'app-user',
+  standalone: true,
+  imports: [FormsModule,
+    NzFormModule,
+    NzGridModule,
+    NzButtonModule,
+    NzInputModule,
+    NzSliderModule,
+    NzDividerModule,
+    NzIconModule,
+    NzUploadModule,
+    NzSelectModule,
+    CommonModule,
+    ReactiveFormsModule,
+    NzEmptyModule,
+    NzDatePickerModule
+  ],
+  templateUrl: './se-pu-cfr-getData.html',
+  styleUrls: ['./se-pu-cfr-getData.css']
+})
+export class sePuCfrGetDataComponent {
+  form!: FormGroup;
+  user = '';
+  msType = '';
+  program = true;
+  router: any;
+  selectedFile: File | null = null;
+  fileName1: string = '';
+  fileName2: string = '';
+  lotData: any[] = [];
+
+  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService) { }
+  ngOnInit() {
+    this.form = this.fb.group({
+       month: [new Date()]
+    });
+    // this.searchForm.get('program')?.valueChanges.subscribe(value => {
+    //   if (value !== 'M') {
+    //     this.searchForm.patchValue({
+    //       lotA: null
+    //     });
+    //   }
+    // });
+
+    // this.getDataLot();
+  }
+
+  fileList: File[] = [];
+
+
+  beforeUpload = (
+    file: NzUploadFile,
+    fileList: NzUploadFile[]
+  ): boolean => {
+    const realFile = file as unknown as File;
+
+    const isExcel =
+      realFile.name.endsWith('.xlsx') ||
+      realFile.name.endsWith('.xls');
+
+    if (!isExcel) {
+      return false;
+    }
+
+    this.fileList = [...this.fileList, realFile];
+
+    return false;
+  };
+
+  removeFile(index: number): void {
+    this.fileList.splice(index, 1);
+    this.fileList = [...this.fileList];
+  }
+
+  formatFileSize(size: number): string {
+    if (size < 1024) return size + ' B';
+    if (size < 1 * 1024) return (size / 1024).toFixed(1) + ' KB';
+    return (size / 1024 / 1024).toFixed(1) + ' MB';
+  }
+
+  upload(): void {
+    const formData = new FormData();
+   const month = dayjs(this.form.value.month).format('YYYY-MM');
+
+    this.fileList.forEach(file => {
+      formData.append('files', file);
+    });
+    console.log(formData.getAll('files'));
+    console.log(month);
+
+    this.SePuService.getTransData(formData, month).subscribe({
+      next: (response) => {
+        this.popupService.success('Xử lý dữ liệu thành công!');
+        console.log(response);
+      },
+      error: (error) => {
+        this.popupService.error('Xử lý dữ liệu thất bại!');
+        console.error(error);
+      }
+    });
+  }
+
+}
