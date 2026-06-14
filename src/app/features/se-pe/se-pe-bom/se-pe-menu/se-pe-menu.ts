@@ -31,6 +31,10 @@ export class sePeMenuComponent {
     this.router.navigate(['/welcome/pe/se-pe-bom/se-pe-menu']);
   }
 
+  openUpdateBom (){
+    this.router.navigate(['/welcome/pe/se-pe-bom/se-pe-updateBom']);
+  }
+
   // getMasterData() {
   //   this.router.navigate(['/welcome/pe/se-pe-cfr-getMasterData']);
   // }

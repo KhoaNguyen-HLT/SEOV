@@ -8,6 +8,12 @@ export const sePeRoutes: Routes = [
     loadComponent: () =>
       import('./se-pe-bom/se-pe-menu/se-pe-menu')
         .then(m => m.sePeMenuComponent),
+  },
+  {
+    path: 'se-pe-bom/se-pe-updateBom',
+    loadComponent: () =>
+      import('./se-pe-bom/se-pe-updateBom/se-pe-update-Bom')
+        .then(m => m.sePeUpdateBomComponent),
   }
 
 ];

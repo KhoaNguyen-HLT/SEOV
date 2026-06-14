@@ -1,0 +1,60 @@
+<div class="page">
+  <div class="card">
+    <form [formGroup]="form">
+      <div class="card-header">
+        <div class="header-info">
+          <h2>Import Data Transaction</h2>
+          <p>Chọn file Excel-Bom để xử lý</p>
+        </div>
+
+        <div class="header-action">
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            [disabled]="fileList.length === 0"
+            (click)="upload()"
+          >
+            Update BOM
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="upload-box">
+      <nz-upload
+        nzType="drag"
+        [nzBeforeUpload]="beforeUpload"
+        [nzShowUploadList]="false"
+        accept=".xlsx,.xls"
+      >
+        <p class="upload-icon">
+          <span nz-icon nzType="inbox"></span>
+        </p>
+
+        <p class="upload-title">Kéo thả file Excel vào đây</p>
+        <p class="upload-desc">Hoặc bấm để chọn file từ máy tính</p>
+      </nz-upload>
+    </div>
+
+    <div class="file-section" *ngIf="fileList.length > 0">
+      <div class="file-section-header">
+        <h3>File đã chọn</h3>
+      </div>
+
+      <div class="file-list">
+        <div class="file-item">
+          <div class="file-left">
+            <div class="file-icon">📄</div>
+
+            <div>
+              <div class="file-name">{{ fileList[0].name }}</div>
+            </div>
+          </div>
+
+          <button nz-button nzType="text" nzDanger (click)="removeFile()">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
