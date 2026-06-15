@@ -12,7 +12,7 @@ import { getDefaultAutoSelectFamily } from 'net';
 })
 export class MfMaterialService {
 
-  private baseUrl = environment.apiUrl + "/pu/cfr";
+  private baseUrl = environment.apiUrl + "/mf";
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
@@ -26,10 +26,9 @@ export class MfMaterialService {
       );
   }
 
-  getTransData(formData: any, month: string): Observable<any> {
+  getZCodeData(zCode: string): Observable<any> {
     this.loadingService.show();
-    const params = new HttpParams().set('month', month);
-    return this.http.post(`${this.baseUrl}/getTransData`, formData, { params })
+    return this.http.get(`${this.baseUrl}/getZCodeData`, { params: { zCode } })
       .pipe(
         finalize(() => {
           this.loadingService.hide();
@@ -38,8 +37,6 @@ export class MfMaterialService {
   }
 
   
-  
-
   getData(payload: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/getData`, { params: payload });
   }

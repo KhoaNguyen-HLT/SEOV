@@ -8,13 +8,13 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { ActionCellComponent } from '../../../shared/components/action-cell/action-cell';
 import dayjs from 'dayjs';
-import { NzModalComponent } from "ng-zorro-antd/modal";
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { SePuService } from '../se-pu.service';
+import { SePuService } from '../se-pu.service'; 
+import { ClientSideRowModelModule } from 'ag-grid-community';
+import { CsvExportModule} from 'ag-grid-community';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule, CsvExportModule]);
 
 @Component({
   standalone: true,
@@ -39,7 +39,8 @@ export class sePuCfrReportComponent {
     { field: 'qty_xuat_8', width: 150 },
     { field: 'qty_xuat_9', width: 150 },
     { field: 'qty_xuat_10', width: 150 },
-    { field: 'qty_xuat_11', width: 150 }
+    { field: 'qty_xuat_11', width: 150 },
+    { field: 'toncuoi', width: 150 }
 
 
 
@@ -114,9 +115,9 @@ export class sePuCfrReportComponent {
 
 
   exportExcel() {
-    this.gridApi.exportDataAsExcel({
-      fileName: 'danh-sach.xlsx',
-      sheetName: 'Users'
+    this.gridApi.exportDataAsCsv({
+      fileName: 'Report_15.csv',
+      sheetName: 'report'
     });
   }
   onGridReady(params: any) {
@@ -131,10 +132,10 @@ export class sePuCfrReportComponent {
     };
     this.gridApi = params.api;
     console.log(payload);
-    // this.sePuService.getData(payload).subscribe((res) => {
-    //   console.log(res);
-    //   this.gridApi.setGridOption('rowData', res.data);
-    // });
+    this.sePuService.getData(payload).subscribe((res) => {
+      console.log(res);
+      this.gridApi.setGridOption('rowData', res.data);
+    });
   }
 
 

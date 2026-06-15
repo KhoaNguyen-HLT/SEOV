@@ -1,5 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { Component, enableProdMode, provideZoneChangeDetection } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -20,7 +21,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   standalone: true,
   selector: 'app-mf-material-request',
   imports: [
-    AgGridAngular, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzDatePickerModule, ReactiveFormsModule, NzModalModule
+    AgGridAngular, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzDatePickerModule, ReactiveFormsModule, NzModalModule, CommonModule
   ],
   templateUrl: './mf-material-request.html',
   styleUrl: './mf-material-request.css',
@@ -29,6 +30,7 @@ export class MfMaterialRequestComponent {
   searchForm!: FormGroup;
   detailform!: FormGroup;
   rowData: any[] = [];
+  zCode: { id: number; name: string }[] = [];
   columnDefs = [
     { field: 'item_code', filter: true, sortable: true, width: 150 },
     { field: 'item_namev' },
@@ -70,11 +72,19 @@ export class MfMaterialRequestComponent {
   constructor(private MfMaterialService: MfMaterialService, private fb: FormBuilder) { }
   ngOnInit() {
     this.searchForm = this.fb.group({
-      reportName: [null],
-      month: [new Date()]
+      department: [null],
+      date: [new Date()],
+      zCode: [null]
     });
 
+    this.zCode = [
+      { id: 1, name: 'Z001' },
+      { id: 2, name: 'Z002' }
+    ];
+    
+
   }
+  
 
   // onSearch() {
   //   const raw = this.searchForm.value;
@@ -98,8 +108,8 @@ export class MfMaterialRequestComponent {
     this.gridApi.setGridOption('rowData', []);
     const payload = {
       ...raw,
-      reportName: raw.reportName ? raw.reportName : '',
-      month: raw.month ? dayjs(raw.month).format('YYYY-MM') : null
+      department: raw.department ? raw.department : '',
+      date: raw.date ? dayjs(raw.date).format('YYYY-MM-DD') : null
     };
 
     console.log(payload);
@@ -112,21 +122,24 @@ export class MfMaterialRequestComponent {
   }
 
 
-
-  exportExcel() {
-    this.gridApi.exportDataAsExcel({
-      fileName: 'danh-sach.xlsx',
-      sheetName: 'Users'
+  getZCodeData() {
+    const zCode = this.searchForm.get('zCode')?.value;
+    // call API lấy data từ database
+    this.MfMaterialService.getZCodeData(zCode).subscribe(res => {
+      console.log(res);
+      this.zCode = res.data;
     });
   }
+
+
   onGridReady(params: any) {
     const raw = this.searchForm.value;
 
     const payload = {
       ...raw,
-      reportName: raw.reportName ? raw.reportName : '',
-      month: raw.month
-        ? dayjs(raw.month).format('YYYY-MM')
+      department: raw.department ? raw.department : '',
+      date: raw.date
+        ? dayjs(raw.date).format('YYYY-MM-DD')
         : null
     };
     this.gridApi = params.api;
