@@ -43,8 +43,8 @@
         <nz-form-item>
           <nz-form-label>Phòng ban</nz-form-label>
           <nz-form-control>
-            <nz-select formControlName="sections">
-              <nz-option *ngFor="let d of sections" [nzValue]="d.id" [nzLabel]="d.name"></nz-option>
+            <nz-select formControlName="department">
+              <nz-option *ngFor="let d of departments" [nzValue]="d.id" [nzLabel]="d.departmentCode"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -54,8 +54,8 @@
         <nz-form-item>
           <nz-form-label>Chức vụ</nz-form-label>
           <nz-form-control>
-            <nz-select formControlName="positionId">
-              <nz-option *ngFor="let p of positions" [nzValue]="p.id" [nzLabel]="p.name"></nz-option>
+            <nz-select formControlName="position">
+              <nz-option *ngFor="let p of positions" [nzValue]="p.id" [nzLabel]="p.positionCode + ' - ' + p.positionName"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -65,8 +65,8 @@
         <nz-form-item>
           <nz-form-label>Quyền</nz-form-label>
           <nz-form-control>
-            <nz-select nzMode="multiple" formControlName="roleIds">
-              <nz-option *ngFor="let r of roles" [nzValue]="r.id" [nzLabel]="r.name"></nz-option>
+            <nz-select nzMode="multiple" formControlName="role">
+              <nz-option *ngFor="let r of roles" [nzValue]="r.id" [nzLabel]="r.code"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>

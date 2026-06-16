@@ -53,7 +53,7 @@ export class sePuCfrGetDataComponent {
   constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService) { }
   ngOnInit() {
     this.form = this.fb.group({
-       month: [new Date()]
+      month: [new Date()]
     });
     // this.searchForm.get('program')?.valueChanges.subscribe(value => {
     //   if (value !== 'M') {
@@ -101,7 +101,7 @@ export class sePuCfrGetDataComponent {
 
   upload(): void {
     const formData = new FormData();
-   const month = dayjs(this.form.value.month).format('YYYY-MM');
+    const month = dayjs(this.form.value.month).format('YYYY-MM');
 
     this.fileList.forEach(file => {
       formData.append('files', file);
@@ -111,8 +111,14 @@ export class sePuCfrGetDataComponent {
 
     this.SePuService.getTransData(formData, month).subscribe({
       next: (response) => {
-        this.popupService.success('Xử lý dữ liệu thành công!');
-        console.log(response);
+        if (response.message === 'Success') {
+          this.popupService.success('Xử lý dữ liệu thành công!');
+          console.log(response);
+        }
+        else {
+          this.popupService.error('Xử lý dữ liệu thất bại!');
+          console.log(response);
+        }
       },
       error: (error) => {
         this.popupService.error('Xử lý dữ liệu thất bại!');

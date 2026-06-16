@@ -8,6 +8,7 @@ import { environment } from '../../core/environments/environments';
 })
 export class UserService {
   private baseUrl = environment.apiUrl + "/users";
+  private baseUrlAuth = environment.apiUrl + "/auth";
 
   constructor(private http: HttpClient) { }
 
@@ -19,4 +20,19 @@ export class UserService {
   getUsers(): Observable<any> {
     return this.http.get(`${this.baseUrl}/getUsers`);
   }
+
+
+  getAllRole(): Observable<any> {
+    return this.http.get(`${this.baseUrlAuth}/getAllRole`);
+  }
+
+  getDepartment(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getDepartment`);
+  }
+
+  getPosition(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getPosition`);
+  }
+
+
 }

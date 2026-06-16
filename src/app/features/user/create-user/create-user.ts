@@ -16,6 +16,7 @@ import { ButtonPrimary } from '../../../shared/components/button-primary/button-
 import { PopupService } from '../../../shared/service/popup.service';
 import { LoadingService } from '../../../shared/service/loading.service';
 import { AuthService } from '../../../core/auth/service/auth.service';
+import { getRandomValues } from 'crypto';
 
 @Component({
   selector: 'create-user',
@@ -38,9 +39,9 @@ export class CreateUserComponent implements OnInit {
   form!: FormGroup;
   isLoading$!: Observable<boolean>;
 
-  sections: { id: number; name: string }[] = [];
-  positions: { id: number; name: string }[] = [];
-  roles: { id: number; name: string }[] = [];
+  departments: { id: number; departmentCode: string }[] = [];
+  positions: { id: number; positionCode: string, positionName: string  }[] = [];
+  roles: { id: number; code: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -59,13 +60,15 @@ export class CreateUserComponent implements OnInit {
       password: ['', Validators.required],
       name: [''],
       email: ['', Validators.email],
-      sections: [null],
-      positionId: [null],
-      roleIds: [[]]
+      department: [null],
+      position: [null],
+      role: [[]]
     });
 
     this.getUserInfor();
-    this.loadData();
+    this.getAllRole();
+    this.getDepartment();
+    this.getPosition();
   }
 
   getUserInfor(): void {
@@ -76,33 +79,20 @@ export class CreateUserComponent implements OnInit {
 
   loadData() {
     // fake data (sau này gọi API)
-    this.sections = [
-      { id: 1, name: 'IT' },
-      { id: 2, name: 'HR' }
-    ];
+    // this.departments = [
+    //   { id: 1, name: 'IT' },
+    //   { id: 2, name: 'HR' }
+    // ];
 
-    this.positions = [
-      { id: 1, name: 'Manager' },
-      { id: 2, name: 'Staff' }
-    ];
+    // this.positions = [
+    //   { id: 1, name: 'Manager' },
+    //   { id: 2, name: 'Staff' }
+    // ];
 
-    this.roles = [
-      { id: 1, name: 'ADMIN' },
-      { id: 2, name: 'USER' }
-    ];
+
   }
 
   submit() {
-    // if (this.form.invalid) return;
-    // var data = {
-    //   username: "3014130",
-    //   password: "12345",
-    //   name: "khoa",
-    //   email: "",
-    //   section: "1",
-    //   position: "1"
-    // }
-
     // console.log('Create user:', this.form.value);
     // console.log('Create user:', data);
     this.loadingService.show();
@@ -117,6 +107,40 @@ export class CreateUserComponent implements OnInit {
         console.error('Error creating user:', error);
         this.loadingService.hide();
         this.popupService.error('Lỗi khi tạo User');
+      }
+    });
+  }
+
+  getAllRole() {
+    this.userService.getAllRole().subscribe({
+      next: (res) => {
+        this.roles = res.data;
+        console.log(this.roles);
+
+      },
+      error: (error) => {
+        this.popupService.error('Lỗi tải dữ liệu quyền');
+      }
+    });
+  }
+  getDepartment() {
+    this.userService.getDepartment().subscribe({
+      next: (res) => {
+        this.departments = res.data;
+        console.log(this.departments);
+      },
+      error: (error) => {
+        this.popupService.error('Lỗi tải dữ liệu phòng ban');
+      }
+    });
+  }
+  getPosition() {
+    this.userService.getPosition().subscribe({
+      next: (res) => {
+        this.positions  = res.data;
+      },
+      error: (error) => {
+        this.popupService.error('Lỗi tải dữ liệu chức vụ');
       }
     });
   }
