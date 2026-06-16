@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  FormGroup,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzButtonModule, NzButtonSize } from 'ng-zorro-antd/button';
@@ -21,7 +27,8 @@ import dayjs from 'dayjs';
 @Component({
   selector: 'app-se-pu-cfr-get-master-data',
   standalone: true,
-  imports: [FormsModule,
+  imports: [
+    FormsModule,
     NzFormModule,
     NzGridModule,
     NzButtonModule,
@@ -34,10 +41,10 @@ import dayjs from 'dayjs';
     CommonModule,
     ReactiveFormsModule,
     NzEmptyModule,
-    NzDatePickerModule
+    NzDatePickerModule,
   ],
   templateUrl: './se-pu-cfr-getMasterData.html',
-  styleUrls: ['./se-pu-cfr-getMasterData.css']
+  styleUrls: ['./se-pu-cfr-getMasterData.css'],
 })
 export class sePuCfrGetMasterDataComponent {
   form!: FormGroup;
@@ -50,10 +57,15 @@ export class sePuCfrGetMasterDataComponent {
   fileName2: string = '';
   lotData: any[] = [];
 
-  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService) { }
+  constructor(
+    private message: NzMessageService,
+    private SePuService: SePuService,
+    private fb: FormBuilder,
+    private popupService: PopupService,
+  ) {}
   ngOnInit() {
     this.form = this.fb.group({
-      month: [null]
+      reportName: [null, Validators.required],
     });
     // this.searchForm.get('program')?.valueChanges.subscribe(value => {
     //   if (value !== 'M') {
@@ -68,16 +80,10 @@ export class sePuCfrGetMasterDataComponent {
 
   fileList: File[] = [];
 
-
-  beforeUpload = (
-    file: NzUploadFile,
-    fileList: NzUploadFile[]
-  ): boolean => {
+  beforeUpload = (file: NzUploadFile, fileList: NzUploadFile[]): boolean => {
     const realFile = file as unknown as File;
 
-    const isExcel =
-      realFile.name.endsWith('.xlsx') ||
-      realFile.name.endsWith('.xls');
+    const isExcel = realFile.name.endsWith('.xlsx') || realFile.name.endsWith('.xls');
 
     if (!isExcel) {
       return false;
@@ -100,17 +106,29 @@ export class sePuCfrGetMasterDataComponent {
   }
 
   upload(): void {
-    const formData = new FormData();
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control) => {
+        control.markAsDirty();
+        control.updateValueAndValidity();
+      });
 
-    this.fileList.forEach(file => {
+      this.message.error('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    const reportName = this.form.value.reportName;
+    const formData = new FormData();
+    this.fileList.forEach((file) => {
       formData.append('files', file);
     });
-    console.log(formData.getAll('files'));
 
-    this.SePuService.getMasterData(formData).subscribe({
+    this.SePuService.getMasterData(formData, reportName).subscribe({
       next: (response) => {
-        this.popupService.success('Xử lý dữ liệu thành công!');
-        console.log(response);
+        if(response.message === 'Success') {
+          this.popupService.success('Xử lý dữ liệu thành công!');
+        } else {
+          this.popupService.error('Xử lý dữ liệu thất bại, cần kiểm tra lại!');
+        }
       },
       error: (error) => {
         this.popupService.error('Xử lý dữ liệu thất bại!');
@@ -118,5 +136,4 @@ export class sePuCfrGetMasterDataComponent {
       }
     });
   }
-
 }

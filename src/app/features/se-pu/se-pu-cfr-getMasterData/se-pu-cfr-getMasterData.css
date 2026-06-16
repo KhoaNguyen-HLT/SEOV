@@ -160,10 +160,16 @@
     font-size: 14px;
 }
 
-.header-action {
+.header-action{
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+::ng-deep .header-select .ant-select-selector {
+  height: 42px !important;
+  align-items: center;
+  width: 80%;
 }
 
 .header-action nz-date-picker {

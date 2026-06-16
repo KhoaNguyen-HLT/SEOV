@@ -16,9 +16,10 @@ export class SePuService {
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
-  getMasterData(formData: any): Observable<any> {
+  getMasterData(formData: any, reportName: string): Observable<any> {
     this.loadingService.show();
-    return this.http.post(`${this.baseUrl}/getMasterData`, formData)
+    const params = new HttpParams().set('reportName', reportName);
+    return this.http.post(`${this.baseUrl}/getMasterData`, formData, { params })
       .pipe(
         finalize(() => {
           this.loadingService.hide();
