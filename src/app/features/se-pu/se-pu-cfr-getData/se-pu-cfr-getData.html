@@ -7,6 +7,14 @@
                     <h2>Import Data Transaction</h2>
                     <p>Chọn nhiều file Excel để hệ thống đọc và xử lý chung</p>
                 </div>
+                <div nz-col nzSpan="6" class="header-select">
+                    <nz-form-control>
+                        <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn loại báo cáo">
+                            <nz-option nzValue="15" nzLabel="Báo cáo 15"></nz-option>
+                            <!-- <nz-option nzValue="15a" nzLabel="Báo cáo 15a"></nz-option> -->
+                        </nz-select>
+                    </nz-form-control>
+                </div>
 
                 <div class="header-action">
                     <nz-date-picker formControlName="month" nzMode="month" nzFormat="yyyy-MM"

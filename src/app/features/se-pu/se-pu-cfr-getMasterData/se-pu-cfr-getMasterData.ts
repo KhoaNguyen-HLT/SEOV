@@ -124,7 +124,7 @@ export class sePuCfrGetMasterDataComponent {
 
     this.SePuService.getMasterData(formData, reportName).subscribe({
       next: (response) => {
-        if(response.message === 'Success') {
+        if(response.message === 'success') {
           this.popupService.success('Xử lý dữ liệu thành công!');
         } else {
           this.popupService.error('Xử lý dữ liệu thất bại, cần kiểm tra lại!');

@@ -169,3 +169,9 @@
 .header-action nz-date-picker {
     width: 180px;
 }
+
+::ng-deep .header-select .ant-select-selector {
+  height: 42px !important;
+  align-items: center;
+  width: 80%;
+}

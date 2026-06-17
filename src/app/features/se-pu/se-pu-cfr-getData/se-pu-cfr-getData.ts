@@ -53,7 +53,8 @@ export class sePuCfrGetDataComponent {
   constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService) { }
   ngOnInit() {
     this.form = this.fb.group({
-      month: [new Date()]
+      month: [new Date()],
+      reportName: [null, Validators.required]
     });
     // this.searchForm.get('program')?.valueChanges.subscribe(value => {
     //   if (value !== 'M') {
@@ -100,8 +101,19 @@ export class sePuCfrGetDataComponent {
   }
 
   upload(): void {
-    const formData = new FormData();
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control) => {
+        control.markAsDirty();
+        control.updateValueAndValidity();
+      });
+
+      this.message.error('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    const reportName = this.form.value.reportName;
     const month = dayjs(this.form.value.month).format('YYYY-MM');
+    const formData = new FormData();
 
     this.fileList.forEach(file => {
       formData.append('files', file);
@@ -109,9 +121,10 @@ export class sePuCfrGetDataComponent {
     console.log(formData.getAll('files'));
     console.log(month);
 
-    this.SePuService.getTransData(formData, month).subscribe({
+    this.SePuService.getTransData(formData, month, reportName).subscribe({
       next: (response) => {
-        if (response.message === 'Success') {
+        console.log(response);
+        if (response.message === 'success') {
           this.popupService.success('Xử lý dữ liệu thành công!');
           console.log(response);
         }
