@@ -85,6 +85,16 @@
   color: #1677ff;
 }
 
+
+.read_fileS {
+  background: linear-gradient(135deg, #a8e1e7, #b7eef6);
+}
+
+.read_fileS .anticon,
+.read_fileS span {
+  color: #1677ff;
+}
+
 /* ===== REPORT ===== */
 
 .report-btn {

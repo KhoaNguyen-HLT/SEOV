@@ -31,4 +31,8 @@ export class seQaIqcComponent {
     this.router.navigate(['/welcome/qa/se-qa-iqc-getData']);
   }
 
+  getDataS() {
+    this.router.navigate(['/welcome/qa/se-qa-iqc-getDataS']);
+  }
+
 }

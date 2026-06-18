@@ -17,7 +17,7 @@ import { PopupService } from '../../../shared/service/popup.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-user',
+  selector: 'app-qa-iqc-get-datas',
   standalone: true,
   imports: [FormsModule,
     NzFormModule,
@@ -33,10 +33,10 @@ import { Observable } from 'rxjs';
     ReactiveFormsModule,
     NzEmptyModule,
   ],
-  templateUrl: './se-qa-iqc-getData.html',
-  styleUrls: ['./se-qa-iqc-getData.css']
+  templateUrl: './se-qa-iqc-getDataS.html',
+  styleUrls: ['./se-qa-iqc-getDataS.css']
 })
-export class seQaIqcGetDataComponent {
+export class seQaIqcGetDataSComponent {
   searchForm!: FormGroup;
   reportForm!: FormGroup;
 
@@ -52,14 +52,14 @@ export class seQaIqcGetDataComponent {
   ngOnInit() {
     this.searchForm = this.fb.group({
       user: [null],
-      program: [null]
+      program: [null, [Validators.required]],
     });
     this.reportForm = this.fb.group({
       lotA: [null, Validators.required],
       lotB: [null, Validators.required],
       // lotNo: [null, Validators.required],
       program: [null, [Validators.required]],
-      msTypeRp: [null, [Validators.required]]
+      msTypeRp: [null]
     });
 
     // this.searchForm.get('program')?.valueChanges.subscribe(value => {
@@ -79,13 +79,13 @@ export class seQaIqcGetDataComponent {
     return false; // chặn auto upload
   };
 
-  upload() {
+  uploadS() {
     if (!this.selectedFile) return;
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     formData.append('user', this.searchForm.value.user);
     formData.append('program', this.searchForm.value.program);
-    console.log(formData);
+    console.log(this.searchForm.value.program);
     this.qaService.getDataExcel(formData).subscribe({
       next: (res) => {
         if (res.message === 'success') {
@@ -150,13 +150,6 @@ export class seQaIqcGetDataComponent {
   // bắt sự kiện thay đổi select chương trình.
   onProgramChange(value: string): void {
   this.getDataLot(value);
-  if(value !== 'M') {
-    this.program = false;
-  } else {
-    this.program = true;
-  }
-  console.log(value);
-  console.log(this.program);
 }
 
 }

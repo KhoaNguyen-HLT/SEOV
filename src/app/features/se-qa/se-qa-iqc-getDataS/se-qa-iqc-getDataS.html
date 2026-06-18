@@ -2,7 +2,7 @@
 
     <div class="card">
         <div class="menu-header">
-            <h2>IQC Managerment- dữ liệu Đa Tâm</h2>
+            <h2>IQC Managerment- dữ liệu Đơn Tâm</h2>
             <span>Factory Control System</span>
         </div>
 
@@ -14,10 +14,10 @@
 
                 <form nz-form [formGroup]="searchForm">
 
-                    <nz-select formControlName="program" nzAllowClear nzSize="large" nzPlaceHolder="Chọn chương trình đo"
-                        class="full-width">
-                        <nz-option nzValue="24MT" nzLabel="Đa Tâm 24 MT"></nz-option>
-                        <nz-option nzValue="12MT" nzLabel="Đa Tâm 12 MT"></nz-option>
+                    <nz-select formControlName="program" nzAllowClear nzSize="large"
+                        nzPlaceHolder="Chọn chương trình đo" class="full-width">
+                        <nz-option nzValue="LC-ULC" nzLabel="Đơn tâm LC-ULC"></nz-option>
+                        <nz-option nzValue="LC-SC" nzLabel="Đơn tâm LC-SC"></nz-option>
                     </nz-select>
 
                 </form>
@@ -45,7 +45,8 @@
                         </div>
 
                         <!-- Process -->
-                        <button nz-button nzType="primary" nzSize="large" [disabled]="!selectedFile" (click)="upload()">
+                        <button nz-button nzType="primary" nzSize="large" [disabled]="!selectedFile"
+                            (click)="uploadS()">
                             Xử lý file
                         </button>
 
@@ -73,24 +74,24 @@
                                 <nz-form-control>
                                     <nz-select formControlName="program" nzAllowClear nzSize="large"
                                         nzPlaceHolder="Chọn chương trình" (ngModelChange)="onProgramChange($event)">
-                                        <nz-option nzValue="24MT" nzLabel="Đa Tâm 24 MT"></nz-option>
-                                        <nz-option nzValue="12MT" nzLabel="Đa Tâm 12 MT"></nz-option>
+                                        <nz-option nzValue="LC-ULC" nzLabel="Đơn tâm LC-ULC"></nz-option>
+                                        <nz-option nzValue="LC-SC" nzLabel="Đơn tâm LC-SC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                        <!-- Type -->
+                        <!-- Type
                         <div nz-col [nzSpan]="5">
                             <nz-form-item>
                                 <nz-form-control>
                                     <nz-select formControlName="msTypeRp" nzAllowClear nzSize="large"
                                         nzPlaceHolder="Chọn kiểu đo">
                                         <nz-option nzValue="M" nzLabel="MASTER"></nz-option>
-                                        <nz-option nzValue="R" nzLabel="RANDOM"></nz-option>
+                                        <nz-option nzValue="R" nzLabel="RANDOM" *ngIf="program"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
-                        </div>
+                        </div> -->
 
                         <!-- LOT A -->
                         <div nz-col [nzSpan]="5">

@@ -16,5 +16,12 @@ export const seQaRoutes: Routes = [
       import('./se-qa-iqc-getData/se-qa-iqc-getData')
         .then(m => m.seQaIqcGetDataComponent),
   }
+  ,
+  {
+    path: 'se-qa-iqc-getDataS',
+    loadComponent: () =>
+      import('./se-qa-iqc-getDataS/se-qa-iqc-getDataS')
+        .then(m => m.seQaIqcGetDataSComponent),
+  }
 
 ];
