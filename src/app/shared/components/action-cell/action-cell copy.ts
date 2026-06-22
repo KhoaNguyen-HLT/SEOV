@@ -35,6 +35,7 @@ export class ActionCellComponent implements ICellRendererAngularComp {
     setupPermissions() {
         // Dễ dàng mở rộng
         const config = this.params?.colDef?.cellRendererParams || {};
+        console.log(config);
         this.showOpen = config.showOpen ?? true;
         this.showView = config.showView ?? true;
         this.showEdit = config.showEdit ?? true;
@@ -48,10 +49,12 @@ export class ActionCellComponent implements ICellRendererAngularComp {
     }
 
     onOpen() {
+        console.log(this.params);
         (this.params.context as any).componentParent.onOpen(this.params.data);
     }
 
     onView() {
+        console.log(this.params);
         (this.params.context as any).componentParent.onView(this.params.data);
     }
 

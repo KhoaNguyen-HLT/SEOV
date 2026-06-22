@@ -27,10 +27,23 @@ export class SePuService {
       );
   }
 
+  
+
   getTransData(formData: any, month: string, reportName: string): Observable<any> {
     this.loadingService.show();
     const params = new HttpParams().set('month', month).set('reportName', reportName);
     return this.http.post(`${this.baseUrl}/getTransData`, formData, { params })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+  getTransData15a(formData: any, month: string, reportName: string): Observable<any> {
+    this.loadingService.show();
+    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    return this.http.post(`${this.baseUrl}/getTransData15a`, formData, { params })
       .pipe(
         finalize(() => {
           this.loadingService.hide();

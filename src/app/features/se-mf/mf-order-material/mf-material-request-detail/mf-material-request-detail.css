@@ -1,0 +1,82 @@
+/* CONTAINER CHUNG */
+.table-container {
+  padding: 12px;
+  background: #f7f9fc;
+  border-radius: 10px;
+}
+
+/* SEARCH AREA */
+.search-header {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #f0f0f0;
+}
+
+/* TITLE */
+.grid-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 10px 0;
+  color: #1f1f1f;
+}
+
+/* AG GRID WRAPPER */
+.seov-grid {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.seov-grid .ag-cell {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.seov-grid .ag-header-cell-label {
+  font-weight: 600;
+}
+
+/* ACTION BAR */
+.action-bar {
+  margin-top: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 12px;
+  background: #fff;
+  border-radius: 8px;
+
+  border: 1px solid #f0f0f0;
+}
+
+/* LEFT INFO */
+.action-left {
+  font-size: 13px;
+  color: #666;
+}
+
+/* RIGHT BUTTONS */
+.action-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* BUTTON STYLE */
+.action-right button {
+  height: 34px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* SAVE BUTTON */
+.action-right button[nztype="primary"] {
+  background: #1677ff;
+}
+
+/* DANGER HOVER */
+.action-right button[nzdanger]:hover {
+  opacity: 0.9;
+}

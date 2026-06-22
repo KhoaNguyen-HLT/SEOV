@@ -1,12 +1,11 @@
 <div class="table-container">
-  <div class="table-title">Tạo Request Nhập Nguyên Vật Liệu</div>
-  <!-- 🔍 HEADER SEARCH -->
+  <!-- <div class="table-title">Tạo Yêu Cầu Nhập Nguyên Vật Liệu</div> -->
+
   <div class="search-header">
     <form nz-form [formGroup]="searchForm">
 
       <div nz-row [nzGutter]="16">
 
-        <!-- Line -->
         <div nz-col nzSpan="4">
           <nz-form-item class="form-item">
             <nz-form-label>Phòng ban</nz-form-label>
@@ -21,10 +20,9 @@
           </nz-form-item>
         </div>
 
-        <!-- Ngày đến -->
         <div nz-col nzSpan="3">
           <nz-form-item class="form-item">
-            <nz-form-label>Ngày</nz-form-label>
+            <nz-form-label>Ngày cần</nz-form-label>
             <nz-form-control>
               <nz-date-picker formControlName="date" nzMode="date" nzFormat="yyyy-MM-dd" nzPlaceHolder="Chọn ngày">
               </nz-date-picker>
@@ -34,59 +32,92 @@
 
         <div nz-col nzSpan="6">
           <nz-form-item>
-            <nz-form-label>Mã Z</nz-form-label>
+            <nz-form-label>Mã Z order</nz-form-label>
             <nz-form-control>
-              <nz-select nzMode="multiple" formControlName="zCode" nzPlaceHolder="Chọn mã Z">
-                <nz-option *ngFor="let r of zCode" [nzValue]="r.id" [nzLabel]="r.name"></nz-option>
+              <nz-select nzMode="multiple" formControlName="zCode" nzPlaceHolder="Chọn mã Z cần order">
+                <nz-option *ngFor="let r of zCode" [nzValue]="r.production_number" [nzLabel]="r.production_number">
+                </nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
         </div>
 
-        <!-- Keyword -->
-        <!-- <div nz-col nzSpan="4">
-          <nz-form-item class="form-item">
-            <nz-form-label>Từ khóa</nz-form-label>
+        <div nz-col nzSpan="5">
+          <nz-form-item>
+            <nz-form-label>Ghi chú</nz-form-label>
             <nz-form-control>
-              <input nz-input formControlName="keyword" placeholder="Tìm thiết bị, lỗi..." />
+              <input nz-input formControlName="remark" placeholder="Ghi chú phiếu order" />
             </nz-form-control>
           </nz-form-item>
-        </div> -->
-
-        <!-- Button -->
-        <div nz-col nzSpan="2">
-          <button nz-button nzType="primary" htmlType="submit" (click)="getData()">Search</button>
         </div>
+
+        <nz-space>
+          <button nz-button nzType="primary" (click)="getData()">
+            <span nz-icon nzType="search"></span>
+            Search
+          </button>
+
+          <button nz-button nzType="primary" (click)="createOrder()">
+            <span nz-icon nzType="file-add"></span>
+            Tạo Order
+          </button>
+        </nz-space>
 
       </div>
 
     </form>
   </div>
-  
-  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
-    [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }" [rowHeight]="42">
-  </ag-grid-angular>
+  <div>
 
-  <!-- <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết báo cáo" (nzOnCancel)="handleCancel()"
-    [nzFooter]="footerTemplate">
-    <ng-template #footerTemplate>
-      <button nz-button nzType="primary" (click)="handleCancel()">
-        Đóng
+  </div>
+
+  <div class="grid-title">
+    <!-- Danh sách NVL cần order theo mã Z -->
+  </div>
+
+  <div class="toolbar" [formGroup]="rvForm" nz-row [nzGutter]="24" style="margin-bottom: 3px;">
+    <div nz-col nzSpan="3" class="deleteRow">
+      <button nz-button nzType="default" type="button" (click)="removeSelectedRows()">
+        <span nz-icon nzType="delete"></span>
+        Xóa dòng đã chọn
       </button>
-    </ng-template>
-    <div>
-      Nội dung chi tiết báo cáo
+
     </div>
-  </nz-modal> -->
+    <div nz-col nzSpan="3" class="checkboxItem">
+
+      <button nz-button nzType="primary" type="button" nz-popconfirm (click)="addItem()" >
+        <span nz-icon nzType="plus"></span>
+        Thêm Item
+      </button>
+    </div>
+    <!-- <div nz-col nzSpan="8" class="checkboxItem">
+      <label class="check-item">
+        <input type="checkbox" formControlName="removeSub" />
+        NVL phụ
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox" formControlName="removePacking" />
+        Bao bì
+      </label>
+
+      <button nz-button nzDanger type="button" nz-popconfirm
+        nzPopconfirmTitle="Bạn có chắc chắn muốn loại bỏ các NVL đã chọn không?" (nzOnConfirm)="removeByType()">
+
+        <span nz-icon nzType="filter"></span>
+        Loại bỏ
+
+      </button>
+    </div> -->
 
 
 
 
 
+  </div>
 
-
-
-
-
+  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
+    [rowData]="rowData" [rowSelection]="rowSelection" (gridReady)="onGridReady($event)" [rowHeight]="42">
+  </ag-grid-angular>
 
 </div>

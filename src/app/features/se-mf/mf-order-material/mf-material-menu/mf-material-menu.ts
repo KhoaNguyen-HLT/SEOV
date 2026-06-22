@@ -31,5 +31,10 @@ export class MfMaterialMenuComponent {
     this.router.navigate(['/welcome/mf-order-material/mf-material-request']);
   }
 
+    createRequestList() {
+    this.router.navigate(['/welcome/mf-order-material/mf-material-list-request']);
+  }
+  
+
 
 }

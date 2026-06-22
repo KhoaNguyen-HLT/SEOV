@@ -26,9 +26,9 @@ export class MfMaterialService {
       );
   }
 
-  getZCodeData(zCode: string): Observable<any> {
+  getZCodeData(): Observable<any> {
     this.loadingService.show();
-    return this.http.get(`${this.baseUrl}/getZCodeData`, { params: { zCode } })
+    return this.http.get(`${this.baseUrl}/getZCodeData`)
       .pipe(
         finalize(() => {
           this.loadingService.hide();
@@ -37,9 +37,22 @@ export class MfMaterialService {
   }
 
   
-  getData(payload: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getData`, { params: payload });
+  getDataPu(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/getDataPu`, payload);
   }
+
+  
+
+  createOrder(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/createOrder`, payload);
+  }
+
+
+  getMaterialRequestData(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/getMaterialRequestData`, payload);
+  }
+
+  
 
 
   

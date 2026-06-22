@@ -11,7 +11,7 @@
           <nz-form-item class="form-item">
             <nz-form-label>reportName</nz-form-label>
             <nz-form-control>
-              <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn báo cáo">
+              <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn báo cáo" (ngModelChange)="onReportChange($event)">
                 <nz-option nzValue="15" nzLabel="Báo cáo 15"></nz-option>
                 <nz-option nzValue="15a" nzLabel="Báo cáo 15a"></nz-option>
                 <nz-option nzValue="16" nzLabel="Báo cáo 16"></nz-option>
@@ -56,6 +56,7 @@
   <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
     [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }" [rowHeight]="42">
   </ag-grid-angular>
+
 
   <!-- <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết báo cáo" (nzOnCancel)="handleCancel()"
     [nzFooter]="footerTemplate">

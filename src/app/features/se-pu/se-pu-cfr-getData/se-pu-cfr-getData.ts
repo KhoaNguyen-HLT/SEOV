@@ -120,24 +120,45 @@ export class sePuCfrGetDataComponent {
     });
     console.log(formData.getAll('files'));
     console.log(month);
-
-    this.SePuService.getTransData(formData, month, reportName).subscribe({
-      next: (response) => {
-        console.log(response);
-        if (response.message === 'success') {
-          this.popupService.success('Xử lý dữ liệu thành công!');
+    if (reportName == '15') {
+      this.SePuService.getTransData(formData, month, reportName).subscribe({
+        next: (response) => {
           console.log(response);
-        }
-        else {
+          if (response.message === 'success') {
+            this.popupService.success('Xử lý dữ liệu thành công!');
+            console.log(response);
+          }
+          else {
+            this.popupService.error('Xử lý dữ liệu thất bại!');
+            console.log(response);
+          }
+        },
+        error: (error) => {
           this.popupService.error('Xử lý dữ liệu thất bại!');
-          console.log(response);
+          console.error(error);
         }
-      },
-      error: (error) => {
-        this.popupService.error('Xử lý dữ liệu thất bại!');
-        console.error(error);
-      }
-    });
+      });
+    } else if(reportName == '15a') {
+      this.SePuService.getTransData15a(formData, month, reportName).subscribe({
+        next: (response) => {
+          console.log(response);
+          if (response.message === 'success') {
+            this.popupService.success('Xử lý dữ liệu thành công!');
+            console.log(response);
+          }
+          else {
+            this.popupService.error('Xử lý dữ liệu thất bại!');
+            console.log(response);
+          }
+        },
+        error: (error) => {
+          this.popupService.error('Xử lý dữ liệu thất bại!');
+          console.error(error);
+        }
+      });
+    }
+
+
   }
 
 }

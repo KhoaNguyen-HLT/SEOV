@@ -41,10 +41,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     NzSpaceModule
 
   ],
-  templateUrl: './mf-material-request.html',
-  styleUrl: './mf-material-request.css',
+  templateUrl: './mf-material-request-detail.html',
+  styleUrl: './mf-material-request-detail.css',
 })
-export class MfMaterialRequestComponent {
+export class MfMaterialRequestDetailComponent {
   userName: String = ''
   searchForm!: FormGroup;
   rvForm!: FormGroup;
@@ -91,6 +91,12 @@ export class MfMaterialRequestComponent {
       field: 'requestQty',
       width: 140,
       editable: true,
+    },
+        {
+      headerName: 'SL Xuất',
+      field: 'requestQty',
+      width: 140,
+      editable: true,
       cellEditor: 'agNumberCellEditor',
       cellStyle: {
         backgroundColor: '#fffbe6'
@@ -120,7 +126,7 @@ export class MfMaterialRequestComponent {
     headerCheckbox: true
   };
 
-  constructor(private MfMaterialService: MfMaterialService, private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService) { }
+  constructor( private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService) { }
   ngOnInit() {
     this.getUserInfor();
 
@@ -152,7 +158,7 @@ export class MfMaterialRequestComponent {
     this.rowData = [
       {
         itemCode: 'MAT0001',
-        item_name: 'Optical Fiber G652D',
+        itemName: 'Optical Fiber G652D',
         unit: 'M',
         requestQty: 5000,
         stock_qty: 12000,
@@ -164,7 +170,7 @@ export class MfMaterialRequestComponent {
       },
       {
         itemCode: 'MAT0002',
-        item_name: 'Connector SC/APC',
+        itemName: 'Connector SC/APC',
         unit: 'PCS',
         requestQty: 200,
         stock_qty: 1500,
@@ -175,7 +181,7 @@ export class MfMaterialRequestComponent {
       },
       {
         itemCode: 'MAT0003',
-        item_name: 'Heat Shrink Tube 40mm',
+        itemName: 'Heat Shrink Tube 40mm',
         unit: 'PCS',
         requestQty: 1000,
         stock_qty: 3500,
@@ -186,7 +192,7 @@ export class MfMaterialRequestComponent {
       },
       {
         itemCode: 'MAT0004',
-        item_name: 'PVC Jacket Black',
+        itemName: 'PVC Jacket Black',
         unit: 'KG',
         requestQty: 250,
         stock_qty: 800,
@@ -197,7 +203,7 @@ export class MfMaterialRequestComponent {
       },
       {
         itemCode: 'MAT0005',
-        item_name: 'Steel Wire 1.2mm',
+        itemName: 'Steel Wire 1.2mm',
         unit: 'KG',
         requestQty: 100,
         stock_qty: 450,
@@ -207,12 +213,6 @@ export class MfMaterialRequestComponent {
         status: 'true'
       }
     ];
-
-
-
-    setTimeout(() => {
-      this.getZCodeData();
-    }, 0);
 
 
   }
@@ -226,38 +226,12 @@ export class MfMaterialRequestComponent {
   }
 
 
-  getData() {
-    if (!this.searchForm.get('zCode')?.value) {
-      this.PopupService.error('Vui lòng chọn mã Z!');
-      return;
-    }
-    const raw = this.searchForm.value;
+  saveData() {
 
-    const payload = {
-      department: raw.department || '',
-      date: raw.date ? dayjs(raw.date).format('YYYY-MM-DD') : null,
-      remark: raw.remark || null,
-      zCode: raw.zCode
-    };
-
-    console.log(payload);
-    // call API lấy data từ database
-    this.MfMaterialService.getDataPu(payload).subscribe(res => {
-      if (res.text !== "OK") {
-        this.PopupService.error(res.text);
-      }
-    });
   }
 
 
-  getZCodeData() {
-    const zCode = this.searchForm.get('zCode')?.value;
-    // call API lấy data từ database
-    this.MfMaterialService.getZCodeData().subscribe(res => {
-      console.log(res);
-      this.zCode = res.data;
-    });
-  }
+
 
 
   onGridReady(params: any) {
@@ -265,88 +239,8 @@ export class MfMaterialRequestComponent {
     this.gridApi.setGridOption('rowData', this.rowData);
   }
 
+  Cancel() {
 
-  createOrder() {
-    const raw = this.searchForm.value;
-
-    if (!raw.department) {
-      this.PopupService.error('Vui lòng chọn phòng ban!');
-      return;
-    }
-
-    if (!raw.date) {
-      this.PopupService.error('Vui lòng chọn ngày cần NVL!');
-      return;
-    }
-
-    if (!raw.zCode || raw.zCode.length === 0) {
-      this.PopupService.error('Vui lòng chọn mã Z cần order!');
-      return;
-    }
-
-    if (!this.rowData || this.rowData.length === 0) {
-      this.PopupService.error('Không có dữ liệu NVL để tạo order!');
-      return;
-    }
-
-    const payload = {
-      department: raw.department,
-      requestDate: raw.date,
-      zCodes: raw.zCode,
-      remark: raw.remark,
-      details: this.rowData,
-      createdBy: this.userName
-    };
-
-    console.log('Payload tạo order:', payload);
-
-    this.MfMaterialService.createOrder(payload).subscribe(res => {
-      if (res.code === 200) {
-        this.PopupService.success('Tạo order thành công!');
-      }
-    });
-  };
-
-
-  removeSelectedRows() {
-    const selectedRows = this.gridApi.getSelectedRows();
-
-    if (selectedRows.length === 0) {
-      this.PopupService.error('Vui lòng chọn dữ liệu cần xóa!');
-      return;
-    }
-
-    const filteredRows: any[] = [];
-
-    this.gridApi.forEachNodeAfterFilterAndSort((node: any) => {
-      filteredRows.push(node.data);
-    });
-
-    this.rowData = this.rowData.filter(row =>
-      !(selectedRows.includes(row) && filteredRows.includes(row))
-    );
-
-    this.gridApi.setGridOption('rowData', this.rowData);
-    // gọi lại để load filter option
-    // this.gridApi.destroyFilter('process');
-    // this.gridApi.destroyFilter('materialType');
-    this.gridApi.setFilterModel(null);
-  }
-
-
-
-  addItem() {
-    console.log('thêm Item')
-    const newRow = {
-      item_code: '',
-      item_name: '',
-      qty: 0,
-      process: ''
-    };
-
-    this.gridApi.applyTransaction({
-      add: [newRow]
-    });
   }
 
 

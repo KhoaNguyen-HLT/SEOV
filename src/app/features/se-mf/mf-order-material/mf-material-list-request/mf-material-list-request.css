@@ -9,6 +9,10 @@
   font-weight: 600;
   margin-bottom: 10px;
 }
+.ag-theme-alpine.seov-grid {
+  font-weight: 400;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .action-cell {
   display: flex;
@@ -41,9 +45,8 @@
   outline: none;
 }
 
-.ag-theme-alpine .ag-cell-focus {
-  border: none;
-}
+
+
 
 .search-header {
   background: #ffffff;
@@ -68,6 +71,7 @@
 .search-header .ant-select-selector,
 .search-header .ant-picker {
   border-radius: 6px !important;
+  width: 100%;
 }
 
 /* focus đẹp hơn */
@@ -139,6 +143,38 @@
   font-weight: 600;
   margin-bottom: 10px;
 }
+
 .ant-col {
   height: 30px;
+}
+
+
+.seov-grid .ag-cell {
+  font-weight: 400;
+  font-size: 13px;
+  color: #262626;
+}
+
+.seov-grid {
+  font-weight: 400;
+  font-size: 13px;
+  color: #262626;
+}
+
+.search-header {
+  background: #f7f9fc;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+}
+
+.search-header .ant-input,
+.search-header .ant-select-selector,
+.search-header .ant-picker {
+  border-radius: 6px;
+}
+.table-container {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
 }

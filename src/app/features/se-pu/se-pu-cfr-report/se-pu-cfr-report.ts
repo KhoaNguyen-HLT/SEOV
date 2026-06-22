@@ -29,7 +29,8 @@ export class sePuCfrReportComponent {
   searchForm!: FormGroup;
   detailform!: FormGroup;
   rowData: any[] = [];
-  columnDefs = [
+  columnDefs: any[] = []; 
+  columnDefs15 = [
     { field: 'item_code', filter: true, sortable: true, width: 150 },
     { field: 'item_namev' },
     { field: 'cfr_unit', width: 100 },
@@ -42,20 +43,20 @@ export class sePuCfrReportComponent {
     { field: 'qty_xuat_11', width: 150 },
     { field: 'toncuoi', width: 150 }
 
+  ];
 
+    columnDefs15a = [
+    { field: 'item_code', filter: true, sortable: true, width: 150 },
+    { field: 'item_namev' },
+    { field: 'cfr_unit', width: 100 },
+    { field: 'tondau_5', width: 150 },
+    { field: 'qty_nhap_6', width: 150 },
+    { field: 'qty_nhap_7', width: 150 },
+    { field: 'qty_xuat_8', width: 150 },
+    { field: 'qty_xuat_9', width: 150 },
+    { field: 'qty_xuat_10', width: 150 },
+    { field: 'toncuoi', width: 150 }
 
-    // {
-    //   headerName: 'Action',
-    //   field: 'action',
-    //   cellRenderer: ActionCellComponent,
-    //   width: 100,
-    //   autoHeight: true,
-    //   cellRendererParams: {
-    //     showView: true,
-    //     showEdit: false,
-    //     showDelete: false
-    //   }
-    // }
   ];
 
   // khi click vào row nào thì select row đó
@@ -77,22 +78,6 @@ export class sePuCfrReportComponent {
 
   }
 
-  // onSearch() {
-  //   const raw = this.searchForm.value;
-
-  //   const payload = {
-  //     ...raw,
-  //     reportName: raw.reportName ? raw.reportName : '',
-  //     month: raw.month ? dayjs(raw.month).format('YYYY-MM') : null
-  //   };
-
-  //   console.log(payload);
-  //   // call API lấy data từ database
-  //   this.sePuService.getData(payload).subscribe(res => {
-  //     console.log(res);
-  //     this.gridApi.setGridOption('rowData', res.data);
-  //   });
-  // }
 
   getData() {
     const raw = this.searchForm.value;
@@ -132,11 +117,24 @@ export class sePuCfrReportComponent {
     };
     this.gridApi = params.api;
     console.log(payload);
-    this.sePuService.getData(payload).subscribe((res) => {
-      console.log(res);
-      this.gridApi.setGridOption('rowData', res.data);
-    });
+    // this.sePuService.getData(payload).subscribe((res) => {
+    //   console.log(res);
+    //   this.gridApi.setGridOption('rowData', res.data);
+    // });
   }
+
+
+  onReportChange(report: string) {
+  if (report === '15') {
+    this.columnDefs = this.columnDefs15;
+    this.gridApi.setGridOption('rowData', []);
+    console.log('15')
+  } else if (report === '15a') {
+    this.columnDefs = this.columnDefs15a;
+    this.gridApi.setGridOption('rowData', []);
+    console.log('15a')
+  }
+}
 
 
 }

@@ -13,6 +13,7 @@ import { TokenStorageService } from './token-storage.service';
 export class AuthService {
   role: string[] = [];
   permissions: string[] = [];
+  userName: String = ''
 
   private API_URL = environment.apiUrl + "/auth";
 
@@ -45,7 +46,9 @@ export class AuthService {
     if (!token) return;
 
     const decoded: any = jwtDecode(token);
+    console.log(token);
 
+    this.userName = decoded.userName;
     this.role = decoded.role || [];
     this.permissions = decoded.permissions || [];
   }

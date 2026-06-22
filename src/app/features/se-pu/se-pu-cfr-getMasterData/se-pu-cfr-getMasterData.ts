@@ -62,7 +62,7 @@ export class sePuCfrGetMasterDataComponent {
     private SePuService: SePuService,
     private fb: FormBuilder,
     private popupService: PopupService,
-  ) {}
+  ) { }
   ngOnInit() {
     this.form = this.fb.group({
       reportName: [null, Validators.required],
@@ -121,10 +121,11 @@ export class sePuCfrGetMasterDataComponent {
     this.fileList.forEach((file) => {
       formData.append('files', file);
     });
+    console.log(reportName);
 
     this.SePuService.getMasterData(formData, reportName).subscribe({
       next: (response) => {
-        if(response.message === 'success') {
+        if (response.message === 'success') {
           this.popupService.success('Xử lý dữ liệu thành công!');
         } else {
           this.popupService.error('Xử lý dữ liệu thất bại, cần kiểm tra lại!');
@@ -135,5 +136,9 @@ export class sePuCfrGetMasterDataComponent {
         console.error(error);
       }
     });
+
+
+
+
   }
 }
