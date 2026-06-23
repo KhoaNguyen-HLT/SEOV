@@ -62,7 +62,7 @@ export class sePeUpdateBomComponent {
     private SePeService: SePeService,
     private fb: FormBuilder,
     private popupService: PopupService,
-  ) {}
+  ) { }
   ngOnInit() {
     this.form = this.fb.group({
       month: [new Date()],
@@ -110,8 +110,13 @@ export class sePeUpdateBomComponent {
 
     this.SePeService.getBomData(formData).subscribe({
       next: (response) => {
-        this.popupService.success('Xử lý dữ liệu thành công!');
-        console.log(response);
+        if (response.message == "success") {
+          this.popupService.success('Xử lý dữ liệu thành công!');
+          console.log(response);
+        } else {
+          this.popupService.error('Có lỗi xảy ra, vui lòng thử lại');
+          console.log(response);
+        }
       },
       error: (error) => {
         this.popupService.error('Xử lý dữ liệu thất bại!');

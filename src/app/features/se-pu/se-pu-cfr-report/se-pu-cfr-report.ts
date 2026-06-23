@@ -10,9 +10,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import dayjs from 'dayjs';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { SePuService } from '../se-pu.service'; 
+import { SePuService } from '../se-pu.service';
 import { ClientSideRowModelModule } from 'ag-grid-community';
-import { CsvExportModule} from 'ag-grid-community';
+import { CsvExportModule } from 'ag-grid-community';
 
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule, CsvExportModule]);
 
@@ -29,7 +29,7 @@ export class sePuCfrReportComponent {
   searchForm!: FormGroup;
   detailform!: FormGroup;
   rowData: any[] = [];
-  columnDefs: any[] = []; 
+  columnDefs: any[] = [];
   columnDefs15 = [
     { field: 'item_code', filter: true, sortable: true, width: 150 },
     { field: 'item_namev' },
@@ -45,7 +45,7 @@ export class sePuCfrReportComponent {
 
   ];
 
-    columnDefs15a = [
+  columnDefs15a = [
     { field: 'item_code', filter: true, sortable: true, width: 150 },
     { field: 'item_namev' },
     { field: 'cfr_unit', width: 100 },
@@ -98,6 +98,25 @@ export class sePuCfrReportComponent {
   }
 
 
+  updateOpenInventory() {
+    const raw = this.searchForm.value;
+    // const reportName = '15a'
+    const reportName = raw.reportName ? raw.reportName : '';
+    const month = raw.month ? dayjs(raw.month).format('YYYY-MM') : '';
+
+    const data = {
+      reportName,
+      month
+    };
+
+    console.log(data);
+    // call API lấy data từ database
+    this.sePuService.updateOpenInventory(data).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+
 
   exportExcel() {
     this.gridApi.exportDataAsCsv({
@@ -125,16 +144,16 @@ export class sePuCfrReportComponent {
 
 
   onReportChange(report: string) {
-  if (report === '15') {
-    this.columnDefs = this.columnDefs15;
-    this.gridApi.setGridOption('rowData', []);
-    console.log('15')
-  } else if (report === '15a') {
-    this.columnDefs = this.columnDefs15a;
-    this.gridApi.setGridOption('rowData', []);
-    console.log('15a')
+    if (report === '15') {
+      this.columnDefs = this.columnDefs15;
+      this.gridApi.setGridOption('rowData', []);
+      console.log('15')
+    } else if (report === '15a') {
+      this.columnDefs = this.columnDefs15a;
+      this.gridApi.setGridOption('rowData', []);
+      console.log('15a')
+    }
   }
-}
 
 
 }

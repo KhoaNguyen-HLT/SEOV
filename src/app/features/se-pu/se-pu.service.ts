@@ -58,6 +58,22 @@ export class SePuService {
     return this.http.get(`${this.baseUrl}/getData`, { params: payload });
   }
 
+
+  // updateOpenInventory(payload: any) {
+  //   return this.http.post(`${this.baseUrl}/updateOpenInventory`, { params: payload });
+  // }
+
+
+  updateOpenInventory( data: any): Observable<any> {
+    this.loadingService.show();
+    return this.http.post(`${this.baseUrl}/updateOpenInventory`, data)
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
   // getReport(lotA: string, lotB: string, program: string, msTypeRp: string): Observable<any> {
   //   this.loadingService.show();
   //   return this.http.post(`${this.baseUrl}/getReport`, null, { params: { lotA, lotB, program, msTypeRp } })

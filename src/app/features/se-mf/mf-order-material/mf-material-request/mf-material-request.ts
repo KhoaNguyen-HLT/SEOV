@@ -243,10 +243,21 @@ export class MfMaterialRequestComponent {
     console.log(payload);
     // call API lấy data từ database
     this.MfMaterialService.getDataPu(payload).subscribe(res => {
-      if (res.text !== "OK") {
+      console.log(res);
+      if (res.message == "success") {
+        this.PopupService.success("Lấy dữ liệu thành công");
+        this.getBomData(res.data[0].design_number)
+
+      } else {
         this.PopupService.error(res.text);
       }
     });
+  }
+
+
+
+  getBomData(design_number: string) {
+    console.log(design_number);
   }
 
 
@@ -348,6 +359,8 @@ export class MfMaterialRequestComponent {
       add: [newRow]
     });
   }
+
+
 
 
 
