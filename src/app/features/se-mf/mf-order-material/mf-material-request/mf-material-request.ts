@@ -54,18 +54,20 @@ export class MfMaterialRequestComponent {
   rowData: any[] = [];
   zCode: { production_number: string; registered_at: any }[] = [];
   remark: string = '';
+  product_code: string = '';
+  qtyOrder: number = 10;
   columnDefs: ColDef[] = [
-    {
-      headerName: 'Công Đoạn',
-      field: 'process',
-      width: 150,
-      filter: CheckboxFilterComponent,
-      sortable: true,
+    // {
+    //   headerName: 'Công Đoạn',
+    //   field: 'process',
+    //   width: 150,
+    //   filter: CheckboxFilterComponent,
+    //   sortable: true,
 
-    },
+    // },
     {
       headerName: 'Loại NVL',
-      field: 'materialType',
+      field: 'custom_mode',
       width: 150,
       filter: CheckboxFilterComponent,
       sortable: true,
@@ -73,22 +75,22 @@ export class MfMaterialRequestComponent {
     },
     {
       headerName: 'Mã NVL',
-      field: 'itemCode',
+      field: 'material_code',
       width: 150
     },
     {
       headerName: 'Tên NVL',
-      field: 'itemName',
+      field: 'material_name',
       flex: 1
     },
     {
       headerName: 'ĐVT',
-      field: 'unit',
+      field: 'eng_unit',
       width: 100
     },
     {
       headerName: 'SL Yêu Cầu',
-      field: 'requestQty',
+      field: 'qtyOrder',
       width: 140,
       editable: true,
       cellEditor: 'agNumberCellEditor',
@@ -149,65 +151,6 @@ export class MfMaterialRequestComponent {
     ];
 
 
-    this.rowData = [
-      {
-        itemCode: 'MAT0001',
-        item_name: 'Optical Fiber G652D',
-        unit: 'M',
-        requestQty: 5000,
-        stock_qty: 12000,
-        materialType: 'SUB',
-        remark: '',
-        process: 'ABCD',
-        status: 'true'
-
-      },
-      {
-        itemCode: 'MAT0002',
-        item_name: 'Connector SC/APC',
-        unit: 'PCS',
-        requestQty: 200,
-        stock_qty: 1500,
-        materialType: 'MAIN',
-        remark: '',
-        process: 'ADEF',
-        status: 'true'
-      },
-      {
-        itemCode: 'MAT0003',
-        item_name: 'Heat Shrink Tube 40mm',
-        unit: 'PCS',
-        requestQty: 1000,
-        stock_qty: 3500,
-        materialType: 'SUB',
-        remark: '',
-        process: 'BCCCC',
-        status: 'true'
-      },
-      {
-        itemCode: 'MAT0004',
-        item_name: 'PVC Jacket Black',
-        unit: 'KG',
-        requestQty: 250,
-        stock_qty: 800,
-        materialType: 'SUB',
-        remark: '',
-        process: 'BDDD',
-        status: 'true'
-      },
-      {
-        itemCode: 'MAT0005',
-        item_name: 'Steel Wire 1.2mm',
-        unit: 'KG',
-        requestQty: 100,
-        stock_qty: 450,
-        materialType: 'MAIN',
-        remark: '',
-        process: 'BDDD',
-        status: 'true'
-      }
-    ];
-
 
 
     setTimeout(() => {
@@ -258,6 +201,16 @@ export class MfMaterialRequestComponent {
 
   getBomData(design_number: string) {
     console.log(design_number);
+    this.product_code = design_number;
+
+    this.MfMaterialService.getBomData(design_number).subscribe(res => {
+      console.log(res);
+      this.rowData = res.data.map((item: any) => ({
+    ...item,
+    qtyOrder: (item.norm_seov * 3)
+  }));
+    });
+
   }
 
 
@@ -339,9 +292,8 @@ export class MfMaterialRequestComponent {
 
     this.gridApi.setGridOption('rowData', this.rowData);
     // gọi lại để load filter option
-    // this.gridApi.destroyFilter('process');
-    // this.gridApi.destroyFilter('materialType');
-    this.gridApi.setFilterModel(null);
+    this.gridApi.destroyFilter('custom_mode');
+
   }
 
 
@@ -358,6 +310,11 @@ export class MfMaterialRequestComponent {
     this.gridApi.applyTransaction({
       add: [newRow]
     });
+  }
+
+
+  onEnter(value: string) {
+    console.log(value);
   }
 
 

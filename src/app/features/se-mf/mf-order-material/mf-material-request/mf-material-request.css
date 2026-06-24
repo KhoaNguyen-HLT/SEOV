@@ -139,6 +139,25 @@
   font-weight: 600;
   margin-bottom: 10px;
 }
+
 .ant-col {
   height: 30px;
+}
+
+
+.product_info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product_info span {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+.product_info input {
+  flex: 1;
 }

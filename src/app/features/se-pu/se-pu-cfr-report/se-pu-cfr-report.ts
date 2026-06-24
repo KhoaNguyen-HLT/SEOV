@@ -3,7 +3,7 @@ import { Component, enableProdMode, provideZoneChangeDetection } from '@angular/
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -12,7 +12,9 @@ import dayjs from 'dayjs';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { SePuService } from '../se-pu.service';
 import { ClientSideRowModelModule } from 'ag-grid-community';
+import { ValueGetterParams, ColDef } from 'ag-grid-community';
 import { CsvExportModule } from 'ag-grid-community';
+import { PopupService } from '../../../shared/service/popup.service';
 
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule, CsvExportModule]);
 
@@ -31,6 +33,13 @@ export class sePuCfrReportComponent {
   rowData: any[] = [];
   columnDefs: any[] = [];
   columnDefs15 = [
+    {
+      headerName: 'STT',
+      width: 60,
+      pinned: 'left',
+      valueGetter: (params: ValueGetterParams) =>
+        (params.node?.rowIndex ?? 0) + 1
+    },
     { field: 'item_code', filter: true, sortable: true, width: 150 },
     { field: 'item_namev' },
     { field: 'cfr_unit', width: 100 },
@@ -46,6 +55,13 @@ export class sePuCfrReportComponent {
   ];
 
   columnDefs15a = [
+    {
+      headerName: 'STT',
+      width: 60,
+      pinned: 'left',
+      valueGetter: (params: ValueGetterParams) =>
+        (params.node?.rowIndex ?? 0) + 1
+    },
     { field: 'item_code', filter: true, sortable: true, width: 150 },
     { field: 'item_namev' },
     { field: 'cfr_unit', width: 100 },
@@ -69,17 +85,23 @@ export class sePuCfrReportComponent {
 
   gridApi: any;
 
-  constructor(private sePuService: SePuService, private fb: FormBuilder) { }
+  constructor(private sePuService: SePuService, private fb: FormBuilder, private PopupService: PopupService) { }
   ngOnInit() {
     this.searchForm = this.fb.group({
-      reportName: [null],
-      month: [new Date()]
+      reportName: [null, Validators.required],
+      month: [new Date(), Validators.required]
     });
 
   }
 
 
   getData() {
+
+    if (this.searchForm.invalid) {
+      this.searchForm.markAllAsTouched();
+      this.PopupService.error("Vui lòng chọn các thông tin còn trống!")
+      return;
+    }
     const raw = this.searchForm.value;
     this.gridApi.setGridOption('rowData', []);
     const payload = {
@@ -99,10 +121,19 @@ export class sePuCfrReportComponent {
 
 
   updateOpenInventory() {
+
+    if (this.searchForm.invalid) {
+      this.searchForm.markAllAsTouched();
+      this.PopupService.error("Vui lòng chọn các thông tin còn trống!")
+      return;
+    }
+
     const raw = this.searchForm.value;
     // const reportName = '15a'
     const reportName = raw.reportName ? raw.reportName : '';
     const month = raw.month ? dayjs(raw.month).format('YYYY-MM') : '';
+
+
 
     const data = {
       reportName,

@@ -85,11 +85,18 @@
     </div>
     <div nz-col nzSpan="3" class="checkboxItem">
 
-      <button nz-button nzType="primary" type="button" nz-popconfirm (click)="addItem()" >
+      <button nz-button nzType="primary" type="button" nz-popconfirm (click)="addItem()">
         <span nz-icon nzType="plus"></span>
         Thêm Item
       </button>
     </div>
+
+    <div nz-col nzSpan="5" class="product_info">
+
+      <span>{{ product_code }}</span>
+      <input nz-input placeholder="Nhập SL sản xuất" [value]="qtyOrder"  type="number" #qtyInput (keyup.enter)="onEnter(qtyInput.value) " />
+    </div>
+
     <!-- <div nz-col nzSpan="8" class="checkboxItem">
       <label class="check-item">
         <input type="checkbox" formControlName="removeSub" />

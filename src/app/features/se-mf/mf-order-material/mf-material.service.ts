@@ -36,12 +36,24 @@ export class MfMaterialService {
       );
   }
 
-  
+
+
+  getBomData(design_number: string): Observable<any> {
+    this.loadingService.show();
+    return this.http.get(`${this.baseUrl}/getBomData`, {params: {design_number}})
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
   getDataPu(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/getDataPu`, payload);
   }
 
-  
+
 
   createOrder(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/createOrder`, payload);
@@ -52,10 +64,10 @@ export class MfMaterialService {
     return this.http.post(`${this.baseUrl}/getMaterialRequestData`, payload);
   }
 
-  
 
 
-  
+
+
 
   // getReport(lotA: string, lotB: string, program: string, msTypeRp: string): Observable<any> {
   //   this.loadingService.show();

@@ -14,7 +14,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { SePuService } from '../se-pu.service';
 import { PopupService } from '../../../shared/service/popup.service';
-import { Observable } from 'rxjs';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import dayjs from 'dayjs';
 
@@ -50,7 +50,7 @@ export class sePuCfrGetDataComponent {
   fileName2: string = '';
   lotData: any[] = [];
 
-  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService) { }
+  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService,  private modal: NzModalService) { }
   ngOnInit() {
     this.form = this.fb.group({
       month: [new Date()],
@@ -115,6 +115,7 @@ export class sePuCfrGetDataComponent {
     const month = dayjs(this.form.value.month).format('YYYY-MM');
     const formData = new FormData();
 
+
     this.fileList.forEach(file => {
       formData.append('files', file);
     });
@@ -138,7 +139,7 @@ export class sePuCfrGetDataComponent {
           console.error(error);
         }
       });
-    } else if(reportName == '15a') {
+    } else if (reportName == '15a') {
       this.SePuService.getTransData15a(formData, month, reportName).subscribe({
         next: (response) => {
           console.log(response);
@@ -159,6 +160,61 @@ export class sePuCfrGetDataComponent {
     }
 
 
+  }
+
+
+  checkExistedData() {
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control) => {
+        control.markAsDirty();
+        control.updateValueAndValidity();
+      });
+
+      this.message.error('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    const reportName = this.form.value.reportName;
+    const month = dayjs(this.form.value.month).format('YYYY-MM');
+    const formData = new FormData();
+
+
+    this.fileList.forEach(file => {
+      formData.append('files', file);
+    });
+
+    const data = {
+
+    }
+
+    // this.SePuService.checkExistedData(month, reportName).subscribe({
+    //     next: (response) => {
+    //       console.log(response);
+    //       if (response.message === 'success') {
+    //         this.popupService.success('Xử lý dữ liệu thành công!');
+    //         console.log(response);
+    //       }
+    //       else {
+    //         this.popupService.error('Xử lý dữ liệu thất bại!');
+    //         console.log(response);
+    //       }
+    //     },
+    //     error: (error) => {
+    //       this.popupService.error('Xử lý dữ liệu thất bại!');
+    //       console.error(error);
+    //     }
+    //   });
+
+    this.modal.confirm({
+      nzTitle: 'Dữ liệu đã tồn tại',
+      nzContent: 'Bạn có muốn ghi đè dữ liệu hiện tại không?',
+      nzOkText: 'Đồng ý',
+      nzCancelText: 'Hủy',
+      nzOnOk: () => {
+        console.log("gọi Hàm upload")
+        // this.upload();
+      }
+    });
   }
 
 }
