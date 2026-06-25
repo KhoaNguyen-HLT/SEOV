@@ -50,7 +50,7 @@ export class sePuCfrGetDataComponent {
   fileName2: string = '';
   lotData: any[] = [];
 
-  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService,  private modal: NzModalService) { }
+  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService, private modal: NzModalService) { }
   ngOnInit() {
     this.form = this.fb.group({
       month: [new Date()],
@@ -101,16 +101,6 @@ export class sePuCfrGetDataComponent {
   }
 
   upload(): void {
-    if (this.form.invalid) {
-      Object.values(this.form.controls).forEach((control) => {
-        control.markAsDirty();
-        control.updateValueAndValidity();
-      });
-
-      this.message.error('Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-
     const reportName = this.form.value.reportName;
     const month = dayjs(this.form.value.month).format('YYYY-MM');
     const formData = new FormData();
@@ -119,8 +109,7 @@ export class sePuCfrGetDataComponent {
     this.fileList.forEach(file => {
       formData.append('files', file);
     });
-    console.log(formData.getAll('files'));
-    console.log(month);
+
     if (reportName == '15') {
       this.SePuService.getTransData(formData, month, reportName).subscribe({
         next: (response) => {
@@ -128,9 +117,11 @@ export class sePuCfrGetDataComponent {
           if (response.message === 'success') {
             this.popupService.success('Xử lý dữ liệu thành công!');
             console.log(response);
+          } else if (response.message === 'error') {
+            this.popupService.error('Xử lý dữ liệu thất bại!');
           }
           else {
-            this.popupService.error('Xử lý dữ liệu thất bại!');
+            this.popupService.error(response.message);
             console.log(response);
           }
         },
@@ -146,14 +137,16 @@ export class sePuCfrGetDataComponent {
           if (response.message === 'success') {
             this.popupService.success('Xử lý dữ liệu thành công!');
             console.log(response);
+          } else if (response.message === 'error') {
+            this.popupService.error('Lỗi Xử lý dữ liệu!');
           }
           else {
-            this.popupService.error('Xử lý dữ liệu thất bại!');
+            this.popupService.error(response.message);
             console.log(response);
           }
         },
         error: (error) => {
-          this.popupService.error('Xử lý dữ liệu thất bại!');
+          this.popupService.error(error.message);
           console.error(error);
         }
       });
@@ -176,45 +169,32 @@ export class sePuCfrGetDataComponent {
 
     const reportName = this.form.value.reportName;
     const month = dayjs(this.form.value.month).format('YYYY-MM');
-    const formData = new FormData();
 
 
-    this.fileList.forEach(file => {
-      formData.append('files', file);
-    });
-
-    const data = {
-
-    }
-
-    // this.SePuService.checkExistedData(month, reportName).subscribe({
-    //     next: (response) => {
-    //       console.log(response);
-    //       if (response.message === 'success') {
-    //         this.popupService.success('Xử lý dữ liệu thành công!');
-    //         console.log(response);
-    //       }
-    //       else {
-    //         this.popupService.error('Xử lý dữ liệu thất bại!');
-    //         console.log(response);
-    //       }
-    //     },
-    //     error: (error) => {
-    //       this.popupService.error('Xử lý dữ liệu thất bại!');
-    //       console.error(error);
-    //     }
-    //   });
-
-    this.modal.confirm({
-      nzTitle: 'Dữ liệu đã tồn tại',
-      nzContent: 'Bạn có muốn ghi đè dữ liệu hiện tại không?',
-      nzOkText: 'Đồng ý',
-      nzCancelText: 'Hủy',
-      nzOnOk: () => {
-        console.log("gọi Hàm upload")
-        // this.upload();
+    this.SePuService.checkExistedData(month, reportName).subscribe({
+      next: (response) => {
+        console.log(response);
+        if (response.message === 'existed') {
+          this.modal.confirm({
+            nzTitle: 'Dữ liệu đã tồn tại',
+            nzContent: 'Bạn có muốn ghi đè dữ liệu hiện tại không?',
+            nzOkText: 'Đồng ý',
+            nzCancelText: 'Hủy',
+            nzOnOk: () => {
+              this.upload();
+            }
+          });
+        } else {
+          this.upload();
+        }
+      },
+      error: (error) => {
+        this.popupService.error('Có lỗi xảy, vui lòng kiểm tra lại!');
+        console.error(error);
       }
     });
+
+
   }
 
 }

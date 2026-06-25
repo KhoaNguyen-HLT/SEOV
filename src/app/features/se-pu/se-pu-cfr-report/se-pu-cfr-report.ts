@@ -32,6 +32,7 @@ export class sePuCfrReportComponent {
   detailform!: FormGroup;
   rowData: any[] = [];
   columnDefs: any[] = [];
+  reportname: string = '';
   columnDefs15 = [
     {
       headerName: 'STT',
@@ -40,17 +41,17 @@ export class sePuCfrReportComponent {
       valueGetter: (params: ValueGetterParams) =>
         (params.node?.rowIndex ?? 0) + 1
     },
-    { field: 'item_code', filter: true, sortable: true, width: 150 },
-    { field: 'item_namev' },
-    { field: 'cfr_unit', width: 100 },
-    { field: 'tondau_5', width: 150 },
-    { field: 'qty_nhap_6', width: 150 },
-    { field: 'qty_nhap_7', width: 150 },
-    { field: 'qty_xuat_8', width: 150 },
-    { field: 'qty_xuat_9', width: 150 },
-    { field: 'qty_xuat_10', width: 150 },
-    { field: 'qty_xuat_11', width: 150 },
-    { field: 'toncuoi', width: 150 }
+    { field: 'item_code', filter: true, sortable: true, width: 150, headerName: 'Mã NVL' },
+    { field: 'item_namev' , headerName: 'Tên NVL' },
+    { field: 'cfr_unit', width: 100 , headerName: 'DVT'  },
+    { field: 'tondau_5', width: 150 , headerName: 'Tồn kho đầu kỳ' },
+    { field: 'qty_nhap_6', width: 150 , headerName: 'Nhập trong kỳ'  },
+    { field: 'qty_nhap_7', width: 150,  headerName: 'Nhập trong kỳ khác'  },
+    { field: 'qty_xuat_8', width: 150, headerName: 'Tái xuất'  },
+    { field: 'qty_xuat_9', width: 150, headerName: 'Chuyển đổi MDSD'  },
+    { field: 'qty_xuat_10', width: 150, headerName: 'Xuất kho SX'  },
+    { field: 'qty_xuat_11', width: 150, headerName: 'Xuất kho khác'  },
+    { field: 'toncuoi', width: 150 , headerName: 'Tồn cuối kỳ' }
 
   ];
 
@@ -62,16 +63,43 @@ export class sePuCfrReportComponent {
       valueGetter: (params: ValueGetterParams) =>
         (params.node?.rowIndex ?? 0) + 1
     },
+    { field: 'item_code', filter: true, sortable: true, width: 150 ,  headerName: 'Mã NVL' },
+    { field: 'item_namev',  headerName: 'Tên NVL'  },
+    { field: 'cfr_unit', width: 100 ,  headerName: 'DVT' },
+    { field: 'tondau_5', width: 150,  headerName: 'Tồn đầu kỳ'  },
+    { field: 'qty_nhap_6', width: 150,  headerName: 'Nhập từ SX'  },
+    { field: 'qty_nhap_7', width: 150, headerName: 'Tái nhập kho' },
+    { field: 'qty_xuat_8', width: 150, headerName: 'Chuyển đổi MDSD' },
+    { field: 'qty_xuat_9', width: 150, headerName: 'Sản phẩm xuất khẩu' },
+    { field: 'qty_xuat_10', width: 150, headerName: 'Xuất kho khác' },
+    { field: 'toncuoi', width: 150, headerName: 'Tồn cuối kỳ' }
+
+  ];
+
+
+  columnDefs16 = [
+    {
+      headerName: 'STT',
+      width: 60,
+      pinned: 'left',
+      valueGetter: (params: ValueGetterParams) =>
+        (params.node?.rowIndex ?? 0) + 1
+    },
     { field: 'item_code', filter: true, sortable: true, width: 150 },
-    { field: 'item_namev' },
+    { field: 'item_namee' },
     { field: 'cfr_unit', width: 100 },
-    { field: 'tondau_5', width: 150 },
-    { field: 'qty_nhap_6', width: 150 },
-    { field: 'qty_nhap_7', width: 150 },
-    { field: 'qty_xuat_8', width: 150 },
-    { field: 'qty_xuat_9', width: 150 },
-    { field: 'qty_xuat_10', width: 150 },
-    { field: 'toncuoi', width: 150 }
+    { field: 'material_code', width: 150 , filter: true, sortable: true},
+    { field: 'material_name', width: 150 },
+    { field: 'm_unit', width: 150 },
+    { field: 'prd_code', width: 150 },
+    { field: 'norm_seov', width: 150 },
+    { field: 'tp_nhap_trong_ky', width: 150 },
+    { field: 'tong_nvl_xuat_trong_ky', width: 150 },
+    { field: 'nvl_sudung_dm', width: 150 },
+    { field: 'ty_le_nvl_bom', width: 150 },
+    { field: 'nvl_thucte_sd', width: 150 },
+    { field: 'fn', width: 150 }
+
 
   ];
 
@@ -151,7 +179,7 @@ export class sePuCfrReportComponent {
 
   exportExcel() {
     this.gridApi.exportDataAsCsv({
-      fileName: 'Report_15.csv',
+      fileName: this.reportname+'.csv',
       sheetName: 'report'
     });
   }
@@ -178,11 +206,15 @@ export class sePuCfrReportComponent {
     if (report === '15') {
       this.columnDefs = this.columnDefs15;
       this.gridApi.setGridOption('rowData', []);
-      console.log('15')
+      this.reportname= 'CFR_Report15'
     } else if (report === '15a') {
       this.columnDefs = this.columnDefs15a;
       this.gridApi.setGridOption('rowData', []);
-      console.log('15a')
+      this.reportname= 'CFR_Report15a'
+    } else if (report === '16') {
+      this.columnDefs = this.columnDefs16;
+      this.gridApi.setGridOption('rowData', []);
+      this.reportname= 'CFR_Report16'
     }
   }
 

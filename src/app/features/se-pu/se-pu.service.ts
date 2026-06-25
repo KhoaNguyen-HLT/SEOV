@@ -55,8 +55,23 @@ export class SePuService {
   
 
   getData(payload: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getData`, { params: payload });
+    this.loadingService.show();
+    return this.http.get(`${this.baseUrl}/getData`, { params: payload })
+    .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
   }
+
+
+  checkExistedData(month: string, reportName: string): Observable<any> {
+    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    return this.http.get(`${this.baseUrl}/checkExistedData`, { params});
+  }
+
+
+  
 
 
   // updateOpenInventory(payload: any) {

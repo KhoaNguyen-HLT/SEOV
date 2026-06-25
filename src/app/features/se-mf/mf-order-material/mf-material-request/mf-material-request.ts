@@ -19,6 +19,7 @@ import { MfMaterialService } from '../mf-material.service';
 import { ColDef, RowSelectionOptions } from 'ag-grid-community';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { AuthService } from '../../../../core/auth/service/auth.service';
+import { ValueGetterParams } from 'ag-grid-community';
 import { number } from 'echarts';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -55,7 +56,7 @@ export class MfMaterialRequestComponent {
   zCode: { production_number: string; registered_at: any }[] = [];
   remark: string = '';
   product_code: string = '';
-  qtyOrder: number = 10;
+  qtyOrder: number = 1;
   columnDefs: ColDef[] = [
     // {
     //   headerName: 'Công Đoạn',
@@ -66,6 +67,12 @@ export class MfMaterialRequestComponent {
 
     // },
     {
+      headerName: 'STT',
+      width: 60,
+      valueGetter: (params: ValueGetterParams) =>
+        (params.node?.rowIndex ?? 0) + 1
+    },
+    {
       headerName: 'Loại NVL',
       field: 'custom_mode',
       width: 150,
@@ -73,6 +80,7 @@ export class MfMaterialRequestComponent {
       sortable: true,
 
     },
+    
     {
       headerName: 'Mã NVL',
       field: 'material_code',
@@ -206,9 +214,9 @@ export class MfMaterialRequestComponent {
     this.MfMaterialService.getBomData(design_number).subscribe(res => {
       console.log(res);
       this.rowData = res.data.map((item: any) => ({
-    ...item,
-    qtyOrder: (item.norm_seov * 3)
-  }));
+        ...item,
+        qtyOrder: (item.norm_seov * this.qtyOrder)
+      }));
     });
 
   }
@@ -313,21 +321,10 @@ export class MfMaterialRequestComponent {
   }
 
 
-  onEnter(value: string) {
-    console.log(value);
+  onEnter(value: number) {
+    this.rowData = this.rowData.map((item: any) => ({
+      ...item,
+      qtyOrder: (item.norm_seov * value)
+    }))
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

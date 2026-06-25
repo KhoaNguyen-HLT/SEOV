@@ -94,7 +94,7 @@
     <div nz-col nzSpan="5" class="product_info">
 
       <span>{{ product_code }}</span>
-      <input nz-input placeholder="Nhập SL sản xuất" [value]="qtyOrder"  type="number" #qtyInput (keyup.enter)="onEnter(qtyInput.value) " />
+      <input nz-input placeholder="Nhập SL sản xuất" [value]="qtyOrder"  type="number" #qtyInput  (keyup.enter)="onEnter(+qtyInput.value)" />
     </div>
 
     <!-- <div nz-col nzSpan="8" class="checkboxItem">
