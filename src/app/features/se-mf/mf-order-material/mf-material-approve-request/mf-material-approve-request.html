@@ -1,15 +1,13 @@
 <div class="table-container">
 
   <!-- SEARCH AREA -->
-  <div class="grid-header">
-    <div class="grid-title">
-      Danh sách NVL cần order tổng hợp theo mã "Z"
-    </div>
+  <div class="search-header">
+    <!-- filter sau này đặt vào đây -->
+  </div>
 
-    <button nz-button nzType="primary" (click)="downloadExcelSign()">
-      <span nz-icon nzType="download"></span>
-      Download Excel ký nhận
-    </button>
+  <!-- TITLE -->
+  <div class="grid-title">
+    Duyệt yêu cầu nguyên vật liệu!
   </div>
 
   <!-- GRID -->
@@ -76,14 +74,12 @@
 
       </div>
       <div class="action-right">
-        <button nz-button nzType="primary" (click)="saveData()"
-          [disabled]="hdData[0]?.status === 'REJECTED'||hdData[0]?.status === 'COMPLETED'">
+        <button nz-button nzType="primary" (click)="approveRequest()" [disabled]="hdData[0]?.status == 'REJECTED'|| hdData[0]?.status == 'APPROVED'">
           <span nz-icon nzType="save"></span>
-          Save
+          Approval
         </button>
 
-        <button nz-button nzDanger (click)="rejectRequest()"
-          [disabled]="hdData[0]?.status === 'REJECTED'||hdData[0]?.status === 'COMPLETED'">
+        <button nz-button nzDanger (click)="rejectRequest()" [disabled]="hdData[0]?.status == 'REJECTED'|| hdData[0]?.status == 'APPROVED'">
           Hủy Request
         </button>
       </div>

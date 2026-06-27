@@ -30,6 +30,20 @@ export const mfMaterialRoutes: Routes = [
       import('./mf-material-request-detail/mf-material-request-detail')
         .then(m => m.MfMaterialRequestDetailComponent),
   }
+  ,
+  {
+    path: 'mf-material-approve-request',
+    loadComponent: () =>
+      import('./mf-material-approve-request/mf-material-approve-request')
+        .then(m => m.MfMaterialApproveRequestComponent),
+  }
+    ,
+  {
+    path: 'mf-material-list-approve',
+    loadComponent: () =>
+      import('./mf-material-list-approve/mf-material-list-approve')
+        .then(m => m.MfMaterialApproveListComponent),
+  }
 
 
 ];

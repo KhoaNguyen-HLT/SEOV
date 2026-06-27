@@ -80,7 +80,7 @@ export class MfMaterialRequestComponent {
       sortable: true,
 
     },
-    
+
     {
       headerName: 'Mã NVL',
       field: 'material_code',
@@ -147,18 +147,6 @@ export class MfMaterialRequestComponent {
     });
 
 
-    this.zCode = [
-      {
-        production_number: 'Z001',
-        registered_at: '2026-06-18'
-      },
-      {
-        production_number: 'Z002',
-        registered_at: '2026-06-19'
-      }
-    ];
-
-
 
 
     setTimeout(() => {
@@ -196,8 +184,9 @@ export class MfMaterialRequestComponent {
     this.MfMaterialService.getDataPu(payload).subscribe(res => {
       console.log(res);
       if (res.message == "success") {
+        this.prepareMaterialRequestData(res.data[0].design_number)
         this.PopupService.success("Lấy dữ liệu thành công");
-        this.getBomData(res.data[0].design_number)
+        
 
       } else {
         this.PopupService.error(res.text);
@@ -207,17 +196,19 @@ export class MfMaterialRequestComponent {
 
 
 
-  getBomData(design_number: string) {
-    console.log(design_number);
-    this.product_code = design_number;
+  prepareMaterialRequestData(design_number: string) {
 
-    this.MfMaterialService.getBomData(design_number).subscribe(res => {
+      this.product_code = design_number;
+
+    this.MfMaterialService.prepareMaterialRequestData(design_number).subscribe(res => {
       console.log(res);
       this.rowData = res.data.map((item: any) => ({
         ...item,
         qtyOrder: (item.norm_seov * this.qtyOrder)
       }));
     });
+
+
 
   }
 
@@ -263,6 +254,7 @@ export class MfMaterialRequestComponent {
 
     const payload = {
       department: raw.department,
+      productionNumber: this.product_code,
       requestDate: raw.date,
       zCodes: raw.zCode,
       remark: raw.remark,
@@ -275,6 +267,7 @@ export class MfMaterialRequestComponent {
     this.MfMaterialService.createOrder(payload).subscribe(res => {
       if (res.code === 200) {
         this.PopupService.success('Tạo order thành công!');
+        this.reload();
       }
     });
   };
@@ -326,5 +319,10 @@ export class MfMaterialRequestComponent {
       ...item,
       qtyOrder: (item.norm_seov * value)
     }))
+  }
+
+
+  reload() {
+    window.location.reload();
   }
 }

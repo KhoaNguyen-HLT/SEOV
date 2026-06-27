@@ -1,0 +1,45 @@
+<div class="reject-modal">
+    <div class="warning-box">
+      <span nz-icon nzType="exclamation-circle" nzTheme="fill"></span>
+
+      <div>
+        <div class="warning-title">Xác nhận hủy request</div>
+        <div class="warning-desc">
+          Request sau khi hủy sẽ không thể tiếp tục xử lý.
+        </div>
+      </div>
+    </div>
+
+    <label class="reason-label">
+      Lý do hủy <span>*</span>
+    </label>
+
+    <textarea
+      nz-input
+      [(ngModel)]="reason"
+      rows="4"
+      maxlength="500"
+      placeholder="Ví dụ: Sai mã Z, sai số lượng, không còn nhu cầu..."
+      class="reason-input">
+    </textarea>
+
+    <div class="count-text">
+      {{ reason.length || 0 }}/500
+    </div>
+
+    <div *ngIf="submitted && !reason.trim()" class="error-text">
+      Vui lòng nhập lý do hủy request
+    </div>
+
+    <div class="footer">
+      <button nz-button (click)="cancel()">Không hủy nữa</button>
+
+      <button
+        nz-button
+        nzDanger
+        nzType="primary"
+        (click)="confirm()">
+        Xác nhận hủy
+      </button>
+    </div>
+  </div>

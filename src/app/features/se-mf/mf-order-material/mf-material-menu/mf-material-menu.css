@@ -96,6 +96,20 @@
   color: #1677ff;
 }
 
+/* ===== Aproval btn ===== */
+
+.aproval-btn {
+  background: linear-gradient(135deg, #e8f3ff, #d7ebff);
+}
+
+.aproval-btn .anticon,
+.aproval-btn span {
+  color: #01d6da;
+}
+
+
+
+
 /* ===== REPORT ===== */
 
 .report-btn {

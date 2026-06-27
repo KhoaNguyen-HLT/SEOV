@@ -38,9 +38,9 @@ export class MfMaterialService {
 
 
 
-  getBomData(design_number: string): Observable<any> {
+  prepareMaterialRequestData(design_number: string): Observable<any> {
     this.loadingService.show();
-    return this.http.get(`${this.baseUrl}/getBomData`, {params: {design_number}})
+    return this.http.get(`${this.baseUrl}/prepareMaterialRequestData`, { params: { design_number } })
       .pipe(
         finalize(() => {
           this.loadingService.hide();
@@ -63,6 +63,67 @@ export class MfMaterialService {
   getMaterialRequestData(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/getMaterialRequestData`, payload);
   }
+
+
+  getDetailMaterialRequest(requestNo: string): Observable<any> {
+    this.loadingService.show();
+    return this.http.get(`${this.baseUrl}/getDetailMaterialRequest`, { params: { requestNo } })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
+  exportMaterialRequestExcel(requestNo: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/exportMaterialRequestExcel`, {
+      params: { requestNo },
+      responseType: 'blob'
+    });
+  }
+
+  updateIssuedMaterial(payload: any): Observable<any> {
+    this.loadingService.show();
+    return this.http.post(`${this.baseUrl}/updateIssuedMaterial`, payload)
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
+  rejectRequest(payload: any): Observable<any> {
+    this.loadingService.show();
+    return this.http.post(`${this.baseUrl}/rejectRequest`, payload)
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
+  approveRequest(payload: any): Observable<any> {
+    this.loadingService.show();
+    return this.http.post(`${this.baseUrl}/approveRequest`, payload)
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
+
+
+
+
+
+
+
+
 
 
 

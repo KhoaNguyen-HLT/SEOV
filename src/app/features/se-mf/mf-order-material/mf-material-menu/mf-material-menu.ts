@@ -31,10 +31,14 @@ export class MfMaterialMenuComponent {
     this.router.navigate(['/welcome/mf-order-material/mf-material-request']);
   }
 
-    createRequestList() {
+  createRequestList() {
     this.router.navigate(['/welcome/mf-order-material/mf-material-list-request']);
   }
-  
+
+  aprovalRequest() {
+    this.router.navigate(['/welcome/mf-order-material/mf-material-list-approve']);
+  }
+
 
 
 }

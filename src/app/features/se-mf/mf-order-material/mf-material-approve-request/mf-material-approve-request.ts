@@ -27,7 +27,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   standalone: true,
-  selector: 'app-mf-material-request',
+  selector: 'app-mf-material-approve-request',
   imports: [
     AgGridAngular,
     NzButtonModule,
@@ -46,10 +46,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     NzTableModule
 
   ],
-  templateUrl: './mf-material-request-detail.html',
-  styleUrl: './mf-material-request-detail.css',
+  templateUrl: './mf-material-approve-request.html',
+  styleUrl: './mf-material-approve-request.css',
 })
-export class MfMaterialRequestDetailComponent {
+export class MfMaterialApproveRequestComponent {
   userName: String = ''
   searchForm!: FormGroup;
   rvForm!: FormGroup;
@@ -87,94 +87,21 @@ export class MfMaterialRequestDetailComponent {
       headerName: 'SL Xuất',
       field: 'issuedQty',
       width: 140,
-      editable: false,
-      cellRenderer: (params: any) => {
-        const input = document.createElement('input');
-
-        input.type = 'number';
-        input.value = params.value ?? 0;
-        input.min = '0';
-
-        input.style.width = '100%';
-        input.style.height = '32px';
-        input.style.padding = '0 8px';
-        input.style.border = '1px solid #cdc7c7';
-        input.style.borderRadius = '6px';
-        input.style.background = '#fffbe6';
-        input.style.outline = 'none';
-        input.style.boxSizing = 'border-box';
-        input.style.transition = 'all .2s';
-
-        input.addEventListener('click', e => e.stopPropagation());
-
-        input.addEventListener('focus', () => {
-          input.style.borderColor = '#ffffff';
-          input.style.boxShadow = '0 0 0 2px rgba(255, 255, 255, 0.2)';
-        });
-
-        input.addEventListener('blur', () => {
-          input.style.borderColor = '#cdc7c7';
-          input.style.boxShadow = 'none';
-
-          params.node.setDataValue(
-            'issuedQty',
-            Number(input.value || 0)
-          );
-        });
-
-        return input;
+      editable: true,
+      cellEditor: 'agNumberCellEditor',
+      cellStyle: {
+        backgroundColor: '#fffbe6'
       }
     },
     {
-      headerName: 'Ghi chú',
+      headerName: 'Ghi Chú',
       field: 'remark',
-      width: 500,
-      editable: false,
-      cellRenderer: (params: any) => {
-        const input = document.createElement('input');
-
-        input.type = 'text';
-        input.value = params.value ?? '';
-
-        input.style.width = '100%';
-        input.style.height = '32px';
-        input.style.padding = '0 8px';
-        input.style.border = '1px solid #cdc7c7';
-        input.style.borderRadius = '6px';
-        input.style.background = '#fffbe6';
-        input.style.outline = 'none';
-        input.style.boxSizing = 'border-box';
-        input.style.transition = 'all .2s';
-
-        input.addEventListener('click', e => e.stopPropagation());
-
-        input.addEventListener('focus', () => {
-          input.style.borderColor = '#ffffff';
-          input.style.boxShadow = '0 0 0 2px rgba(255, 255, 255, 0.2)';
-        });
-
-        input.addEventListener('blur', () => {
-          input.style.borderColor = '#cdc7c7';
-          input.style.boxShadow = 'none';
-
-          params.node.setDataValue(
-            'remark',
-           (input.value || '')
-          );
-        });
-
-        return input;
+      flex: 1,
+      editable: true,
+      cellStyle: {
+        backgroundColor: '#fffbe6'
       }
-    },
-    // {
-    //   headerName: 'Ghi Chú',
-    //   field: 'remark',
-    //   flex: 1,
-    //   editable: true,
-    //   cellStyle: {
-    //     backgroundColor: '#fffbe6'
-    //   }
-    // }
+    }
   ];
 
   // khi click vào row nào thì select row đó
@@ -192,8 +119,7 @@ export class MfMaterialRequestDetailComponent {
 
 
 
-  constructor(private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService, private ActivatedRoute: ActivatedRoute, private MfMaterialService: MfMaterialService, private modal: NzModalService
-  ) { }
+  constructor(private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService, private ActivatedRoute: ActivatedRoute, private MfMaterialService: MfMaterialService, private modal: NzModalService) { }
   ngOnInit() {
 
 
@@ -224,6 +150,9 @@ export class MfMaterialRequestDetailComponent {
     this.MfMaterialService.getDetailMaterialRequest(this.requestNo).subscribe(res => {
       console.log(res)
       this.hdData = res.hdData;
+      // if(this.hdData[0].status = 'REJECTED') {
+
+      // }
       this.rowData = res.data;
 
     });
@@ -254,17 +183,32 @@ export class MfMaterialRequestDetailComponent {
 
     this.MfMaterialService.updateIssuedMaterial(payload).subscribe(res => {
       console.log(res)
-      if (res.message === 'success') {
-        this.PopupService.success('Lưu thành công!');
-        this.reload()
-      } else {
-        this.PopupService.error('Có lỗi xảy ra vui lòng thử lại!');
-      }
     });
 
     // this.MfMaterialService.updateIssuedMaterial(dataUpdate).subscribe(res => {
     //   this.PopupService.success('Cập nhật xuất kho thành công!');
     // });
+  }
+
+
+  approveRequest() {
+
+    const payload = {
+      requestNo: this.requestNo,
+      approvedBy: this.userName
+    };
+
+    this.MfMaterialService.approveRequest(payload).subscribe(res => {
+      console.log(res)
+      if (res.message === 'success') {
+        this.PopupService.success('Duyệt thành công!');
+        this.reload()
+      } else {
+        this.PopupService.error('Có lỗi xảy ra vui lòng thử lại!');
+        this.reload()
+      }
+    });
+
   }
 
 
@@ -294,32 +238,17 @@ export class MfMaterialRequestDetailComponent {
           this.reload()
         } else {
           this.PopupService.error('Có lỗi xảy ra vui lòng thử lại!');
+          this.reload()
         }
-
       });
     });
 
   }
 
-  downloadExcelSign() {
-
-    this.MfMaterialService.exportMaterialRequestExcel(this.requestNo)
-      .subscribe(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Material_Request_${this.requestNo}.xlsx`;
-        a.click();
-
-        window.URL.revokeObjectURL(url);
-      });
-
-  }
-
-
   reload() {
     window.location.reload();
   }
+
 
 
 

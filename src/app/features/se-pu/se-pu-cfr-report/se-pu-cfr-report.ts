@@ -158,9 +158,11 @@ export class sePuCfrReportComponent {
 
     const raw = this.searchForm.value;
     // const reportName = '15a'
-    const reportName = raw.reportName ? raw.reportName : '';
+    const reportName = raw.reportName;
     const month = raw.month ? dayjs(raw.month).format('YYYY-MM') : '';
-
+    if(reportName === '16'){
+       
+    }
 
 
     const data = {

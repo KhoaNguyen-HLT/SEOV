@@ -25,7 +25,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   standalone: true,
-  selector: 'app-mf-material-list-request',
+  selector: 'app-mf-material-list-approve',
   imports: [
     AgGridAngular,
     NzButtonModule,
@@ -41,10 +41,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     NzSpaceModule
 
   ],
-  templateUrl: './mf-material-list-request.html',
-  styleUrl: './mf-material-list-request.css',
+  templateUrl: './mf-material-list-approve.html',
+  styleUrl: './mf-material-list-approve.css',
 })
-export class MfMaterialRequestListComponent {
+export class MfMaterialApproveListComponent {
   userName: String = ''
   searchForm!: FormGroup;
   detailform!: FormGroup;
@@ -193,7 +193,7 @@ export class MfMaterialRequestListComponent {
     this.Router.navigate([
       '/welcome',
       'mf-order-material',
-      'mf-material-request-detail'
+      'mf-material-approve-request'
     ],{
     queryParams: {
       requestNo: row.request_no
