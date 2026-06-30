@@ -39,6 +39,11 @@ export class MfMaterialMenuComponent {
     this.router.navigate(['/welcome/mf-order-material/mf-material-list-approve']);
   }
 
+    hisRequest() {
+    this.router.navigate(['/welcome/mf-order-material/mf-material-list-his']);
+  }
+
+
 
 
 }

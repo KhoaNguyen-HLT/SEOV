@@ -1,0 +1,48 @@
+.no-permission-box {
+  max-width: 560px;
+  margin: 80px auto;
+  padding: 36px 32px;
+  text-align: center;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  border: 1px solid #f0f0f0;
+}
+
+.icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+}
+
+h2 {
+  color: #d9363e;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.reason {
+  margin: 22px 0;
+  padding: 16px;
+  background: #fff7e6;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.highlight {
+  font-size: 17px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.actions {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}

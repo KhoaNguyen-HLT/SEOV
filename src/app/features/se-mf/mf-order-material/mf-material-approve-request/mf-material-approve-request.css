@@ -83,7 +83,7 @@
 
 
 .request-info {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
@@ -99,6 +99,7 @@
   display: flex;
   gap: 10px;
   align-items: flex-start;
+  margin-top: 10px;
 }
 
 .info-card {

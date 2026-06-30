@@ -94,7 +94,7 @@ TITLE
 
 
 .request-info {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
@@ -107,6 +107,7 @@ TITLE
 }
 
 .action-right {
+  margin-top: 20px;
   display: flex;
   gap: 10px;
   align-items: flex-start;

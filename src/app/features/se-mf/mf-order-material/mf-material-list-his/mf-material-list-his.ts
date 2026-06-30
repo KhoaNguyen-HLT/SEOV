@@ -19,15 +19,13 @@ import { ColDef, RowSelectionOptions } from 'ag-grid-community';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { AuthService } from '../../../../core/auth/service/auth.service';
 import { ActionCellComponent } from '../../../../shared/components/action-cell/action-cell';
-import { NoPermissionComponent } from '../../../../shared/components/no-permission/no-permission';
-
 import { Router } from '@angular/router';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   standalone: true,
-  selector: 'app-mf-material-list-approve',
+  selector: 'app-mf-material-list-his',
   imports: [
     AgGridAngular,
     NzButtonModule,
@@ -40,15 +38,13 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     CommonModule,
     ReactiveFormsModule,
     NzPopconfirmModule,
-    NzSpaceModule,
-    NoPermissionComponent
+    NzSpaceModule
 
   ],
-  templateUrl: './mf-material-list-approve.html',
-  styleUrl: './mf-material-list-approve.css',
+  templateUrl: './mf-material-list-his.html',
+  styleUrl: './mf-material-list-his.css',
 })
-export class MfMaterialApproveListComponent {
-  hasPermission = true;
+export class MfMaterialHisListComponent {
   userName: String = ''
   searchForm!: FormGroup;
   detailform!: FormGroup;
@@ -150,11 +146,8 @@ export class MfMaterialApproveListComponent {
   getUserInfor(): void {
     this.AuthService.getUserInfobyToken();
     this.userName = this.AuthService.userName;
-    if(this.AuthService.permissions.includes('MF_REQUEST_APPROVE')) {
-      this.hasPermission = true
-    }
-
-      
+    console.log(this.AuthService.role);
+    console.log(this.AuthService.permissions);
   }
 
 
@@ -170,11 +163,13 @@ export class MfMaterialApproveListComponent {
       department: raw.department || '',
       fromDate: raw.fromDate ? dayjs(raw.fromDate).format('YYYY-MM-DD') : null,
       toDate: raw.toDate ? dayjs(raw.toDate).format('YYYY-MM-DD') : null,
-      status: 'SUBMITTED'
+      status: ""
     };
 
+    console.log(payload);
     // call API lấy data từ database
     this.MfMaterialService.getMaterialRequestData(payload).subscribe(res => {
+      console.log(res)
       if (res.message == "success") {
         this.PopupService.success("Loading Data");
         this.rowData = res.data
@@ -193,14 +188,17 @@ export class MfMaterialApproveListComponent {
 
 
   onOpen(row: any) {
+    console.log('VIEW:', row);
+    console.log()
     // TODO: mở modal xem chi tiết
     this.Router.navigate([
       '/welcome',
       'mf-order-material',
-      'mf-material-approve-request'
+      'mf-material-request-detail'
     ],{
     queryParams: {
-      requestNo: row.request_no
+      requestNo: row.request_no,
+      mode:'view'
     }
     
   });

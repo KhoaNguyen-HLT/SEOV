@@ -91,11 +91,12 @@ export class sePuCfrReportComponent {
     { field: 'material_code', width: 150 , filter: true, sortable: true},
     { field: 'material_name', width: 150 },
     { field: 'm_unit', width: 150 },
-    { field: 'prd_code', width: 150 },
+    { field: 'prd_code', width: 150, filter: true },
     { field: 'norm_seov', width: 150 },
     { field: 'tp_nhap_trong_ky', width: 150 },
     { field: 'tong_nvl_xuat_trong_ky', width: 150 },
     { field: 'nvl_sudung_dm', width: 150 },
+    { field: 'tong_nvl_sd_dm', width: 150 },
     { field: 'ty_le_nvl_bom', width: 150 },
     { field: 'nvl_thucte_sd', width: 150 },
     { field: 'fn', width: 150 }

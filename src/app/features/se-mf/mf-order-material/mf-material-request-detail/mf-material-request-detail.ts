@@ -57,6 +57,8 @@ export class MfMaterialRequestDetailComponent {
   removeSub = false;
   removePacking = false;
   requestNo: string = '';
+  mode: string = '';
+  approveStatus = false;
   hdData: any[] = [];
   rowData: any[] = [];
   zCode: { production_number: string; registered_at: any }[] = [];
@@ -220,7 +222,10 @@ export class MfMaterialRequestDetailComponent {
 
   getDetailMaterialRequest() {
     this.requestNo = this.ActivatedRoute.snapshot.queryParamMap.get('requestNo') || '';
-    console.log(this.requestNo);
+    this.mode = this.ActivatedRoute.snapshot.queryParamMap.get('mode') || '';
+    if(this.mode == 'Issued') {
+      this.approveStatus   = true
+    }
     this.MfMaterialService.getDetailMaterialRequest(this.requestNo).subscribe(res => {
       console.log(res)
       this.hdData = res.hdData;

@@ -1,5 +1,7 @@
+@if (hasPermission) {
 <div class="table-container">
   <!-- <div class="table-title">Tạo Yêu Cầu Nhập Nguyên Vật Liệu</div> -->
+  <div class="table-title">Danh sách yêu cầu NVL(Chờ duyệt)</div>
 
   <div class="search-header">
     <form nz-form [formGroup]="searchForm">
@@ -65,3 +67,12 @@
     </ag-grid-angular>
 
   </div>
+
+</div>
+
+
+} @else {
+
+<app-no-permission></app-no-permission>
+
+}

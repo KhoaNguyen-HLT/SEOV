@@ -127,6 +127,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/se-material/se-material.routes').then(m => m.materialRoutes)
       },
+      {
+        path: 'no-permission',
+        loadComponent: () =>
+          import('./shared/components/no-permission/no-permission').then(m => m.NoPermissionComponent)
+      },
     ]
   },
 

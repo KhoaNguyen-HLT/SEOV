@@ -162,7 +162,8 @@ export class MfMaterialRequestListComponent {
     const payload = {
       department: raw.department || '',
       fromDate: raw.fromDate ? dayjs(raw.fromDate).format('YYYY-MM-DD') : null,
-      toDate: raw.toDate ? dayjs(raw.toDate).format('YYYY-MM-DD') : null
+      toDate: raw.toDate ? dayjs(raw.toDate).format('YYYY-MM-DD') : null,
+      status: "APPROVED"
     };
 
     console.log(payload);
@@ -196,7 +197,8 @@ export class MfMaterialRequestListComponent {
       'mf-material-request-detail'
     ],{
     queryParams: {
-      requestNo: row.request_no
+      requestNo: row.request_no,
+      mode: 'Issued'
     }
     
   });

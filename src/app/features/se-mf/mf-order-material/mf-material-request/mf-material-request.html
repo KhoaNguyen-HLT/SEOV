@@ -20,11 +20,12 @@
           </nz-form-item>
         </div>
 
-        <div nz-col nzSpan="3">
-          <nz-form-item class="form-item">
-            <nz-form-label>Ngày cần</nz-form-label>
+        <div nz-col nzSpan="4">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="true">Ngày cần</nz-form-label>
             <nz-form-control>
-              <nz-date-picker formControlName="date" nzMode="date" nzFormat="yyyy-MM-dd" nzPlaceHolder="Chọn ngày">
+              <nz-date-picker formControlName="date" [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm"
+                nzPlaceHolder="Chọn ngày giờ">
               </nz-date-picker>
             </nz-form-control>
           </nz-form-item>
@@ -94,7 +95,8 @@
     <div nz-col nzSpan="5" class="product_info">
 
       <span>{{ product_code }}</span>
-      <input nz-input placeholder="Nhập SL sản xuất" [value]="qtyOrder"  type="number" #qtyInput  (keyup.enter)="onEnter(+qtyInput.value)" />
+      <input nz-input placeholder="Nhập SL sản xuất" [value]="qtyRequest" type="number" #qtyInput
+        (keyup.enter)="onEnter(+qtyInput.value)" />
     </div>
 
     <!-- <div nz-col nzSpan="8" class="checkboxItem">

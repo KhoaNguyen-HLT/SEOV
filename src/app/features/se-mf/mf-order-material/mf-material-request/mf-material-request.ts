@@ -56,7 +56,8 @@ export class MfMaterialRequestComponent {
   zCode: { production_number: string; registered_at: any }[] = [];
   remark: string = '';
   product_code: string = '';
-  qtyOrder: number = 1;
+  qtyRequest: number = 1;
+  // qtyOrder: number = 1;
   columnDefs: ColDef[] = [
     // {
     //   headerName: 'Công Đoạn',
@@ -160,8 +161,8 @@ export class MfMaterialRequestComponent {
   getUserInfor(): void {
     this.AuthService.getUserInfobyToken();
     this.userName = this.AuthService.userName;
-    console.log(this.AuthService.role);
-    console.log(this.AuthService.permissions);
+    // console.log(this.AuthService.role);
+    // console.log(this.AuthService.permissions);
   }
 
 
@@ -179,10 +180,9 @@ export class MfMaterialRequestComponent {
       zCode: raw.zCode
     };
 
-    console.log(payload);
     // call API lấy data từ database
     this.MfMaterialService.getDataPu(payload).subscribe(res => {
-      console.log(res);
+      
       if (res.message == "success") {
         this.prepareMaterialRequestData(res.data[0].design_number)
         this.PopupService.success("Lấy dữ liệu thành công");
@@ -201,10 +201,10 @@ export class MfMaterialRequestComponent {
       this.product_code = design_number;
 
     this.MfMaterialService.prepareMaterialRequestData(design_number).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.rowData = res.data.map((item: any) => ({
         ...item,
-        qtyOrder: (item.norm_seov * this.qtyOrder)
+        qtyOrder: (item.norm_seov * this.qtyRequest)
       }));
     });
 
@@ -217,7 +217,6 @@ export class MfMaterialRequestComponent {
     const zCode = this.searchForm.get('zCode')?.value;
     // call API lấy data từ database
     this.MfMaterialService.getZCodeData().subscribe(res => {
-      console.log(res);
       this.zCode = res.data;
     });
   }
@@ -255,19 +254,22 @@ export class MfMaterialRequestComponent {
     const payload = {
       department: raw.department,
       productionNumber: this.product_code,
-      requestDate: raw.date,
+      requestDate: raw.date ? dayjs(raw.date).format('YYYY-MM-DDTHH:mm:ss') : null,
       zCodes: raw.zCode,
       remark: raw.remark,
       details: this.rowData,
-      createdBy: this.userName
+      createdBy: this.userName,
+      qtyRequest: this.qtyRequest
     };
-
-    console.log('Payload tạo order:', payload);
+    console.log(payload)
 
     this.MfMaterialService.createOrder(payload).subscribe(res => {
       if (res.code === 200) {
+        console.log(res)
         this.PopupService.success('Tạo order thành công!');
         this.reload();
+      } else {
+        this.PopupService.success('Có lỗi xảy ra vui lòng thử lại!');
       }
     });
   };
@@ -300,7 +302,7 @@ export class MfMaterialRequestComponent {
 
 
   addItem() {
-    console.log('thêm Item')
+    // console.log('thêm Item')
     const newRow = {
       item_code: '',
       item_name: '',
@@ -323,6 +325,9 @@ export class MfMaterialRequestComponent {
 
 
   reload() {
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+    
   }
 }

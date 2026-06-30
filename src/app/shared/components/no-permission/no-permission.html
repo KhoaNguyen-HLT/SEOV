@@ -1,0 +1,27 @@
+<div class="no-permission-box">
+  <div class="icon">🚫</div>
+
+  <h2>KHÔNG CÓ QUYỀN TRUY CẬP</h2>
+
+  <p>Chúng tôi đã kiểm tra rất kỹ...</p>
+
+  <div class="reason">
+    <p>❌ Không phải do lỗi mạng.</p>
+    <p>❌ Không phải do trình duyệt.</p>
+    <p>❌ Không phải do server.</p>
+  </div>
+
+  <p class="highlight">
+    👉 Chỉ đơn giản là bạn... chưa có quyền. 😄
+  </p>
+
+  <div class="actions">
+    <button nz-button nzType="default" (click)="goBack()">
+      Quay lại
+    </button>
+
+    <button nz-button nzType="primary" (click)="requestPermission()">
+      Xin quyền
+    </button>
+  </div>
+</div>

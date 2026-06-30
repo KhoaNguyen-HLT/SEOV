@@ -33,7 +33,7 @@
 
           <div class="info-title">
             <span nz-icon nzType="file-text"></span>
-            Thông tin Request
+            Thông tin phiếu yêu cầu
           </div>
 
           <nz-table class="request-header-table" #basicTable [nzData]="hdData" [nzFrontPagination]="false"
@@ -43,6 +43,7 @@
                 <th>RequestNo</th>
                 <th>Department</th>
                 <th>Product</th>
+                <th>Status</th>
                 <th>Approved By</th>
                 <th>Issued By</th>
                 <th>Rejected By</th>
@@ -57,6 +58,7 @@
                 <td>{{ data.request_no }}</td>
                 <td>{{ data.department }}</td>
                 <td>{{ data.production_number }}</td>
+                <td>{{ data.status }}</td>
                 <td>{{ data.approved_by }}</td>
                 <td>{{ data.issued_by }}</td>
                 <td>{{ data.rejected_by }}</td>

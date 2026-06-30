@@ -44,6 +44,13 @@ export const mfMaterialRoutes: Routes = [
       import('./mf-material-list-approve/mf-material-list-approve')
         .then(m => m.MfMaterialApproveListComponent),
   }
+      ,
+  {
+    path: 'mf-material-list-his',
+    loadComponent: () =>
+      import('./mf-material-list-his/mf-material-list-his')
+        .then(m => m.MfMaterialHisListComponent),
+  }
 
 
 ];
