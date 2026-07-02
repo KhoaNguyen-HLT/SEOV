@@ -112,6 +112,10 @@ export class MainLayoutComponent {
   CFR() {
     this.router.navigate(['/welcome/pu/se-pu-cfr']);
   }
+
+    DPM() {
+    this.router.navigate(['/welcome/pu/se-pu-dpm']);
+  }
 // MF department
   mfMaterialRequest() {
     this.router.navigate(['/welcome/mf-order-material/mf-order-request']);

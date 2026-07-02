@@ -10,11 +10,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import dayjs from 'dayjs';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { SePuService } from '../se-pu.service';
+import { SePuService } from '../../se-pu.service';
 import { ClientSideRowModelModule } from 'ag-grid-community';
 import { ValueGetterParams, ColDef } from 'ag-grid-community';
 import { CsvExportModule } from 'ag-grid-community';
-import { PopupService } from '../../../shared/service/popup.service';
+import { PopupService } from '../../../../shared/service/popup.service';
 
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule, CsvExportModule]);
 

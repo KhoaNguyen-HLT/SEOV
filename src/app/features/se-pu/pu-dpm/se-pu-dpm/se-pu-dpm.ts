@@ -9,7 +9,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
+  selector: 'app-se-pu-dpm',
   standalone: true,
   imports: [FormsModule,
     NzGridModule,
@@ -20,10 +20,10 @@ import { Router } from '@angular/router';
     NzDividerModule,
     NzIconModule,
   ],
-  templateUrl: './se-pu-cfr.html',
-  styleUrls: ['./se-pu-cfr.css']
+  templateUrl: './se-pu-dpm.html',
+  styleUrls: ['./se-pu-dpm.css']
 })
-export class sePuCfrComponent {
+export class sePuDpmComponent {
   size: NzButtonSize = 'large';
   constructor(private router: Router) { }
 
