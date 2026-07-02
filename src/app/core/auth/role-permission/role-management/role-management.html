@@ -1,43 +1,51 @@
+<div class="title">Danh sách vai trò trong hệ thống</div>
+
 <div class="header-actions">
-  <button nz-button nzType="primary" (click)="showCreateModal()">
+  <button nz-button nzType="primary" class = "add_btn"  (click)="showCreateModal()">
     <span nz-icon nzType="plus"></span> Thêm Vai Trò Mới
   </button>
 </div>
 
-<nz-table #basicTable [nzData]="roles">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Mã Vai Trò</th>
-      <th>Tên Vai Trò (Role)</th>
-      <th>Mô tả</th>
-      <th>Hành động</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of roles">
-      <td>{{ data.id }}</td>
-      <td>{{ data.code }}</td>
-      <td>{{ data.name }}</td>
-      <td>{{ data.description }}</td>
-      <td>
-        <nz-space>
-          <button *nzSpaceItem nz-button nzType="default" (click)="showEditModal(data)">Sửa</button>
-          <button *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
-            nzPopconfirmTitle="Bạn có chắc chắn muốn xóa vai trò này không?" (nzOnConfirm)="deleteRole(data.id)">
-            Xóa
-          </button>
-        </nz-space>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
 
-<nz-modal [(nzVisible)]="isModalVisible" [nzTitle]="editingId ? 'Cập nhật Vai Trò' : 'Thêm Vai Trò Mới'"
+<ag-grid-angular class="ag-theme-alpine seov-grid" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
+  (gridReady)="onGridReady($event)" [rowHeight]="42" [context]="{ componentParent: this }">
+</ag-grid-angular>
+
+
+<nz-modal [(nzVisible)]="isEditModalVisible" nzTitle="Sửa thiết bị" (nzOnCancel)="editHandleCancel()" (nzOnOk)="editHandleOk()">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="editForm">
+      <nz-form-item>
+        <nz-form-label nzSpan="6">Code</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="code" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzSpan="6">name</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzSpan="6">Description</nz-form-label>
+        <nz-form-control nzSpan="18">
+          <input nz-input formControlName="description" />
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isModalVisible"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
 
   <ng-container *nzModalContent>
-    <form nz-form [formGroup]="validateForm">
+    <form nz-form [formGroup]="createForm">
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Mã vai trò</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập mã vai trò!">

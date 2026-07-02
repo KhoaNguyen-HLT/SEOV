@@ -30,7 +30,6 @@ export class MenuUserComponent {
   constructor(private userRoutes: Router) {}
 
   create_user() {
-    console.log('khoacheck user...');
     this.userRoutes.navigate(['/welcome/user/create']);
   }
 

@@ -48,7 +48,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   styleUrl: './mf-material-list-approve.css',
 })
 export class MfMaterialApproveListComponent {
-  hasPermission = true;
+  hasPermission = false;
   userName: String = ''
   searchForm!: FormGroup;
   detailform!: FormGroup;

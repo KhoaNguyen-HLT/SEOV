@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActionCellComponent } from '../../../../shared/components/action-cell/action-cell';
+import { CheckboxFilterComponent } from '../../../../shared/ArGrid/CheckboxFilterComponent';
+import { PopupService } from '../../../../shared/service/popup.service';
+import { AuthService } from '../../service/auth.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -9,9 +13,13 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-import { AuthService } from '../../service/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { PopupService } from '../../../../shared/service/popup.service';
+import { ColDef, RowSelectionOptions } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ModuleRegistry, AllCommunityModule, GridOptions } from 'ag-grid-community';
+import { id_ID } from 'ng-zorro-antd/i18n';
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 interface Role {
   id: string;
   code: string;
@@ -38,125 +46,203 @@ interface CreateRole {
     NzInputModule,
     NzIconModule,
     NzSpaceModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    AgGridAngular
   ],
   templateUrl: './role-management.html',
-  styles: [`
-    .header-actions {
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: flex-end;
-    }
-  `]
+  styleUrls: ['./role-management.css'],
 })
 export class RoleManagementComponent {
-  // roles: Role[] = [
-  //   { id: '1', name: 'Admin', description: 'Quản trị viên hệ thống' },
-  //   { id: '2', name: 'Manager', description: 'Quản lý' },
-  //   { id: '3', name: 'User', description: 'Người dùng phổ thông' }
-  // ];
   roles: any[] = [];
+  gridApi: any;
 
   isModalVisible = false;
   validateForm!: FormGroup;
+  createForm!: FormGroup;
   editingId: string | null = null;
+  columnDefs: ColDef[] = [
+    {
+      headerName: 'id',
+      field: 'id',
+      width: 200,
+      sortable: true,
+
+    },
+    {
+      headerName: 'Mã vai trò',
+      field: 'code',
+      width: 200,
+      filter: CheckboxFilterComponent,
+      sortable: true,
+
+    },
+    {
+      headerName: 'Tên vai trò',
+      field: 'name',
+      width: 150,
+      filter: CheckboxFilterComponent,
+      sortable: true,
+
+    },
+    {
+      headerName: 'Mô tả',
+      field: 'description',
+      width: 150,
+      filter: CheckboxFilterComponent,
+      sortable: true,
+
+    }
+    ,
+    {
+      headerName: 'Action',
+      field: 'action',
+      cellRenderer: ActionCellComponent,
+      width: 100,
+      autoHeight: true,
+      cellRendererParams: {
+        showOpen: false,
+        showView: false,
+        showEdit: true,
+        showDelete: true
+      }
+    }
+  ];
+
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridApi.setGridOption('rowData', this.roles);
+  }
+
 
   constructor(private fb: FormBuilder, private authService: AuthService, private cdr: ChangeDetectorRef
     , private PopupService: PopupService
   ) {
-    this.initForm();
+
   }
 
   ngOnInit(): void {
+    this.editForm = this.fb.group({
+      code: [null],
+      name: [null],
+      description: [null]
+    });
+
+    this.createForm = this.fb.group({
+      code: [null],
+      name: [null],
+      description: [null]
+    });
+
     this.getAllRoles();
   }
 
   getAllRoles() {
     this.authService.getAllRoles().subscribe((res: any) => {
-      console.log(res);
       this.roles = res[0];
-      console.log(this.roles);
-      this.cdr.detectChanges();
+      if (this.gridApi) {
+        this.gridApi.setGridOption('rowData', this.roles);
+      }
     });
 
   }
 
-  initForm(): void {
-    this.validateForm = this.fb.group({
-      code: [null, [Validators.required]],
-      name: [null, [Validators.required]],
-      description: [null]
-    });
+  onEdit(row: any) {
+    console.log('EDIT:', row);
+    this.currentRow = row;
+    this.editForm.patchValue(row);
+    this.isEditModalVisible = true;
   }
+
+  isEditModalVisible = false;
+  editForm!: FormGroup;
+  currentRow: any;
+
+  editHandleCancel() {
+    this.isEditModalVisible = false;
+  }
+  editHandleOk() {
+    if (this.editForm.invalid) return;
+
+    const updated = {
+      ...this.currentRow,
+      ...this.editForm.value
+    };
+    const id = updated.id;
+    // 👉 gọi API update
+    this.authService.updateRole(id, updated).subscribe((res: any) => {
+      if (res.message == "success") {
+        this.PopupService.success("Update success");
+        this.getAllRoles();
+      } else {
+        this.PopupService.error("Update failed");
+      }
+
+    });
+
+    this.isEditModalVisible = false;
+  }
+
+
+
+
+
+
+
 
   showCreateModal(): void {
     this.editingId = null;
-    this.validateForm.reset();
+    // this.validateForm.reset();
     this.isModalVisible = true;
   }
 
-  showEditModal(role: Role): void {
-    this.editingId = role.id;
-    this.validateForm.patchValue({
-      name: role.name,
-      description: role.description
-    });
-    this.isModalVisible = true;
-  }
-
-  deleteRole(id: string): void {
-    this.roles = this.roles.filter(r => r.id !== id);
-  }
 
   handleOk(): void {
-    if (this.validateForm.valid) {
-      const formValue = this.validateForm.value;
-      if (this.editingId) {
-        // Edit mode
-        const index = this.roles.findIndex(r => r.id === this.editingId);
-        if (index > -1) {
-          // this.roles[index] = { ...this.roles[index], ...formValue };
-          // this.roles = [...this.roles];
-          this.authService.updateRole(this.editingId, formValue).subscribe((res: any) => {
-            console.log(res);
-            if (res.message == "success") {
-              this.PopupService.success("Update success");
-              this.getAllRoles();
-            } else {
-              this.PopupService.error("Update failed");
-            }
-
-          });
-        }
+    // Create mode
+    const formValue = this.createForm.value;
+    const newRole: CreateRole = {
+      code: formValue.code,
+      name: formValue.name,
+      description: formValue.description || ''
+    };
+    console.log(newRole);
+    this.authService.createRole(newRole).subscribe((res: any) => {
+      if (res.message == "success") {
+        this.PopupService.success("Create success");
+        this.getAllRoles();
       } else {
-        // Create mode
-        const newRole: CreateRole = {
-          code: formValue.code,
-          name: formValue.name,
-          description: formValue.description || ''
-        };
-        this.authService.createRole(newRole).subscribe((res: any) => {
-          console.log(res);
-          if (res.message == "success") {
-            this.PopupService.success("Create success");
-            this.getAllRoles();
-          } else {
-            this.PopupService.error("Create failed");
-          }
-        });
+        this.PopupService.error("Create failed");
       }
-      this.isModalVisible = false;
-    } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
+    });
+    this.isModalVisible = false;
+
   }
 
   handleCancel(): void {
     this.isModalVisible = false;
   }
+
+
+
+
+
+  // delete role
+  onDelete(row: any) {
+    console.log('DELETE:', row);
+    if (row.id) {
+      console.log(row.id)
+      // this.deviceService.deleteDevice(row.id).subscribe((res: any) => {
+      //   if (res.message == "success") {
+      //     this.gridApi.applyTransaction({
+      //       remove: [row]
+      //     });
+      //     this.popup.success("Xóa thiết bị thành công");
+      //   }
+      //   else {
+      //     this.popup.error(res.message);
+      //   }
+      // });
+    }
+
+  }
+
 }

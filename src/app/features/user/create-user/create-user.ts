@@ -98,7 +98,6 @@ export class CreateUserComponent implements OnInit {
     this.loadingService.show();
     this.userService.createUser(this.form.value).subscribe({
       next: (response) => {
-        console.log('User created:', response);
         this.loadingService.hide();
         this.popupService.success('Tạo User thành công');
         // this.router.navigate(['/welcome/user']);
@@ -115,7 +114,6 @@ export class CreateUserComponent implements OnInit {
     this.userService.getAllRole().subscribe({
       next: (res) => {
         this.roles = res.data;
-        console.log(this.roles);
 
       },
       error: (error) => {
@@ -127,7 +125,6 @@ export class CreateUserComponent implements OnInit {
     this.userService.getDepartment().subscribe({
       next: (res) => {
         this.departments = res.data;
-        console.log(this.departments);
       },
       error: (error) => {
         this.popupService.error('Lỗi tải dữ liệu phòng ban');

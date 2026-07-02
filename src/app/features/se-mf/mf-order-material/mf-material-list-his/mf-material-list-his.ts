@@ -128,6 +128,10 @@ export class MfMaterialHisListComponent {
   //   checkboxes: true,
   //   headerCheckbox: true
   // };
+    onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridApi.setGridOption('rowData', this.rowData);
+  }
 
   constructor(private MfMaterialService: MfMaterialService, private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService, private Router: Router) { }
   ngOnInit() {
@@ -178,12 +182,6 @@ export class MfMaterialHisListComponent {
     });
   }
 
-
-
-  onGridReady(params: any) {
-    this.gridApi = params.api;
-    this.gridApi.setGridOption('rowData', this.rowData);
-  }
 
 
 
