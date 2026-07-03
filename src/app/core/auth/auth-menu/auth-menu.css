@@ -93,6 +93,22 @@
   font-weight: 600;
 }
 
+/* ===== SETTING BUTTON ===== */
+
+.setting-btn {
+  background: linear-gradient(135deg, #f3e8ff, #ead7ff);
+  border: 1px solid #d3adf7;
+}
+
+.setting-btn .anticon,
+.setting-btn span {
+  color: #722ed1;
+}
+
+.setting-btn:hover {
+  background: linear-gradient(135deg, #ead7ff, #d3adf7);
+}
+
 /* ===== CREATE USER ===== */
 
 .create-btn {

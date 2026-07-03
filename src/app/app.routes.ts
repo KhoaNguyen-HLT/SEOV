@@ -83,9 +83,9 @@ export const routes: Routes = [
           import('./core/auth/role-permission/role-management/role-management').then(m => m.RoleManagementComponent)
       },
       {
-        path: 'permission-management',
+        path: 'role-permission-management',
         loadComponent: () =>
-          import('./core/auth/role-permission/permission-management1/permission-management1').then(m => m.PermissionManagementComponent1)
+          import('./core/auth/role-permission/role-permission-management/role-permission-management').then(m => m.RolePermissionManagementComponent)
       },
       {
         path: 'user-role-management',

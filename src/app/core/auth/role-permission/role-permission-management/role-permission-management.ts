@@ -22,7 +22,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { id_ID } from 'ng-zorro-antd/i18n';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-
+interface Role {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-role-management',
@@ -42,15 +47,15 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     NzSelectModule,
     FormsModule
   ],
-  templateUrl: './user-role-management.html',
-  styleUrls: ['./user-role-management.css'],
+  templateUrl: './role-permission-management.html',
+  styleUrls: ['./role-permission-management.css'],
 })
-export class UserRoleManagementComponent {
+export class RolePermissionManagementComponent {
   roles: any[] = [];
-  users: any[] = [];
-  selectedRoleIds = [] as string[];
+  permission: any[] = [];
+  selectedPermissionIds = [] as string[];
   gridApi: any;
-  selectedUser: any;
+  selectedPermission: any;
   isModalVisible = false;
   validateForm!: FormGroup;
   createForm!: FormGroup;
@@ -64,29 +69,28 @@ export class UserRoleManagementComponent {
 
     },
     {
-      headerName: 'UserName',
-      field: 'username',
+      headerName: 'Mã vai trò',
+      field: 'code',
       width: 200,
       filter: CheckboxFilterComponent,
       sortable: true,
 
     },
     {
-      headerName: 'Tên người dùng',
+      headerName: 'Tên vai trò',
       field: 'name',
-      width: 150,
+      width: 200,
       filter: CheckboxFilterComponent,
       sortable: true,
 
     },
     {
-      headerName: 'Roles',
-      field: 'roles',
+      headerName: 'Permissions',
+      field: 'permissions',
       width: 500,
       filter: CheckboxFilterComponent,
       valueGetter: params =>
-        params.data.roles?.map((r: any) => r.code).join(', ') ?? ''
-
+        params.data.permissions?.map((p: any) => p.code).join(', ') ?? ''
     }
     ,
     {
@@ -131,22 +135,22 @@ export class UserRoleManagementComponent {
     });
 
     this.getAllRoles();
-    this.getAllUsers();
+    this.getAllPermissions();
   }
 
   getAllRoles() {
     this.authService.getAllRoles().subscribe((res: any) => {
       this.roles = res[0];
+      this.gridApi.setGridOption('rowData', this.roles);
       console.log('Roles:', this.roles);
     });
 
   }
 
-  getAllUsers() {
-    this.UserService.getUsers().subscribe((res: any) => {
-      console.log('Users:', res);
-      this.users = res;
-      this.gridApi.setGridOption('rowData', res);
+  getAllPermissions() {
+    this.authService.GetAllPermissions().subscribe((res: any) => {
+      this.permission = res[0];
+      console.log('Permissions:', this.permission);
     });
 
   }
@@ -154,10 +158,10 @@ export class UserRoleManagementComponent {
 
 
   onUpdateRole(row: any) {
-    this.selectedUser = row;
+    this.selectedPermission = row;
     this.currentRow = row;
 
-    this.selectedRoleIds = this.selectedUser.roles?.map((role: any) => role.id) ?? [];
+    this.selectedPermissionIds = this.selectedPermission.permissions?.map((permission: any) => permission.id) ?? [];
     this.isUpdateModalVisible = true;
   }
 
@@ -172,15 +176,15 @@ export class UserRoleManagementComponent {
     if (this.editForm.invalid) return;
 
     const payload = {
-      userId: this.currentRow.id,
-      roleIds: this.selectedRoleIds
+      roleId: this.currentRow.id,
+      permissionIds: this.selectedPermissionIds
     };
 
     // 👉 gọi API update
-    this.UserService.updateUserRole(payload).subscribe((res: any) => {
+    this.authService.UpdateRolePermission(payload).subscribe((res: any) => {
       if (res.message === 'success') {
         this.PopupService.success('Cập nhật vai trò thành công');
-        this.getAllUsers();
+        this.getAllRoles();
         this.isUpdateModalVisible = false;
       } else {
         this.PopupService.error('Cập nhật thất bại');
@@ -192,14 +196,6 @@ export class UserRoleManagementComponent {
 
 
 
-  handleOk(): void {
-    this.isModalVisible = true;
-  }
-
-
-  handleCancel(): void {
-    this.isModalVisible = false;
-  }
 
 
 

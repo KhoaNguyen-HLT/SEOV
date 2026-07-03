@@ -9,10 +9,10 @@
     <div style="margin-bottom: 8px;">Người dùng: <strong></strong></div>
 
     <div style="margin-bottom: 8px;">Chọn Vai Trò (Multiple Roles):</div>
-    <nz-select class="roles-select" [(ngModel)]="selectedRoleIds" [nzMaxTagCount]="5" nzMode="multiple"
+    <nz-select class="roles-select" [(ngModel)]="selectedPermissionIds" [nzMaxTagCount]="5" nzMode="multiple"
       nzPlaceHolder="Vui lòng chọn vai trò...">
 
-      <nz-option *ngFor="let role of roles" [nzValue]="role.id" [nzLabel]="role.code">
+      <nz-option *ngFor="let permission of permission" [nzValue]="permission.id" [nzLabel]="permission.code">
       </nz-option>
 
     </nz-select>

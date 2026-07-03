@@ -23,10 +23,10 @@ export const authRoutes: Routes = [
                 .then(m => m.PermissionManagementComponent)
     },
     {
-        path: 'permission-management1',
+        path: 'role-permission-management',
         loadComponent: () =>
-            import('./role-permission/permission-management1/permission-management1')
-                .then(m => m.PermissionManagementComponent1)
+            import('./role-permission/role-permission-management/role-permission-management')
+                .then(m => m.RolePermissionManagementComponent)
     },
     {
         path: 'user-role-management',

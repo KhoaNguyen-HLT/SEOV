@@ -81,12 +81,12 @@
         <button nz-button nzType="primary" (click)="saveData()"
           [disabled]="hdData[0]?.status === 'REJECTED'||hdData[0]?.status === 'COMPLETED'">
           <span nz-icon nzType="save"></span>
-          Save
+          Lưu phiếu xuất
         </button>
 
         <button nz-button nzDanger (click)="rejectRequest()"
           [disabled]="hdData[0]?.status === 'REJECTED'||hdData[0]?.status === 'COMPLETED'">
-          Hủy Request
+          Hủy yêu cầu
         </button>
       </div>
 

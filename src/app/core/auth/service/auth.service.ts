@@ -68,8 +68,8 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/roles`, role);
   }
 
-  updateRole(id: string, role: any) {
-    return this.http.put(`${this.API_URL}/roles/${id}`, role);
+  updateRole(id: string, updated: any) {
+    return this.http.put(`${this.API_URL}/roles/${id}`, updated);
   }
 
   deleteRole(id: string) {
@@ -96,5 +96,11 @@ export class AuthService {
   DeletePermission(id: string) {
     return this.http.delete(`${this.API_URL}/permissions/${id}`);
   }
+
+
+    UpdateRolePermission(payload: any) {
+    return this.http.post(`${this.API_URL}/UpdateRolePermission`, payload);
+  }
+
 
 }

@@ -5,6 +5,11 @@
         <span nz-icon nzType="eye"></span>
     </button>
 
+     <!-- update -->
+    <button *ngIf="showUpdateRole" nz-button nzType="text" nzTooltipTitle="Cập nhật vai trò" (click)="onUpdateRole()" style="color: #1677ff;">
+        <span nz-icon nzType="team"></span>
+    </button>
+
     <!-- VIEW -->
     <button *ngIf="showView" nz-button nzType="text" nzTooltipTitle="Xem" (click)="onView()">
         <span nz-icon nzType="eye"></span>

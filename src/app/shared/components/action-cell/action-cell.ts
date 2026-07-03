@@ -26,7 +26,7 @@ export class ActionCellComponent implements ICellRendererAngularComp {
     showEdit: boolean = false;
     showDelete: boolean = false;
     showOpen: boolean = false;
-
+    showUpdateRole: boolean = false;
     agInit(params: ICellRendererParams): void {
         this.params = params;
         this.setupPermissions();
@@ -39,6 +39,7 @@ export class ActionCellComponent implements ICellRendererAngularComp {
         this.showView = config.showView ?? true;
         this.showEdit = config.showEdit ?? true;
         this.showDelete = config.showDelete ?? true
+         this.showUpdateRole = config.showUpdateRole ?? false;
     }
 
     refresh(params: ICellRendererParams): boolean {
@@ -49,6 +50,10 @@ export class ActionCellComponent implements ICellRendererAngularComp {
 
     onOpen() {
         (this.params.context as any).componentParent.onOpen(this.params.data);
+    }
+
+    onUpdateRole() {
+        (this.params.context as any).componentParent.onUpdateRole(this.params.data);
     }
 
     onView() {
