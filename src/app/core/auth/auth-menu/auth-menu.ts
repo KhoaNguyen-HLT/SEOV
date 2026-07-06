@@ -9,6 +9,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NoPermissionComponent } from '../../../shared/components/no-permission/no-permission';
 import { AuthService } from '../../../core/auth/service/auth.service';
+import { AppIconComponent } from '../../../shared/components/icon/icon-component';
+import { KeyRound } from 'lucide-angular';
+
 
 @Component({
   selector: 'auth-menu',
@@ -21,13 +24,13 @@ import { AuthService } from '../../../core/auth/service/auth.service';
     NzSliderModule,
     NzDividerModule,
     NzIconModule,
-    NoPermissionComponent
+    NoPermissionComponent,
+    AppIconComponent
   ],
   templateUrl: './auth-menu.html',
   styleUrls: ['./auth-menu.css']
 })
 export class AuthMenuComponent {
-  size: NzButtonSize = 'large';
   hasPermission = false;
   userName: String = '';
 
@@ -60,6 +63,11 @@ export class AuthMenuComponent {
   }
   role_permission_management() {
     this.userRoutes.navigate(['/welcome/auth/role-permission-management']);
+  }
+
+  resetPassword() {
+    this.userRoutes.navigate(['/welcome/auth/reset-password']);
+    // console.log('Reset Password clicked');
   }
 
 }

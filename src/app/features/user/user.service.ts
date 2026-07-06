@@ -21,6 +21,11 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/getUsers`);
   }
 
+  getUserByUsername(username: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getUserByUserName/${username}`);
+  }
+
+
 
   getAllRole(): Observable<any> {
     return this.http.get(`${this.baseUrlAuth}/getAllRole`);
@@ -34,7 +39,7 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/getPosition`);
   }
 
-   // User Role Management
+  // User Role Management
   updateUserRole(payload: any) {
     return this.http.post(`${this.baseUrl}/updateUserRole`, payload);
   }

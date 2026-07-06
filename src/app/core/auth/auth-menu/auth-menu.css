@@ -18,150 +18,219 @@
 
 
  .menu-container {
-  width: 100%;
-  min-height: 100vh;
-  background: #f5f7fa;
-  padding: 40px;
-  box-sizing: border-box;
-}
+   width: 100%;
+   min-height: 100vh;
+   background: #f5f7fa;
+   padding: 40px;
+   box-sizing: border-box;
+ }
 
-.menu-header {
-  margin-bottom: 40px;
-}
+ .menu-header {
+   margin-bottom: 40px;
+ }
 
-.menu-header h2 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 600;
-  color: #262626;
-}
+ .menu-header h2 {
+   margin: 0;
+   font-size: 28px;
+   font-weight: 600;
+   color: #262626;
+ }
 
-.menu-header span {
-  color: #8c8c8c;
-  font-size: 14px;
-}
+ .menu-header span {
+   color: #8c8c8c;
+   font-size: 14px;
+ }
 
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 24px;
-}
+ .menu-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+   gap: 24px;
+ }
 
-/* ===== BUTTON ===== */
+ /* ===== BUTTON ===== */
 
-.menu-btn {
-  height: 120px;
+ .menu-btn {
+   height: 120px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 12px;
 
-  background: #ffffff;
-  border: none;
-  border-radius: 16px;
+   background: #ffffff;
+   border: none;
+   border-radius: 16px;
 
-  cursor: pointer;
+   cursor: pointer;
 
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.06),
-    0 1px 3px rgba(0, 0, 0, 0.08);
+   box-shadow:
+     0 4px 12px rgba(0, 0, 0, 0.06),
+     0 1px 3px rgba(0, 0, 0, 0.08);
 
-  transition: all 0.25s ease;
-}
+   transition: all 0.25s ease;
+ }
 
-.menu-btn:hover {
-  transform: translateY(-6px);
+ .menu-btn:hover {
+   transform: translateY(-6px);
 
-  box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.12),
-    0 4px 8px rgba(0, 0, 0, 0.08);
-}
+   box-shadow:
+     0 12px 24px rgba(0, 0, 0, 0.12),
+     0 4px 8px rgba(0, 0, 0, 0.08);
+ }
 
-.menu-btn .anticon {
-  font-size: 34px;
-  transition: all 0.25s ease;
-}
+ .menu-btn .anticon {
+   font-size: 34px;
+   transition: all 0.25s ease;
+ }
 
-.menu-btn:hover .anticon {
-  transform: scale(1.15);
-}
+ .menu-btn:hover .anticon {
+   transform: scale(1.15);
+ }
 
-.menu-btn span {
-  font-size: 15px;
-  font-weight: 600;
-}
+ .menu-btn span {
+   font-size: 15px;
+   font-weight: 600;
+ }
 
-/* ===== SETTING BUTTON ===== */
+ /* ===== SETTING BUTTON ===== */
 
-.setting-btn {
-  background: linear-gradient(135deg, #f3e8ff, #ead7ff);
-  border: 1px solid #d3adf7;
-}
+ /* ===== BUTTON BASE ===== */
 
-.setting-btn .anticon,
-.setting-btn span {
-  color: #722ed1;
-}
+ .menu-btn {
+   height: 120px;
 
-.setting-btn:hover {
-  background: linear-gradient(135deg, #ead7ff, #d3adf7);
-}
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 12px;
 
-/* ===== CREATE USER ===== */
+   background: #ffffff;
+   border: none;
+   border-radius: 16px;
 
-.create-btn {
-  background: linear-gradient(135deg, #e8f3ff, #d7ebff);
-}
+   cursor: pointer;
+   color: #334155;
 
-.create-btn .anticon,
-.create-btn span {
-  color: #1677ff;
-}
+   box-shadow:
+     0 4px 12px rgba(0, 0, 0, 0.06),
+     0 1px 3px rgba(0, 0, 0, 0.08);
 
-/* ===== REPORT ===== */
+   transition: all 0.25s ease;
+ }
 
-.report-btn {
-  background: linear-gradient(135deg, #eafbf2, #d6f5e4);
-}
+ .menu-btn:hover {
+   transform: translateY(-6px);
+   box-shadow:
+     0 12px 24px rgba(0, 0, 0, 0.12),
+     0 4px 8px rgba(0, 0, 0, 0.08);
+ }
 
-.report-btn .anticon,
-.report-btn span {
-  color: #16a34a;
-}
+ .menu-btn app-icon,
+ .menu-btn svg,
+ .menu-btn .anticon {
+   width: 34px;
+   height: 34px;
+   font-size: 34px;
+   color: currentColor;
+   stroke: currentColor;
+   transition: all 0.25s ease;
+ }
 
-/* ===== TRACE ===== */
+ .menu-btn:hover app-icon,
+ .menu-btn:hover svg,
+ .menu-btn:hover .anticon {
+   transform: scale(1.15);
+ }
 
-.trace-btn {
-  background: linear-gradient(135deg, #fff4e5, #ffe7c2);
-}
+ .menu-btn span {
+   font-size: 15px;
+   font-weight: 600;
+   color: currentColor;
+ }
 
-.trace-btn .anticon,
-.trace-btn span {
-  color: #fa8c16;
-}
+ /* ===== SETTING ===== */
 
-/* ===== RESPONSIVE ===== */
+ .setting-btn {
+   background: linear-gradient(135deg, #f3e8ff, #ead7ff);
+   border: 1px solid #d3adf7;
+   color: #722ed1;
+ }
 
-@media (max-width: 768px) {
-  .menu-container {
-    padding: 20px;
-  }
+ .setting-btn:hover {
+   background: linear-gradient(135deg, #ead7ff, #d3adf7);
+ }
 
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
+ /* ===== CREATE USER ===== */
 
-  .menu-btn {
-    height: 100px;
-  }
+ .create-btn {
+   background: linear-gradient(135deg, #e8f3ff, #d7ebff);
+   border: 1px solid #bae0ff;
+   color: #1677ff;
+ }
 
-  .menu-btn .anticon {
-    font-size: 28px;
-  }
+ .create-btn:hover {
+   background: linear-gradient(135deg, #d7ebff, #bae0ff);
+ }
 
-  .menu-btn span {
-    font-size: 14px;
-  }
-}
+ /* ===== REPORT ===== */
+
+ .report-btn {
+   background: linear-gradient(135deg, #eafbf2, #d6f5e4);
+   border: 1px solid #bbf7d0;
+   color: #16a34a;
+ }
+
+ .report-btn:hover {
+   background: linear-gradient(135deg, #d6f5e4, #bbf7d0);
+ }
+
+ /* ===== TRACE ===== */
+
+ .trace-btn {
+   background: linear-gradient(135deg, #fff4e5, #ffe7c2);
+   border: 1px solid #ffd591;
+   color: #fa8c16;
+ }
+
+ .trace-btn:hover {
+   background: linear-gradient(135deg, #ffe7c2, #ffd591);
+ }
+
+ /* ===== RESET PASSWORD ===== */
+
+ .reset-btn {
+   background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+   border: 1px solid #fecdd3;
+   color: #e11d48;
+ }
+
+ .reset-btn:hover {
+   background: linear-gradient(135deg, #ffe4e6, #fecdd3);
+ }
+
+
+ /* ===== RESPONSIVE ===== */
+
+ @media (max-width: 768px) {
+   .menu-container {
+     padding: 20px;
+   }
+
+   .menu-grid {
+     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+   }
+
+   .menu-btn {
+     height: 100px;
+   }
+
+   .menu-btn .anticon {
+     font-size: 28px;
+   }
+
+   .menu-btn span {
+     font-size: 14px;
+   }
+ }

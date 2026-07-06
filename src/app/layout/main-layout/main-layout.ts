@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -11,7 +12,10 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../core/auth/service/auth.service';
+import { UserService } from '../../../app/features/user/user.service';
 import { TokenStorageService } from '../../core/auth/service/token-storage.service';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 
 @Component({
@@ -25,7 +29,9 @@ import { TokenStorageService } from '../../core/auth/service/token-storage.servi
     NzAvatarModule,
     NzButtonModule,
     NzInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzDropDownModule,
+    CommonModule
   ],
   providers: [
     {
@@ -37,11 +43,18 @@ import { TokenStorageService } from '../../core/auth/service/token-storage.servi
   styleUrls: ['./main-layout.css']
 })
 export class MainLayoutComponent {
-
+  currentUser: any = {};
+  username: any = '';
   constructor(private router: Router,
     private TokenStorageService: TokenStorageService,
+    private AuthService: AuthService,
+    private UserService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
+
+  ngOnInit() {
+    this.getUserInfo();
+  }
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
@@ -49,6 +62,32 @@ export class MainLayoutComponent {
       this.router.navigate(['/login']);
     }
 
+  }
+
+
+  getUserInfo() {
+    this.AuthService.getUserInfobyToken();
+    this.username = this.AuthService.userName;
+
+    if (!this.username) return;
+
+    this.UserService.getUserByUsername(this.username).subscribe({
+      next: (res: any) => {
+        this.currentUser = res.data;
+        console.log('Current user:', this.currentUser);
+      },
+      error: err => console.error(err)
+    });
+  }
+
+
+
+  viewProfile(): void {
+    this.router.navigate(['/welcome/profile']);
+  }
+
+  changePassword(): void {
+    this.router.navigate(['/welcome/auth/change-password']);
   }
 
   Dashboard() {
@@ -104,23 +143,23 @@ export class MainLayoutComponent {
     this.router.navigate(['/welcome/device']);
   }
 
-// QA department
+  // QA department
   IQC() {
     this.router.navigate(['/welcome/qa/se-qa-iqc']);
   }
-// Pu department
+  // Pu department
   CFR() {
     this.router.navigate(['/welcome/pu/se-pu-cfr']);
   }
 
-    DPM() {
+  DPM() {
     this.router.navigate(['/welcome/pu/se-pu-dpm']);
   }
-// MF department
+  // MF department
   mfMaterialRequest() {
     this.router.navigate(['/welcome/mf-order-material/mf-order-request']);
   }
-// PE department
+  // PE department
   BOM() {
     this.router.navigate(['/welcome/pe/se-pe-bom']);
   }

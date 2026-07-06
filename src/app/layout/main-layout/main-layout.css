@@ -64,3 +64,45 @@
 .title {
   white-space: nowrap;
 }
+
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  cursor: pointer;
+
+  padding: 6px 12px;
+  border-radius: 10px;
+
+  transition: .2s;
+}
+
+.user-info:hover {
+  background: rgba(0,0,0,.05);
+}
+
+.user-text {
+  line-height: 1.2;
+}
+
+.user-text .name {
+  font-weight: 600;
+}
+
+.user-text .role {
+  font-size: 12px;
+  color: #999;
+}

@@ -29,7 +29,7 @@
         <ul>
           <li nz-menu-item (click)="printLabel()">In Tem</li>
           <li nz-menu-item (click)="inputMaterial()">Nhập Nguyên vật liệu</li>
-          
+
           <!-- <li nz-menu-item>E-INOUT</li> -->
         </ul>
       </li>
@@ -45,7 +45,7 @@
           <li nz-menu-item (click)="DPM()">DPM</li>
         </ul>
       </li>
-            <li nz-submenu nzTitle="PE" nzIcon="build">
+      <li nz-submenu nzTitle="PE" nzIcon="build">
         <ul>
           <li nz-menu-item (click)="BOM()">Quản lý BOM</li>
         </ul>
@@ -61,7 +61,7 @@
           <li nz-menu-item (click)="Auth()">Phân quyền</li>
         </ul>
       </li>
-       <li nz-submenu nzTitle="REPORT" nzIcon="bar-chart">
+      <li nz-submenu nzTitle="REPORT" nzIcon="bar-chart">
         <ul>
           <li nz-menu-item>Báo cáo nguyên vật liệu</li>
           <li nz-menu-item>Báo cáo hàng tồn kho</li>
@@ -74,16 +74,58 @@
   <nz-layout>
     <!-- Header -->
     <nz-header class="header">
-      <div class="right">
-        <nz-avatar nzIcon="user"></nz-avatar>
-        <span>Admin</span>
-        <button nz-button nzType="link" (click)="logout()">Logout</button>
+
+      <div class="header-right">
+
+        <div nz-dropdown [nzDropdownMenu]="userMenu" nzTrigger="click" class="user-info">
+
+          <nz-avatar nzIcon="user"></nz-avatar>
+
+          <div class="user-text" *ngIf="currentUser">
+            <div class="name">Xin chào, {{ currentUser.name }}</div>
+            <div class="role">{{ currentUser.username }}</div>
+          </div>
+
+        </div>
+
+        <nz-dropdown-menu #userMenu="nzDropdownMenu">
+          <ul nz-menu>
+
+            <li nz-menu-item>
+              <span nz-icon nzType="user"></span>
+              {{ currentUser.username }}
+            </li>
+
+            <li nz-menu-divider></li>
+
+            <li nz-menu-item (click)="viewProfile()">
+              <span nz-icon nzType="idcard"></span>
+              Thông tin cá nhân
+            </li>
+
+            <li nz-menu-item (click)="changePassword()">
+              <span nz-icon nzType="lock"></span>
+              Đổi mật khẩu
+            </li>
+
+            <li nz-menu-divider></li>
+
+            <li nz-menu-item nzDanger (click)="logout()">
+              <span nz-icon nzType="logout"></span>
+              Đăng xuất
+            </li>
+
+          </ul>
+        </nz-dropdown-menu>
+
       </div>
+
     </nz-header>
 
     <!-- Content -->
     <nz-content class="content">
       <router-outlet></router-outlet>
     </nz-content>
+
   </nz-layout>
 </nz-layout>

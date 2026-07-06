@@ -13,7 +13,7 @@ import { TokenStorageService } from './token-storage.service';
 export class AuthService {
   role: string[] = [];
   permissions: string[] = [];
-  userName: String = ''
+  userName: string = ''
 
   private API_URL = environment.apiUrl + "/auth";
 
@@ -51,6 +51,17 @@ export class AuthService {
     this.userName = decoded.userName;
     this.role = decoded.role || [];
     this.permissions = decoded.permissions || [];
+  }
+
+  resetPassword(payload: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/resetPassword`,
+      payload);
+  }
+
+
+  changePassword(payload: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/changePassword`,
+      payload);
   }
 
 
@@ -98,7 +109,7 @@ export class AuthService {
   }
 
 
-    UpdateRolePermission(payload: any) {
+  UpdateRolePermission(payload: any) {
     return this.http.post(`${this.API_URL}/UpdateRolePermission`, payload);
   }
 

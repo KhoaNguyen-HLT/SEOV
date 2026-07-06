@@ -33,7 +33,20 @@ export const authRoutes: Routes = [
         loadComponent: () =>
             import('./role-permission/user-role-management/user-role-management')
                 .then(m => m.UserRoleManagementComponent)
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () =>
+            import('./reset-password/reset-password')
+                .then(m => m.ResetPasswordComponent)
+    },
+     {
+        path: 'change-password',
+        loadComponent: () =>
+            import('./change-password/change-password')
+                .then(m => m.ChangePasswordComponent)
     }
+
 
 
 ];
