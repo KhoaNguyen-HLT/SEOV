@@ -13,6 +13,7 @@ import { getDefaultAutoSelectFamily } from 'net';
 export class SePuService {
 
   private baseUrl = environment.apiUrl + "/pu/cfr";
+  private baseUrlDpm = environment.apiUrl + "/pu/dpm";
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
@@ -89,15 +90,18 @@ export class SePuService {
       );
   }
 
-  // getReport(lotA: string, lotB: string, program: string, msTypeRp: string): Observable<any> {
-  //   this.loadingService.show();
-  //   return this.http.post(`${this.baseUrl}/getReport`, null, { params: { lotA, lotB, program, msTypeRp } })
-  //     .pipe(
-  //       finalize(() => {
-  //         this.loadingService.hide();
-  //       })
-  //     );
-  // }
+
+  // Delivery Plan Managerment (DPM)
+  getGscmData(formData: any, dataType: string): Observable<any> {
+    this.loadingService.show();
+    const params = new HttpParams().set('dataType', dataType);
+    return this.http.post(`${this.baseUrlDpm}/getGscmData`, formData, { params })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
 
 }
 

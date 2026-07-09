@@ -1,0 +1,177 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.card-header p {
+  margin: 6px 0 0;
+  color: #8c8c8c;
+}
+
+.upload-box {
+  margin-bottom: 5px;
+}
+
+.upload-icon {
+  font-size: 42px;
+  color: #1677ff;
+  margin-bottom: 8px;
+}
+
+.upload-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.upload-desc {
+  color: #8c8c8c;
+}
+
+.file-section {
+  margin-top: 24px;
+}
+
+.file-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.file-section-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.file-section-header span {
+  color: #8c8c8c;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 16px;
+  border: 1px solid #edf0f5;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.file-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #e6f4ff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 22px;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #262626;
+}
+
+.file-size {
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+
+.total_file {
+  font-size: 18px;
+  font-weight: 700;
+  color: #5d72fb!important;
+}
+
+.file-stt {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 24px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+    margin-bottom: 24px;
+}
+
+.header-info h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #262626;
+}
+
+.header-info p {
+    margin: 4px 0 0;
+    color: #8c8c8c;
+    font-size: 14px;
+}
+
+.header-action{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+::ng-deep .header-select .ant-select-selector {
+  height: 42px !important;
+  align-items: center;
+  width: 80%;
+}
+
+.header-action nz-date-picker {
+    width: 180px;
+}

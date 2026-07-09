@@ -28,15 +28,11 @@ export class sePuDpmComponent {
   constructor(private router: Router) { }
 
   getData() {
-    this.router.navigate(['/welcome/pu/se-pu-cfr-getData']);
-  }
-
-  getMasterData() {
-    this.router.navigate(['/welcome/pu/se-pu-cfr-getMasterData']);
+    this.router.navigate(['/welcome/pu/se-pu-dpm-getData']);
   }
 
     getReportData() {
-    this.router.navigate(['/welcome/pu/se-pu-cfr-getReportData']);
+    this.router.navigate(['/welcome/pu/se-pu-dpm-getReportData']);
   }
 
 }
