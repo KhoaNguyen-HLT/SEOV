@@ -12,7 +12,9 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [RouterOutlet, FormsModule,
+  imports: [
+    // RouterOutlet,
+     FormsModule,
     NzGridModule,
     FormsModule,
     NzButtonModule,

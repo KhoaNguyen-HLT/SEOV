@@ -1,0 +1,79 @@
+<div class="warehouse-page">
+
+    <div class="page-header">
+        <div>
+            <h2>Layout kho nguyên vật liệu</h2>
+            <p>Chọn khu vực để xem sơ đồ bố trí rack</p>
+        </div>
+
+        <!-- Danh sách khu vực nằm ngang trên header -->
+        <div class="zone-navigation">
+            <button *ngFor="let zone of zones" type="button" class="zone-button"
+                [class.active]="selectedZone.id === zone.id" (click)="selectZone(zone)">
+
+                <span nz-icon nzType="environment" nzTheme="outline">
+                </span>
+
+                <span class="zone-information">
+                    <strong>{{ zone.name }}</strong>
+                    <small>{{ zone.racks.length }} rack</small>
+                </span>
+            </button>
+        </div>
+        <div class="layout-header">
+            <div>
+                <h3>{{ selectedZone.name }}</h3>
+                <p>{{ selectedZone.description }}</p>
+            </div>
+
+            <div class="legend">
+                <span>
+                    <i class="legend-color available"></i>
+                    Còn chỗ
+                </span>
+
+                <span>
+                    <i class="legend-color warning"></i>
+                    Gần đầy
+                </span>
+
+                <span>
+                    <i class="legend-color full"></i>
+                    Đã đầy
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container chính chiếm toàn bộ chiều ngang -->
+    <main class="layout-container">
+
+        <div class="warehouse-floor">
+
+            <div class="floor-label">LỐI VÀO KHU VỰC</div>
+
+            <div class="rack-grid">
+                <button *ngFor="let rack of selectedZone.racks" type="button" class="rack"
+                    [ngClass]="rack.status.toLowerCase()" [class.selected]="selectedRack?.id === rack.id"
+                    (click)="selectRack(rack)">
+
+                    <span nz-icon nzType="inbox" nzTheme="outline" class="rack-icon">
+                    </span>
+
+                    <strong>{{ rack.name }}</strong>
+                    <small>{{ rack.id }}</small>
+
+                    <span class="rack-status">
+                        {{ getStatusText(rack.status) }}
+                    </span>
+                </button>
+            </div>
+
+            <div class="walking-path">
+                <span>LỐI ĐI CHÍNH</span>
+            </div>
+
+        </div>
+
+    </main>
+</div>

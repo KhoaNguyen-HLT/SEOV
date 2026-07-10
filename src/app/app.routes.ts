@@ -47,6 +47,19 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'pm',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./layout/pm-layout/pm-layout').then(m => m.PmLayoutComponent),
+    children: [
+      {
+        path: 'pm-layout',
+        loadChildren: () =>
+          import('./features/se-pm/se-pm.routes').then(m => m.sePmRoutes)
+      },
+    ]
+  },
+  {
     path: 'welcome',
     canActivateChild: [AuthGuard],
     loadComponent: () =>
@@ -116,6 +129,11 @@ export const routes: Routes = [
         path: 'pe',
         loadChildren: () =>
           import('./features/se-pe/se-pe.routes').then(m => m.sePeRoutes)
+      },
+      {
+        path: 'pm',
+        loadChildren: () =>
+          import('./features/se-pm/se-pm.routes').then(m => m.sePmRoutes)
       },
       {
         path: 'mf-order-material',
