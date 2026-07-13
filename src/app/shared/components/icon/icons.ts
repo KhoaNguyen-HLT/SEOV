@@ -23,7 +23,9 @@ import {
   LayoutDashboard,
   CircleHelp,
   Lock,
-  LogOut
+  LogOut,
+  Check,
+  SearchCheck
 } from 'lucide-angular';
 
 export const APP_ICONS = {
@@ -52,6 +54,8 @@ export const APP_ICONS = {
   help: CircleHelp,
   lock: Lock,
   logout: LogOut,
+  check: Check,
+  searchCheck: SearchCheck
 };
 
 export type AppIconName = keyof typeof APP_ICONS;

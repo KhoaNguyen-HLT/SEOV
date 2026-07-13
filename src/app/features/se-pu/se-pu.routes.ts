@@ -25,6 +25,21 @@ export const sePuRoutes: Routes = [
   }
   ,
   {
+    path: 'se-pu-cfr-getCrossInOutData',
+    loadComponent: () =>
+      import('./pu-cfr/se-pu-cfr-getCrossInOutData/se-pu-cfr-getCrossInOutData')
+        .then(m => m.sePuCfrGetCrossInOutDataComponent),
+  }
+  ,
+  {
+    path: 'se-pu-cfr-getCrossIvtData',
+    loadComponent: () =>
+      import('./pu-cfr/se-pu-cfr-getCrossIvtData/se-pu-cfr-getCrossIvtData')
+        .then(m => m.sePuCfrGetCrossIvtDataComponent),
+  }
+
+  ,
+  {
     path: 'se-pu-cfr-getMasterData',
     loadComponent: () =>
       import('./pu-cfr/se-pu-cfr-getMasterData/se-pu-cfr-getMasterData')

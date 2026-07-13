@@ -1,0 +1,72 @@
+<div class="page">
+    <div class="card">
+
+        <form [formGroup]="form">
+            <div class="card-header">
+                <div class="header-info">
+                    <h2>Import Cross In/Out Data</h2>
+                    <p>Chọn một hoặc nhiều file Excel để hệ thống đọc và xử lý</p>
+                </div>
+                <div nz-col nzSpan="6" class="header-select">
+                    <nz-form-control>
+                        <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn loại báo cáo">
+                            <nz-option nzValue="15" nzLabel="Báo cáo 15"></nz-option>
+                            <nz-option nzValue="15a" nzLabel="Báo cáo 15a"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </div>
+
+                <div class="header-action">
+                    <nz-date-picker formControlName="month" nzMode="month" nzFormat="yyyy-MM"
+                        nzPlaceHolder="Chọn tháng cập nhật">
+                    </nz-date-picker>
+
+                    <button nz-button nzType="primary" nzSize="large" [disabled]="fileList.length === 0"
+                        (click)="checkExistedData()">
+                        Xử lý file
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="upload-box">
+            <nz-upload nzType="drag" [nzMultiple]="true" [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false"
+                accept=".xlsx,.xls">
+
+                <p class="upload-icon">
+                    <span nz-icon nzType="inbox"></span>
+                </p>
+
+                <p class="upload-title">Kéo thả file Excel vào đây</p>
+                <p class="upload-desc">Hoặc bấm để chọn nhiều file từ máy tính</p>
+
+            </nz-upload>
+        </div>
+
+        <div class="file-section" *ngIf="fileList.length > 0">
+            <div class="file-section-header">
+                <h3>Danh sách file đã chọn</h3>
+                <span class="total_file">{{ fileList.length }} file</span>
+            </div>
+
+            <div class="file-list">
+                <div class="file-item" *ngFor="let file of fileList; let i = index">
+                    <div class="file-left">
+                        <div class="file-stt">{{ i + 1 }}</div>
+                        <div class="file-icon">📄</div>
+
+                        <div>
+                            <div class="file-name">{{ file.name }}</div>
+                            <div class="file-size">{{ formatFileSize(file.size) }}</div>
+                        </div>
+                    </div>
+
+                    <button nz-button nzType="text" nzDanger (click)="removeFile(i)">
+                        Xóa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

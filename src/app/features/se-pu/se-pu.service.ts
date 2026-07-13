@@ -13,6 +13,7 @@ import { getDefaultAutoSelectFamily } from 'net';
 export class SePuService {
 
   private baseUrl = environment.apiUrl + "/pu/cfr";
+  private baseUrlCross = environment.apiUrl + "/pu/cfr/cross";
   private baseUrlDpm = environment.apiUrl + "/pu/dpm";
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
@@ -28,7 +29,7 @@ export class SePuService {
       );
   }
 
-  
+
 
   getTransData(formData: any, month: string, reportName: string): Observable<any> {
     this.loadingService.show();
@@ -52,13 +53,13 @@ export class SePuService {
       );
   }
 
-  
-  
+
+
 
   getData(payload: any): Observable<any> {
     this.loadingService.show();
     return this.http.get(`${this.baseUrl}/getData`, { params: payload })
-    .pipe(
+      .pipe(
         finalize(() => {
           this.loadingService.hide();
         })
@@ -68,11 +69,53 @@ export class SePuService {
 
   checkExistedData(month: string, reportName: string): Observable<any> {
     const params = new HttpParams().set('month', month).set('reportName', reportName);
-    return this.http.get(`${this.baseUrl}/checkExistedData`, { params});
+    return this.http.get(`${this.baseUrl}/checkExistedData`, { params });
   }
 
 
-  
+
+  // crosscheck in/out data//
+
+
+  checkExistedCrossInOutData(formData: any, month: string, reportName: string): Observable<any> {
+    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    return this.http.post(`${this.baseUrlCross}/checkExistedCrossInOutData`, formData, { params });
+  }
+
+
+  checkExistedCrossIvtData(formData: any, month: string, reportName: string): Observable<any> {
+    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    return this.http.post(`${this.baseUrlCross}/checkExistedCrossIvtData`, formData, { params });
+  }
+
+
+  getCrossInOutData(formData: any, month: string, reportName: string): Observable<any> {
+    this.loadingService.show();
+    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    return this.http.post(`${this.baseUrlCross}/getCrossInOutData`, formData, { params })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+  getCrossIvtData(formData: any, month: string, reportName: string): Observable<any> {
+    this.loadingService.show();
+    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    return this.http.post(`${this.baseUrlCross}/getCrossIvtData`, formData, { params })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
+
+
+
+
 
 
   // updateOpenInventory(payload: any) {
@@ -80,7 +123,7 @@ export class SePuService {
   // }
 
 
-  updateOpenInventory( data: any): Observable<any> {
+  updateOpenInventory(data: any): Observable<any> {
     this.loadingService.show();
     return this.http.post(`${this.baseUrl}/updateOpenInventory`, data)
       .pipe(

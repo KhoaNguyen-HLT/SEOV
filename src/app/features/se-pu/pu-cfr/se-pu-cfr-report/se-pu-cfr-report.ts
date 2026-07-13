@@ -51,7 +51,13 @@ export class sePuCfrReportComponent {
     { field: 'qty_xuat_9', width: 150, headerName: 'Chuyển đổi MDSD'  },
     { field: 'qty_xuat_10', width: 150, headerName: 'Xuất kho SX'  },
     { field: 'qty_xuat_11', width: 150, headerName: 'Xuất kho khác'  },
-    { field: 'toncuoi', width: 150 , headerName: 'Tồn cuối kỳ' }
+    { field: 'toncuoi', width: 150 , headerName: 'Tồn cuối kỳ' },
+    { field: 'scrossqty_nhap', width: 150 , headerName: 'Nhập trong kỳ(E11,E15)' },
+    { field: 'cross_nhap_gscm', width: 150 , headerName: 'Nhập từ GSCM' },
+    { field: 'cross_toncuoi', width: 150 , headerName: 'Tồn cuối kỳ (Cross)' }
+
+    
+
 
   ];
 
@@ -72,7 +78,10 @@ export class sePuCfrReportComponent {
     { field: 'qty_xuat_8', width: 150, headerName: 'Chuyển đổi MDSD' },
     { field: 'qty_xuat_9', width: 150, headerName: 'Sản phẩm xuất khẩu' },
     { field: 'qty_xuat_10', width: 150, headerName: 'Xuất kho khác' },
-    { field: 'toncuoi', width: 150, headerName: 'Tồn cuối kỳ' }
+    { field: 'toncuoi', width: 150, headerName: 'Tồn cuối kỳ' },
+    { field: 'crossqty_xuat', width: 150 , headerName: 'Xuất trong kỳ(E42)' },
+    { field: 'crossqty_xuat_fgpm', width: 150 , headerName: 'Xuất từ FGPM' },
+    { field: 'cross_toncuoi', width: 150 , headerName: 'Tồn cuối kỳ (Cross)' }
 
   ];
 
