@@ -81,9 +81,9 @@
 
           <nz-avatar nzIcon="user"></nz-avatar>
 
-          <div class="user-text" *ngIf="currentUser">
-            <div class="name">Xin chào, {{ currentUser.name }}</div>
-            <div class="role">{{ currentUser.username }}</div>
+          <div class="user-text">
+            <div class="name">Xin chào, {{name}}</div>
+             <div class="role">{{username}}</div> 
           </div>
 
         </div>
@@ -93,7 +93,7 @@
 
             <li nz-menu-item>
               <span nz-icon nzType="user"></span>
-              {{ currentUser.username }}
+              {{username}}
             </li>
 
             <li nz-menu-divider></li>

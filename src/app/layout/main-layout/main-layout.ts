@@ -45,6 +45,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 export class MainLayoutComponent {
   currentUser: any = {};
   username: any = '';
+  name: any = '';
   constructor(private router: Router,
     private TokenStorageService: TokenStorageService,
     private AuthService: AuthService,
@@ -53,7 +54,7 @@ export class MainLayoutComponent {
   ) { }
 
   ngOnInit() {
-    this.getUserInfo();
+      this.getUserInfo();
   }
 
   logout() {
@@ -68,12 +69,14 @@ export class MainLayoutComponent {
   getUserInfo() {
     this.AuthService.getUserInfobyToken();
     this.username = this.AuthService.userName;
+    this.name = this.AuthService.name;
 
     if (!this.username) return;
 
     this.UserService.getUserByUsername(this.username).subscribe({
       next: (res: any) => {
         this.currentUser = res.data;
+        // this.name = res.data.name;
         console.log('Current user:', this.currentUser);
       },
       error: err => console.error(err)

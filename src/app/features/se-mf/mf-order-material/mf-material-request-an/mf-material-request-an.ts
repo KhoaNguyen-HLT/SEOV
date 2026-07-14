@@ -23,7 +23,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   standalone: true,
-  selector: 'app-mf-material-request',
+  selector: 'app-mf-material-request-an',
   imports: [
     AgGridAngular,
     NzButtonModule,
@@ -40,11 +40,11 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     FormsModule
 
   ],
-  templateUrl: './mf-material-request.html',
-  styleUrl: './mf-material-request.css',
+  templateUrl: './mf-material-request-an.html',
+  styleUrl: './mf-material-request-an.css',
 })
-export class MfMaterialRequestComponent {
-  userName: String = ''
+export class MfMaterialRequestAnComponent {
+  userName1: String = ''
   searchForm!: FormGroup;
   rvForm!: FormGroup;
   detailform!: FormGroup;
@@ -155,13 +155,12 @@ export class MfMaterialRequestComponent {
 
   constructor(private MfMaterialService: MfMaterialService, private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService) { }
   ngOnInit() {
-    this.getUserInfor();
+    // this.getUserInfor();
 
     this.searchForm = this.fb.group({
       department: [null, Validators.required],
       date: [new Date()],
-      remark: [null],
-      zCode: [null, Validators.required],
+      remark: [null]
     });
 
     this.rvForm = this.fb.group({
@@ -169,76 +168,18 @@ export class MfMaterialRequestComponent {
       removePacking: [false]
     });
 
-    this.getConsumptionData();
-    setTimeout(() => {
-      this.getZCodeData();
-    }, 0);
-
+    this.getProductData();
 
   }
 
-  getUserInfor(): void {
-    this.userName = this.AuthService.userName;
-  }
+  // getUserInfor(): void {
+  //   this.userName1 = this.AuthService.userName;
+  // }
 
 
-  getData() {
-    if (!this.searchForm.get('zCode')?.value) {
-      this.PopupService.error('Vui lòng chọn mã Z!');
-      return;
-    }
-    const raw = this.searchForm.value;
-
-    const payload = {
-      department: raw.department || '',
-      date: raw.date ? dayjs(raw.date).format('YYYY-MM-DD') : null,
-      remark: raw.remark || null,
-      zCode: raw.zCode
-    };
-
+  getProductData() {
     // call API lấy data từ database
-    this.MfMaterialService.getDataPu(payload).subscribe(res => {
-
-      if (res.message == "success") {
-        this.prepareMaterialRequestData(res.data[0].design_number)
-        this.PopupService.success("Lấy dữ liệu thành công");
-
-
-      } else {
-        this.PopupService.error(res.text);
-      }
-    });
-  }
-
-
-
-  prepareMaterialRequestData(design_number: string) {
-
-    this.product_code = design_number;
-
-    this.MfMaterialService.prepareMaterialRequestData(design_number).subscribe(res => {
-      this.rowData = res.data.map((item: any) => ({
-        ...item,
-        qtyOrder: (item.norm_seov * this.qtyRequest)
-      }));
-    });
-
-
-
-  }
-
-
-  getZCodeData() {
-    const zCode = this.searchForm.get('zCode')?.value;
-    // call API lấy data từ database
-    this.MfMaterialService.getZCodeData().subscribe(res => {
-      this.zCode = res.data;
-    });
-  }
-
-  getConsumptionData() {
-    // call API lấy data từ database
-    this.MfMaterialService.getConsumptionData().subscribe(res => {
+    this.MfMaterialService.getProductData().subscribe(res => {
       console.log(res)
       this.Consumptions = res.data;
     });
@@ -281,7 +222,7 @@ export class MfMaterialRequestComponent {
       zCodes: raw.zCode,
       remark: raw.remark,
       details: this.rowData,
-      createdBy: this.userName,
+      // createdBy: this.userName,
       qtyRequest: this.qtyRequest
     };
     // console.log(payload)

@@ -37,13 +37,17 @@ export class MfMaterialService {
   }
 
 
-    getConsumptionData(): Observable<any> {
+  getConsumptionData(): Observable<any> {
     return this.http.get(`${this.baseUrl}/getConsumptionData`)
+  }
+
+  getProductData(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getProductData`)
   }
 
 
 
-  
+
 
 
 

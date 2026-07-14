@@ -31,18 +31,6 @@
           </nz-form-item>
         </div>
 
-        <div nz-col nzSpan="6">
-          <nz-form-item>
-            <nz-form-label>Mã Z order</nz-form-label>
-            <nz-form-control>
-              <nz-select nzMode="multiple" formControlName="zCode" nzPlaceHolder="Chọn mã Z cần order">
-                <nz-option *ngFor="let r of zCode" [nzValue]="r.production_number" [nzLabel]="r.production_number">
-                </nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
         <div nz-col nzSpan="5">
           <nz-form-item>
             <nz-form-label>Ghi chú</nz-form-label>
@@ -53,7 +41,7 @@
         </div>
 
         <nz-space>
-          <button nz-button nzType="primary" (click)="getData()">
+          <button nz-button nzType="primary">
             <span nz-icon nzType="search"></span>
             Search
           </button>
@@ -93,12 +81,12 @@
       </button>
     </div>
 
-    <div nz-col nzSpan="5" class="product_info">
+    <!-- <div nz-col nzSpan="5" class="product_info">
 
       <span>{{ product_code }}</span>
       <input nz-input placeholder="Nhập SL sản xuất" [value]="qtyRequest" type="number" #qtyInput
         (keyup.enter)="onEnter(+qtyInput.value)" />
-    </div>
+    </div> -->
 
 
 

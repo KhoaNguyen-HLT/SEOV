@@ -121,6 +121,7 @@ export class MfMaterialApproveRequestComponent {
 
   constructor(private fb: FormBuilder, private PopupService: PopupService, 
     private ActivatedRoute: ActivatedRoute, 
+    private AuthService: AuthService,
     private MfMaterialService: MfMaterialService, private modal: NzModalService) { }
   ngOnInit() {
 
@@ -131,7 +132,7 @@ export class MfMaterialApproveRequestComponent {
       remark: [null],
       zCode: [null, Validators.required],
     });
-
+    this.userName = this.AuthService.userName;
     this.getDetailMaterialRequest();
 
   }
@@ -186,7 +187,7 @@ export class MfMaterialApproveRequestComponent {
       requestNo: this.requestNo,
       approvedBy: this.userName
     };
-
+// console.log(payload)
     this.MfMaterialService.approveRequest(payload).subscribe(res => {
       console.log(res)
       if (res.message === 'success') {

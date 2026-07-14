@@ -17,6 +17,13 @@ export const mfMaterialRoutes: Routes = [
   }
   ,
   {
+    path: 'mf-material-request-an',
+    loadComponent: () =>
+      import('./mf-material-request-an/mf-material-request-an')
+        .then(m => m.MfMaterialRequestAnComponent),
+  }
+  ,
+  {
     path: 'mf-material-list-request',
     loadComponent: () =>
       import('./mf-material-list-request/mf-material-list-request')

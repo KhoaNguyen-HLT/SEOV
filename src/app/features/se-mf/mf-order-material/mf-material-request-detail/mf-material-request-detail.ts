@@ -214,7 +214,7 @@ export class MfMaterialRequestDetailComponent {
 
 
   getUserInfor(): void {
-    this.AuthService.getUserInfobyToken();
+    // this.AuthService.getUserInfobyToken();
     this.userName = this.AuthService.userName;
     // console.log(this.AuthService.role);
     // console.log(this.AuthService.permissions);
