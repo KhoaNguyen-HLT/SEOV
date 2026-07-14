@@ -37,6 +37,15 @@ export class MfMaterialService {
   }
 
 
+    getConsumptionData(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getConsumptionData`)
+  }
+
+
+
+  
+
+
 
   prepareMaterialRequestData(design_number: string): Observable<any> {
     this.loadingService.show();

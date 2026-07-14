@@ -86,7 +86,7 @@
     </div>
     <div nz-col nzSpan="3" class="checkboxItem">
 
-      <button nz-button nzType="primary" type="button" nz-popconfirm (click)="addItem()">
+      <button nz-button nzType="primary" type="button" nz-popconfirm (click)="addItem()" [disabled]="searchForm.get('zCode')?.value?.length > 0">
         <span nz-icon nzType="plus"></span>
         Thêm Item
       </button>
@@ -99,28 +99,6 @@
         (keyup.enter)="onEnter(+qtyInput.value)" />
     </div>
 
-    <!-- <div nz-col nzSpan="8" class="checkboxItem">
-      <label class="check-item">
-        <input type="checkbox" formControlName="removeSub" />
-        NVL phụ
-      </label>
-
-      <label class="check-item">
-        <input type="checkbox" formControlName="removePacking" />
-        Bao bì
-      </label>
-
-      <button nz-button nzDanger type="button" nz-popconfirm
-        nzPopconfirmTitle="Bạn có chắc chắn muốn loại bỏ các NVL đã chọn không?" (nzOnConfirm)="removeByType()">
-
-        <span nz-icon nzType="filter"></span>
-        Loại bỏ
-
-      </button>
-    </div> -->
-
-
-
 
 
   </div>
@@ -128,5 +106,25 @@
   <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
     [rowData]="rowData" [rowSelection]="rowSelection" (gridReady)="onGridReady($event)" [rowHeight]="42">
   </ag-grid-angular>
+
+
+
+  <nz-modal style="width: 1000px;" [(nzVisible)]="isUpdateModalVisible" nzTitle="Lựa chọn nguyên vật liệu tiêu hao"
+    (nzOnCancel)="updateHandleCancel()" (nzOnOk)="updateHandleOk()">
+
+    <ng-container *nzModalContent>
+      <div style="margin-bottom: 8px;">Chọn mã nguyên vật liệu:</div>
+      <nz-select style="width: 80%;" class="roles-select" [(ngModel)]="selectedMtIds" nzMode="multiple" [nzMaxTagCount]="5"
+        nzPlaceHolder="Vui lòng chọn mã nguyên vật liệu...">
+        <nz-option *ngFor="let consumption of Consumptions" [nzValue]="consumption.material_code"
+          [nzLabel]="consumption.material_code">
+        </nz-option>
+      </nz-select>
+      <ng-template>Khác</ng-template>
+    </ng-container>
+  </nz-modal>
+
+
+
 
 </div>

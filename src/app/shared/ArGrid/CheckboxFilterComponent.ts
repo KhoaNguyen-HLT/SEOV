@@ -146,15 +146,19 @@ export class CheckboxFilterComponent implements IFilterAngularComp {
 
     const data: string[] = [];
 
-    params.api.forEachNode((node: any) => {
-      const value = node.data?.[params.colDef.field!];
+    params.api.forEachNode(node => {
+      const rawValue = params.getValue(node);
+      const value = this.convertValue(rawValue);
 
-      if (value && !data.includes(value)) {
+      if (!data.includes(value)) {
         data.push(value);
       }
     });
 
-    this.values = data.sort();
+    this.values = data.sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true })
+    );
+
     this.selectedValues = [...this.values];
   }
 
@@ -175,36 +179,56 @@ export class CheckboxFilterComponent implements IFilterAngularComp {
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
-    const value = params.data?.[this.params.colDef.field!];
+    const rawValue = this.params.getValue(params.node);
+    const value = this.convertValue(rawValue);
+
     return this.selectedValues.includes(value);
   }
 
-  getModel() {
+  getModel(): { values: string[] } | null {
     return this.isFilterActive()
-      ? { values: this.selectedValues }
+      ? { values: [...this.selectedValues] }
       : null;
   }
 
-  setModel(model: any): void {
-    this.selectedValues = model?.values || [...this.values];
+  setModel(model: { values: string[] } | null): void {
+    this.selectedValues = model?.values
+      ? [...model.values]
+      : [...this.values];
   }
 
   toggleValue(value: string, checked: boolean): void {
     if (checked) {
-      this.selectedValues = [...this.selectedValues, value];
+      if (!this.selectedValues.includes(value)) {
+        this.selectedValues = [...this.selectedValues, value];
+      }
     } else {
-      this.selectedValues = this.selectedValues.filter(x => x !== value);
+      this.selectedValues = this.selectedValues.filter(
+        item => item !== value
+      );
     }
 
     this.params.filterChangedCallback();
   }
 
   toggleAll(checked: boolean): void {
-    this.selectedValues = checked ? [...this.values] : [];
+    this.selectedValues = checked
+      ? [...this.values]
+      : [];
+
     this.params.filterChangedCallback();
   }
 
   isAllSelected(): boolean {
-    return this.selectedValues.length === this.values.length;
+    return this.values.length > 0 &&
+      this.selectedValues.length === this.values.length;
+  }
+
+  private convertValue(value: unknown): string {
+    if (value === null || value === undefined || value === '') {
+      return '(Trống)';
+    }
+
+    return String(value);
   }
 }

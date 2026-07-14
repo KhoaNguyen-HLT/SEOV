@@ -107,7 +107,7 @@ export class UserRoleManagementComponent {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridApi.setGridOption('rowData', this.roles);
+    this.gridApi.setGridOption('rowData', this.users);
   }
 
 
@@ -129,22 +129,22 @@ export class UserRoleManagementComponent {
       name: [null],
       description: [null]
     });
+    setTimeout(() => {
+      this.getAllRoles();
+      this.getAllUsers();
+    }, 0);
 
-    this.getAllRoles();
-    this.getAllUsers();
   }
 
   getAllRoles() {
     this.authService.getAllRoles().subscribe((res: any) => {
       this.roles = res[0];
-      console.log('Roles:', this.roles);
     });
 
   }
 
   getAllUsers() {
     this.UserService.getUsers().subscribe((res: any) => {
-      console.log('Users:', res);
       this.users = res;
       this.gridApi.setGridOption('rowData', res);
     });

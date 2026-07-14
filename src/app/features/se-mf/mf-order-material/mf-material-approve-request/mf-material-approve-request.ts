@@ -119,7 +119,9 @@ export class MfMaterialApproveRequestComponent {
 
 
 
-  constructor(private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService, private ActivatedRoute: ActivatedRoute, private MfMaterialService: MfMaterialService, private modal: NzModalService) { }
+  constructor(private fb: FormBuilder, private PopupService: PopupService, 
+    private ActivatedRoute: ActivatedRoute, 
+    private MfMaterialService: MfMaterialService, private modal: NzModalService) { }
   ngOnInit() {
 
 
@@ -130,18 +132,8 @@ export class MfMaterialApproveRequestComponent {
       zCode: [null, Validators.required],
     });
 
-    this.getUserInfor();
     this.getDetailMaterialRequest();
 
-  }
-
-
-
-  getUserInfor(): void {
-    this.AuthService.getUserInfobyToken();
-    this.userName = this.AuthService.userName;
-    // console.log(this.AuthService.role);
-    // console.log(this.AuthService.permissions);
   }
 
   getDetailMaterialRequest() {
@@ -150,9 +142,6 @@ export class MfMaterialApproveRequestComponent {
     this.MfMaterialService.getDetailMaterialRequest(this.requestNo).subscribe(res => {
       console.log(res)
       this.hdData = res.hdData;
-      // if(this.hdData[0].status = 'REJECTED') {
-
-      // }
       this.rowData = res.data;
 
     });

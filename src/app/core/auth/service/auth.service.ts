@@ -44,9 +44,9 @@ export class AuthService {
     const token = this.tokenStorage.getToken();
 
     if (!token) return;
+    console.log(token);
 
     const decoded: any = jwtDecode(token);
-    console.log(token);
 
     this.userName = decoded.userName;
     this.role = decoded.role || [];

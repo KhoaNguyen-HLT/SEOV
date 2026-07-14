@@ -35,11 +35,9 @@ export class sePuCfrComponent {
   constructor(private router: Router, private AuthService: AuthService) { }
 
   ngOnInit() {
-    this.getUserInfor();
+    this.checkPermission();
   }
-  getUserInfor(): void {
-    this.AuthService.getUserInfobyToken();
-    this.userName = this.AuthService.userName;
+  checkPermission(): void {
     const allowedPermissions = [
       'SUPER_ADMIN',
       'ADMIN',

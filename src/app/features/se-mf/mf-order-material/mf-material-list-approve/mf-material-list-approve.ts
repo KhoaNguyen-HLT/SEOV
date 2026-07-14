@@ -135,7 +135,7 @@ export class MfMaterialApproveListComponent {
 
   constructor(private MfMaterialService: MfMaterialService, private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService, private Router: Router) { }
   ngOnInit() {
-    this.getUserInfor();
+    this.checkPermission();
 
     this.searchForm = this.fb.group({
       department: [null, Validators.required],
@@ -147,14 +147,15 @@ export class MfMaterialApproveListComponent {
   }
 
 
-  getUserInfor(): void {
-    this.AuthService.getUserInfobyToken();
-    this.userName = this.AuthService.userName;
-    if(this.AuthService.permissions.includes('MF_REQUEST_APPROVE')) {
-      this.hasPermission = true
-    }
+  checkPermission(): void {
+    const allowPermissions = [
+      'MF_REQUEST_APPROVE',
+      // 'SUPER_ADMIN'
+    ];
+    this.hasPermission = allowPermissions.some(permission =>
+      this.AuthService.permissions.includes(permission)
+    );
 
-      
   }
 
 
@@ -198,12 +199,12 @@ export class MfMaterialApproveListComponent {
       '/welcome',
       'mf-order-material',
       'mf-material-approve-request'
-    ],{
-    queryParams: {
-      requestNo: row.request_no
-    }
-    
-  });
+    ], {
+      queryParams: {
+        requestNo: row.request_no
+      }
+
+    });
 
 
 
