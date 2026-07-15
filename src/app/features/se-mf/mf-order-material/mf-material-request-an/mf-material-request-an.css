@@ -161,3 +161,37 @@
 .product_info input {
   flex: 1;
 }
+
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+}
+
+.material-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f0f9ff, #e6f4ff);
+  border: 1px solid #91caff;
+
+  color: #1677ff;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all .25s ease;
+}
+
+.material-info .anticon {
+  font-size: 18px;
+}
+
+.material-info:hover {
+  background: linear-gradient(135deg, #e6f4ff, #d6ecff);
+  border-color: #4096ff;
+  box-shadow: 0 4px 12px rgba(22, 119, 255, .15);
+}

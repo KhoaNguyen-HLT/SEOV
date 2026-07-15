@@ -73,6 +73,14 @@ export class MfMaterialService {
   }
 
 
+  getMaterial(products: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/getMaterial`, products);
+  }
+
+
+
+
+
   getMaterialRequestData(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/getMaterialRequestData`, payload);
   }

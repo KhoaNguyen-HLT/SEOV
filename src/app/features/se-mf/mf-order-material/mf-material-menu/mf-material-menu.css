@@ -64,7 +64,7 @@
   font-size: 34px;
   transition: all 0.25s ease;
 }
-
+.menu-btn:hover app-icon,
 .menu-btn:hover .anticon {
   transform: scale(1.15);
 }
@@ -74,62 +74,70 @@
   font-weight: 600;
 }
 
-/* ===== READ FILE ===== */
+/* ===== MASTER FILE ===== */
 
 .master_file {
-  background: linear-gradient(135deg, #d6faf8, #bbf5fb);
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
 }
 
 .master_file .anticon,
 .master_file span {
-  color: #1677ff;
+  color: #2563eb;
 }
 
 /* ===== READ FILE ===== */
 
 .read_file {
-  background: linear-gradient(135deg, #e8f3ff, #d7ebff);
+  background: linear-gradient(135deg, #ecfeff, #cffafe);
 }
 
 .read_file .anticon,
 .read_file span {
-  color: #1677ff;
+  color: #0891b2;
 }
 
-/* ===== Aproval btn ===== */
+/* ===== APPROVAL ===== */
 
 .aproval-btn {
-  background: linear-gradient(135deg, #e8f3ff, #d7ebff);
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
 }
 
 .aproval-btn .anticon,
 .aproval-btn span {
-  color: #01d6da;
+  color: #16a34a;
 }
 
+/* ===== SETTING ===== */
 
-
+.setting-btn {
+  background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+}
+.menu-btn app-icon,
+.setting-btn .anticon,
+.setting-btn span {
+  color: #7c3aed;
+}
 
 /* ===== REPORT ===== */
 
 .report-btn {
-  background: linear-gradient(135deg, #eafbf2, #d6f5e4);
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
 }
 
 .report-btn .anticon,
 .report-btn span {
-  color: #16a34a;
+  color: #ea580c;
 }
 
 /* ===== TRACE ===== */
 
 .trace-btn {
-  background: linear-gradient(135deg, #fff4e5, #ffe7c2);
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
 }
 
 .trace-btn .anticon,
 .trace-btn span {
-  color: #fa8c16;
+  color: #dc2626;
 }
 
 /* ===== RESPONSIVE ===== */

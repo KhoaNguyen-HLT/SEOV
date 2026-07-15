@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
-import { ModuleRegistry, AllCommunityModule, ColDef, RowSelectionOptions ,ValueGetterParams, SelectionChangedEvent, GridReadyEvent} from 'ag-grid-community';
+import { ModuleRegistry, AllCommunityModule, ColDef, RowSelectionOptions, ValueGetterParams, SelectionChangedEvent, GridReadyEvent } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,6 +18,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { MfMaterialService } from '../mf-material.service';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { AuthService } from '../../../../core/auth/service/auth.service';
+// import { ModuleRegistry } from 'ag-grid-community';
+// import { CellSelectionModule } from 'ag-grid-enterprise';
+
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -47,11 +50,13 @@ export class MfMaterialRequestAnComponent {
   userName1: String = ''
   searchForm!: FormGroup;
   rvForm!: FormGroup;
+  productForm!: FormGroup;
   detailform!: FormGroup;
   removeSub = false;
   removePacking = false;
   Consumptions: any[] = [];
   rowData: any[] = [];
+  productRowData: any[] = [];
   zCode: { production_number: string; registered_at: any }[] = [];
   remark: string = '';
   product_code: string = '';
@@ -65,7 +70,7 @@ export class MfMaterialRequestAnComponent {
     },
     {
       headerName: 'Loại NVL',
-      field: 'custom_mode',
+      field: 'customMode',
       width: 150,
       filter: CheckboxFilterComponent,
       sortable: true,
@@ -74,22 +79,22 @@ export class MfMaterialRequestAnComponent {
 
     {
       headerName: 'Mã NVL',
-      field: 'material_code',
+      field: 'itemCode',
       width: 150
     },
     {
       headerName: 'Tên NVL',
-      field: 'material_name',
-      flex: 1
+      field: 'itemName',
+      flex: 1,
     },
     {
       headerName: 'ĐVT',
-      field: 'eng_unit',
+      field: 'unit',
       width: 100
     },
     {
       headerName: 'SL Yêu Cầu',
-      field: 'qtyOrder',
+      field: 'qty',
       width: 140,
       editable: true,
       cellRenderer: (params: any) => {
@@ -140,6 +145,72 @@ export class MfMaterialRequestAnComponent {
     }
   ];
 
+  productColumn: ColDef[] = [
+    {
+      headerName: 'STT',
+      width: 60,
+      valueGetter: (params: ValueGetterParams) =>
+        (params.node?.rowIndex ?? 0) + 1
+    },
+    {
+      headerName: 'Mã TP',
+      field: 'item_code',
+      width: 150
+    },
+    {
+      headerName: 'Tên TP',
+      field: 'item_namee',
+      width: 650
+    },
+    {
+      headerName: 'ĐVT',
+      field: 'gscm_unit',
+      width: 100
+    },
+    {
+      headerName: 'SL Yêu Cầu',
+      field: 'prQty',
+      width: 140,
+      editable: true,
+      cellRenderer: (params: any) => {
+        const input = document.createElement('input');
+
+        input.type = 'number';
+        input.value = params.value ?? 0;
+        input.min = '0';
+
+        input.style.width = '100%';
+        input.style.height = '32px';
+        input.style.padding = '0 8px';
+        input.style.border = '1px solid #cdc7c7';
+        input.style.borderRadius = '6px';
+        input.style.background = '#fffbe6';
+        input.style.outline = 'none';
+        input.style.boxSizing = 'border-box';
+        input.style.transition = 'all .2s';
+
+        input.addEventListener('click', e => e.stopPropagation());
+
+        input.addEventListener('focus', () => {
+          input.style.borderColor = '#ffffff';
+          input.style.boxShadow = '0 0 0 2px rgba(255, 255, 255, 0.2)';
+        });
+
+        input.addEventListener('blur', () => {
+          input.style.borderColor = '#cdc7c7';
+          input.style.boxShadow = 'none';
+
+          params.node.setDataValue(
+            'prQty',
+            Number(input.value || 0)
+          );
+        });
+
+        return input;
+      }
+    }
+  ];
+
   // khi click vào row nào thì select row đó
   selectedRow: any = null;
   onRowClick(event: any) {
@@ -147,6 +218,7 @@ export class MfMaterialRequestAnComponent {
   }
 
   gridApi: any;
+  prGridApi: any;
   rowSelection: RowSelectionOptions = {
     mode: 'multiRow',
     checkboxes: true,
@@ -155,7 +227,7 @@ export class MfMaterialRequestAnComponent {
 
   constructor(private MfMaterialService: MfMaterialService, private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService) { }
   ngOnInit() {
-    // this.getUserInfor();
+    this.getUserInfor();
 
     this.searchForm = this.fb.group({
       department: [null, Validators.required],
@@ -172,9 +244,9 @@ export class MfMaterialRequestAnComponent {
 
   }
 
-  // getUserInfor(): void {
-  //   this.userName1 = this.AuthService.userName;
-  // }
+  getUserInfor(): void {
+    this.userName1 = this.AuthService.userName;
+  }
 
 
   getProductData() {
@@ -191,6 +263,12 @@ export class MfMaterialRequestAnComponent {
     this.gridApi.setGridOption('rowData', this.rowData);
   }
 
+  onPrGridReady(params: any) {
+    this.prGridApi = params.api;
+    // this.prGridApi.setGridOption('rowData', this.productRowData);
+  }
+
+
 
   createOrder() {
     const raw = this.searchForm.value;
@@ -205,15 +283,19 @@ export class MfMaterialRequestAnComponent {
       return;
     }
 
-    // if (!raw.zCode || raw.zCode.length === 0) {
-    //   this.PopupService.error('Vui lòng chọn mã Z cần order!');
-    //   return;
-    // }
 
     if (!this.rowData || this.rowData.length === 0) {
       this.PopupService.error('Không có dữ liệu NVL để tạo order!');
       return;
     }
+
+    const detailData = this.rowData.map(item => ({
+      material_code: item.itemCode,
+      eng_unit: item.unit,
+      qtyOrder: item.qty,
+      custom_mode: item.customMode,
+      remark: item.remark
+    }));
 
     const payload = {
       department: raw.department,
@@ -221,11 +303,11 @@ export class MfMaterialRequestAnComponent {
       requestDate: raw.date ? dayjs(raw.date).format('YYYY-MM-DDTHH:mm:ss') : null,
       zCodes: raw.zCode,
       remark: raw.remark,
-      details: this.rowData,
-      // createdBy: this.userName,
+      details: detailData,
+      createdBy: this.userName1,
       qtyRequest: this.qtyRequest
     };
-    // console.log(payload)
+    console.log(payload)
 
     this.MfMaterialService.createOrder(payload).subscribe(res => {
       if (res.code === 200) {
@@ -258,18 +340,42 @@ export class MfMaterialRequestAnComponent {
 
     this.gridApi.setGridOption('rowData', this.rowData);
     // gọi lại để load filter option
-    this.gridApi.destroyFilter('custom_mode');
+    this.gridApi.destroyFilter('customMode');
 
   }
 
 
+  // Làm việc với bảng product
+
+  removeProductRows() {
+    const selectedRows = this.prGridApi.getSelectedRows();
+    if (selectedRows.length === 0) {
+      this.PopupService.error('Vui lòng chọn dữ liệu cần xóa!');
+      return;
+    }
+
+    const filteredRows: any[] = [];
+
+    this.prGridApi.forEachNodeAfterFilterAndSort((node: any) => {
+      filteredRows.push(node.data);
+    });
+
+    this.productRowData = this.productRowData.filter(row =>
+      !(selectedRows.includes(row) && filteredRows.includes(row))
+    );
+
+    // this.prGridApi.setGridOption('rowData', this.productRowData);
+    // gọi lại để load filter option
+    // this.gridApi.destroyFilter('custom_mode');
+
+  }
+
   addItem() {
-    this.selectedMtIds = [];
+    this.selectedPrIds = [];
     this.isUpdateModalVisible = true;
   }
 
-  selectedMt: any;
-  selectedMtIds = [] as string[];
+  selectedPrIds = [] as string[];
 
   isUpdateModalVisible = false;
   isModalVisible = false;
@@ -281,51 +387,64 @@ export class MfMaterialRequestAnComponent {
 
   updateHandleOk(): void {
     const existingCodes = new Set(
-      this.rowData.map(item => item.material_code)
+      this.productRowData.map(item => item.item_code)
     );
 
     const newItems = this.Consumptions
       .filter(item =>
-        this.selectedMtIds.includes(item.material_code)
+        this.selectedPrIds.includes(item.item_code)
       )
       .filter(item =>
-        !existingCodes.has(item.material_code)
+        !existingCodes.has(item.item_code)
       )
       .map(item => ({
-        material_code: item.material_code,
-        material_name: item.vietnamese_name,
-        custom_mode: item.custom_mode,
-        eng_unit: item.gscm_eng,
-        qtyOrder: 0,
-        remark: ''
+        item_code: item.item_code,
+        item_namee: item.item_namee,
+        gscm_unit: item.gscm_unit,
+        prQty: 0,
       }));
 
-    this.rowData = [
-      ...this.rowData,
+    this.productRowData = [
+      ...this.productRowData,
       ...newItems
     ];
 
-    this.selectedMtIds = [];
+    this.selectedPrIds = [];
     this.isUpdateModalVisible = false;
   }
-
-
 
   handleOk(): void {
     this.isModalVisible = true;
   }
-
 
   handleCancel(): void {
     this.isModalVisible = false;
   }
 
 
-  onEnter(value: number) {
-    this.rowData = this.rowData.map((item: any) => ({
-      ...item,
-      qtyOrder: (item.norm_seov * value)
-    }))
+  // get detail material infomation with product
+  getMaterial() {
+    console.log(this.productRowData);
+    const products = this.productRowData.map(item => ({
+      itemCode: item.item_code,
+      qty: item.prQty
+    }));
+
+    console.log(products);
+
+    this.MfMaterialService.getMaterial(products).subscribe(res => {
+      if (res.code === 200) {
+        console.log(res)
+        this.rowData = res.data
+        this.gridApi.setGridOption(
+          'rowData',
+          this.rowData
+        );
+      } else {
+        console.log("Có lỗi xảy ra rồi")
+      }
+    });
+
   }
 
 
