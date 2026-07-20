@@ -1,0 +1,239 @@
+.menu-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.menu-header {
+  margin-bottom: 40px;
+}
+
+.menu-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.menu-header span {
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+/* ===== BUTTON ===== */
+
+.menu-btn {
+  height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+
+  transition: all 0.25s ease;
+}
+
+.menu-btn:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08);
+}
+.menu-btn app-icon,
+.menu-btn .anticon {
+  font-size: 34px;
+  transition: all 0.25s ease;
+}
+app-icon,
+.menu-btn:hover .anticon, .menu-btn:hover app-icon {
+  transform: scale(1.15);
+}
+
+.menu-btn span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ================================
+   COMMON ACTION BUTTON
+================================ */
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 14px;
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgb(15 23 42 / 6%);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  .anticon {
+    font-size: 15px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgb(15 23 42 / 12%);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgb(15 23 42 / 8%);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Master file – Cyan */
+
+.master-file-btn {
+  color: #087f8c;
+  background: #ecfeff;
+  border-color: #a5f3fc;
+
+  &:hover {
+    color: #0e7490;
+    background: #cffafe;
+    border-color: #67e8f9;
+  }
+}
+
+/* Read file – Blue */
+
+.read-file-btn {
+  color: #1677ff;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+
+  &:hover {
+    color: #0958d9;
+    background: #dbeafe;
+    border-color: #91caff;
+  }
+}
+
+/* Report – Green */
+
+.report-btn {
+  color: #16a34a;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+
+  &:hover {
+    color: #15803d;
+    background: #dcfce7;
+    border-color: #86efac;
+  }
+}
+
+/* Trace – Orange */
+
+.trace-btn {
+  color: #d97706;
+  background: #fff7ed;
+  border-color: #fed7aa;
+
+  &:hover {
+    color: #c2410c;
+    background: #ffedd5;
+    border-color: #fdba74;
+  }
+}
+
+/* Check data – Sky blue */
+
+.check-btn {
+  color: #0284c7;
+  background: #f0f9ff;
+  border-color: #bae6fd;
+
+  &:hover {
+    color: #0369a1;
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+  }
+}
+
+/* Check inventory – Purple */
+
+.check-ivt-btn {
+  color: #7c3aed;
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+
+  &:hover {
+    color: #6d28d9;
+    background: #ede9fe;
+    border-color: #c4b5fd;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 20px;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .menu-btn {
+    height: 100px;
+  }
+
+  .menu-btn .anticon {
+    font-size: 28px;
+  }
+
+  .menu-btn span {
+    font-size: 14px;
+  }
+}
+
+
+
+
+
+
+
+/* cross-check layout
+.cross-check-layout {
+  margin-top: 20px;
+} */

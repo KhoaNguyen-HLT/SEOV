@@ -1,0 +1,44 @@
+
+@if (hasPermission) {
+<div class="menu-container">
+    <div>
+        <div class="menu-header">
+            <h2>PM Management</h2>
+            <span>AGSP</span>
+        </div>
+
+        <div class="menu-grid">
+
+            <button nz-button nzType="default" class="menu-btn master-file-btn" (click)="getMasterData()">
+                <span nz-icon nzType="file"></span>
+                Lấy dữ liệu Master Material
+            </button>
+
+            <button nz-button nzType="default" class="menu-btn read-file-btn" (click)="getData()">
+                <span nz-icon nzType="file"></span>
+                Lấy dữ liệu từ Excel
+            </button>
+
+            <button nz-button nzType="default" class="menu-btn report-btn" (click)="getReportData()">
+                <span nz-icon nzType="bar-chart"></span>
+                Báo cáo
+            </button>
+
+            <button nz-button nzType="default" class="menu-btn trace-btn">
+                <span nz-icon nzType="search"></span>
+                Tra cứu lịch sử
+            </button>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+} @else {
+
+<app-no-permission></app-no-permission>
+
+}

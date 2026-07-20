@@ -8,6 +8,13 @@ export const sePmRoutes: Routes = [
     loadComponent: () =>
       import('./../se-pm/pm-layout/pm-layout')
         .then(m => m.PmLayoutComponent),
+  },
+{
+    path: 'pm-agsp',
+    loadComponent: () =>
+      import('./../se-pm/pm-agsp/pm-agsp/pm-agsp')
+        .then(m => m.PmAgspComponent),
   }
+
 
 ];

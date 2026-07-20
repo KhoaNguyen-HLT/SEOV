@@ -115,6 +115,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/common/device/device.routes').then(m => m.deviceRoutes)
       },
+       {
+        path: 'nas-log',
+        loadComponent: () =>
+          import('./features/common/nas/nas').then(m => m.NasComponent)
+      },
       {
         path: 'qa',
         loadChildren: () =>

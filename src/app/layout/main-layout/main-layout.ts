@@ -145,6 +145,11 @@ export class MainLayoutComponent {
   Device() {
     this.router.navigate(['/welcome/device']);
   }
+  // PM department
+
+  PmAgsp() {
+    this.router.navigate(['/welcome/pm/pm-agsp']);
+  }
 
   // QA department
   IQC() {
@@ -165,5 +170,10 @@ export class MainLayoutComponent {
   // PE department
   BOM() {
     this.router.navigate(['/welcome/pe/se-pe-bom']);
+  }
+
+  // NAS
+  NasLog() {
+    this.router.navigate(['/welcome/nas-log']);
   }
 }

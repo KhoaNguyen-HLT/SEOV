@@ -11,7 +11,7 @@
         <span nz-icon nzType="dashboard"></span>
         <span (click)="Dashboard()">Dashboard</span>
       </li>
-      <li nz-submenu nzTitle="ANDON SYSTEM" nzIcon="sync">
+      <!-- <li nz-submenu nzTitle="ANDON SYSTEM" nzIcon="sync">
         <ul>
           <li nz-menu-item (click)="AndonCall()">ANDON Call</li>
           <li nz-menu-item (click)="AndonReport()">ANDON Report</li>
@@ -19,7 +19,7 @@
           <li nz-menu-item (click)="AndonScreen()">ANDON Screen</li>
           <li nz-menu-item (click)="AndonDashboard()">ANDON Dashboard</li>
         </ul>
-      </li>
+      </li> -->
       <li nz-submenu nzTitle="MF" nzIcon="database">
         <ul>
           <li nz-menu-item (click)="mfMaterialRequest()">Quản lý Order NVL</li>
@@ -30,7 +30,7 @@
           <li nz-menu-item (click)="printLabel()">In Tem</li>
           <li nz-menu-item (click)="inputMaterial()">Nhập Nguyên vật liệu</li>
 
-          <!-- <li nz-menu-item>E-INOUT</li> -->
+          <li nz-menu-item (click)="PmAgsp()">AGSP</li>
         </ul>
       </li>
       <li nz-submenu nzTitle="QA" nzIcon="idcard">
@@ -53,6 +53,7 @@
       <li nz-submenu nzTitle="COMMON" nzIcon="check">
         <ul>
           <li nz-menu-item (click)="Device()">Quản lý thiết bị</li>
+          <li nz-menu-item (click)="NasLog()">NAS LOG</li>
         </ul>
       </li>
       <li nz-submenu nzTitle="Systems" nzIcon="setting">
