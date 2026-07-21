@@ -7,13 +7,12 @@
       <div nz-row [nzGutter]="16">
 
         <!-- Line -->
-        <div nz-col nzSpan="6">
+        <div nz-col nzSpan="6"> 
           <nz-form-item class="form-item">
             <nz-form-label>reportName</nz-form-label>
             <nz-form-control [nzValidateStatus]="searchForm.get('reportName')!" nzErrorTip="Vui lòng chọn báo cáo"
               >
-              <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn báo cáo"
-                (ngModelChange)="onReportChange($event)">
+              <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn báo cáo">
                 <nz-option nzValue="15" nzLabel="Báo cáo 15"></nz-option>
                 <nz-option nzValue="15a" nzLabel="Báo cáo 15a"></nz-option>
                 <nz-option nzValue="16" nzLabel="Báo cáo 16"></nz-option>
@@ -45,7 +44,7 @@
         </div> -->
 
         <!-- Button -->
-        <div nz-col nzSpan="2">
+        <!-- <div nz-col nzSpan="2">
           <button nz-button nzType="primary" (click)="getData()">Search</button>
         </div>
 
@@ -61,7 +60,7 @@
   <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
   <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 600px" [columnDefs]="columnDefs"  [enableCellTextSelection]="true"
     [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }" [rowHeight]="42">
-  </ag-grid-angular>
+  </ag-grid-angular> -->
 
 
   <!-- <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết báo cáo" (nzOnCancel)="handleCancel()"
