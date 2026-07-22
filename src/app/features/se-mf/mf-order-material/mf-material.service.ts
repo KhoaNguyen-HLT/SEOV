@@ -97,6 +97,17 @@ export class MfMaterialService {
   }
 
 
+  getMaterialAnRequest(requestNo: string): Observable<any> {
+    this.loadingService.show();
+    return this.http.get(`${this.baseUrl}/getMaterialAnRequest`, { params: { requestNo } })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
+
   exportMaterialRequestExcel(requestNo: string): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/exportMaterialRequestExcel`, {
       params: { requestNo },

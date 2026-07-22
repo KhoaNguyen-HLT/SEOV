@@ -1,13 +1,21 @@
 <div class="table-container">
-
+  <div class="grid-title">
+    <h2>Duyệt yêu cầu nguyên vật liệu!</h2>
+  
+  </div>
   <!-- SEARCH AREA -->
-  <div class="search-header">
-    <!-- filter sau này đặt vào đây -->
+  <div class="product-info">
+    <div class="grid-title">
+      Thông tin mã "AN"
+    </div>
+    <ag-grid-angular class="ag-theme-alpine seov-grid" style="width: 100%; height: 250px" [columnDefs]="productColumn"
+      [rowData]="productRowData" (gridReady)="onGridReady($event)" [rowHeight]="42">
+    </ag-grid-angular>
   </div>
 
   <!-- TITLE -->
   <div class="grid-title">
-    Duyệt yêu cầu nguyên vật liệu!
+    Thông tin nguyên vật liệu
   </div>
 
   <!-- GRID -->
@@ -76,12 +84,14 @@
 
       </div>
       <div class="action-right">
-        <button nz-button nzType="primary" (click)="approveRequest()" [disabled]="hdData[0]?.status == 'REJECTED'|| hdData[0]?.status == 'APPROVED'">
+        <button nz-button nzType="primary" (click)="approveRequest()"
+          [disabled]="hdData[0]?.status == 'REJECTED'|| hdData[0]?.status == 'APPROVED'">
           <span nz-icon nzType="save"></span>
           Approval
         </button>
 
-        <button nz-button nzDanger (click)="rejectRequest()" [disabled]="hdData[0]?.status == 'REJECTED'|| hdData[0]?.status == 'APPROVED'">
+        <button nz-button nzDanger (click)="rejectRequest()"
+          [disabled]="hdData[0]?.status == 'REJECTED'|| hdData[0]?.status == 'APPROVED'">
           Hủy Request
         </button>
       </div>

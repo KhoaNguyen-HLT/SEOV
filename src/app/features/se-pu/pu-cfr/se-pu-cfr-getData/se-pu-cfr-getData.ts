@@ -14,6 +14,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { SePuService } from '../../se-pu.service';
 import { PopupService } from '../../../../shared/service/popup.service';
+import { AuthService } from '../../../../core/auth/service/auth.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import dayjs from 'dayjs';
@@ -44,13 +45,15 @@ export class sePuCfrGetDataComponent {
   user = '';
   msType = '';
   program = true;
+  userName: any = '';
   router: any;
   selectedFile: File | null = null;
   fileName1: string = '';
   fileName2: string = '';
   lotData: any[] = [];
+  curentUser: any[] = [];
 
-  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService, private modal: NzModalService) { }
+  constructor(private message: NzMessageService, private SePuService: SePuService, private fb: FormBuilder, private popupService: PopupService, private modal: NzModalService, private authService: AuthService) { }
   ngOnInit() {
     this.form = this.fb.group({
       month: [new Date()],
@@ -65,6 +68,7 @@ export class sePuCfrGetDataComponent {
     // });
 
     // this.getDataLot();
+    this.userName = this.authService.userName;
   }
 
   fileList: File[] = [];
@@ -111,7 +115,7 @@ export class sePuCfrGetDataComponent {
     });
 
     if (reportName == '15') {
-      this.SePuService.getTransData(formData, month, reportName).subscribe({
+      this.SePuService.getTransData(formData, month, reportName, this.userName).subscribe({
         next: (response) => {
           console.log(response);
           if (response.message === 'success') {
@@ -131,7 +135,7 @@ export class sePuCfrGetDataComponent {
         }
       });
     } else if (reportName == '15a') {
-      this.SePuService.getTransData15a(formData, month, reportName).subscribe({
+      this.SePuService.getTransData15a(formData, month, reportName, this.userName).subscribe({
         next: (response) => {
           console.log(response);
           if (response.message === 'success') {

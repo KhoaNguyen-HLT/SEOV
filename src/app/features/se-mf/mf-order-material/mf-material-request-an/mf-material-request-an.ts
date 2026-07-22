@@ -164,12 +164,12 @@ export class MfMaterialRequestAnComponent {
     },
     {
       headerName: 'ĐVT',
-      field: 'gscm_unit',
+      field: 'unit',
       width: 100
     },
     {
       headerName: 'SL Yêu Cầu',
-      field: 'prQty',
+      field: 'qty',
       width: 140,
       editable: true,
       cellRenderer: (params: any) => {
@@ -201,7 +201,7 @@ export class MfMaterialRequestAnComponent {
           input.style.boxShadow = 'none';
 
           params.node.setDataValue(
-            'prQty',
+            'qty',
             Number(input.value || 0)
           );
         });
@@ -304,6 +304,7 @@ export class MfMaterialRequestAnComponent {
       zCodes: raw.zCode,
       remark: raw.remark,
       details: detailData,
+      products: this.productRowData,
       createdBy: this.userName1,
       qtyRequest: this.qtyRequest
     };
@@ -400,8 +401,8 @@ export class MfMaterialRequestAnComponent {
       .map(item => ({
         item_code: item.item_code,
         item_namee: item.item_namee,
-        gscm_unit: item.gscm_unit,
-        prQty: 0,
+        unit: item.gscm_unit,
+        qty: 0,
       }));
 
     this.productRowData = [
@@ -426,8 +427,8 @@ export class MfMaterialRequestAnComponent {
   getMaterial() {
     console.log(this.productRowData);
     const products = this.productRowData.map(item => ({
-      itemCode: item.item_code,
-      qty: item.prQty
+      item_code: item.item_code,
+      qty: item.qty
     }));
 
     console.log(products);

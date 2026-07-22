@@ -22,6 +22,7 @@ import { SePuService } from '../../se-pu.service';
 import { PopupService } from '../../../../shared/service/popup.service';
 import { Observable } from 'rxjs';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { AuthService } from '../../../../core/auth/service/auth.service';
 import dayjs from 'dayjs';
 
 @Component({
@@ -52,6 +53,7 @@ export class sePuCfrGetMasterDataComponent {
   msType = '';
   program = true;
   router: any;
+  userName: any;
   selectedFile: File | null = null;
   fileName1: string = '';
   fileName2: string = '';
@@ -62,6 +64,7 @@ export class sePuCfrGetMasterDataComponent {
     private SePuService: SePuService,
     private fb: FormBuilder,
     private popupService: PopupService,
+    private authService: AuthService
   ) { }
   ngOnInit() {
     this.form = this.fb.group({
@@ -76,6 +79,7 @@ export class sePuCfrGetMasterDataComponent {
     // });
 
     // this.getDataLot();
+    this.userName = this.authService.userName
   }
 
   fileList: File[] = [];
@@ -121,9 +125,8 @@ export class sePuCfrGetMasterDataComponent {
     this.fileList.forEach((file) => {
       formData.append('files', file);
     });
-    console.log(reportName);
 
-    this.SePuService.getMasterData(formData, reportName).subscribe({
+    this.SePuService.getMasterData(formData, reportName, this.userName).subscribe({
       next: (response) => {
         if (response.message === 'success') {
           this.popupService.success('Xử lý dữ liệu thành công!');

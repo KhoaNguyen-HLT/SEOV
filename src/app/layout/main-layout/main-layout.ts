@@ -77,7 +77,7 @@ export class MainLayoutComponent {
       next: (res: any) => {
         this.currentUser = res.data;
         // this.name = res.data.name;
-        console.log('Current user:', this.currentUser);
+        // console.log('Current user:', this.currentUser);
       },
       error: err => console.error(err)
     });

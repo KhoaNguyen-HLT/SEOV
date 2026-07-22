@@ -18,9 +18,9 @@ export class SePuService {
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
-  getMasterData(formData: any, reportName: string): Observable<any> {
+  getMasterData(formData: any, reportName: string, userName: string): Observable<any> {
     this.loadingService.show();
-    const params = new HttpParams().set('reportName', reportName);
+    const params = new HttpParams().set('reportName', reportName).set('userName', userName);
     return this.http.post(`${this.baseUrl}/getMasterData`, formData, { params })
       .pipe(
         finalize(() => {
@@ -31,9 +31,9 @@ export class SePuService {
 
 
 
-  getTransData(formData: any, month: string, reportName: string): Observable<any> {
+  getTransData(formData: any, month: string, reportName: string, userName: string): Observable<any> {
     this.loadingService.show();
-    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    const params = new HttpParams().set('month', month).set('reportName', reportName).set('userName', userName);
     return this.http.post(`${this.baseUrl}/getTransData`, formData, { params })
       .pipe(
         finalize(() => {
@@ -42,9 +42,9 @@ export class SePuService {
       );
   }
 
-  getTransData15a(formData: any, month: string, reportName: string): Observable<any> {
+  getTransData15a(formData: any, month: string, reportName: string, userName: string): Observable<any> {
     this.loadingService.show();
-    const params = new HttpParams().set('month', month).set('reportName', reportName);
+    const params = new HttpParams().set('month', month).set('reportName', reportName).set('userName', userName);
     return this.http.post(`${this.baseUrl}/getTransData15a`, formData, { params })
       .pipe(
         finalize(() => {
