@@ -1,0 +1,73 @@
+<div class="table-container">
+  <div class="table-title">Tra cứu lịch sử import File</div>
+  <!-- 🔍 HEADER SEARCH -->
+  <div class="search-header">
+    <form nz-form [formGroup]="searchForm">
+
+      <div nz-row [nzGutter]="16">
+
+        <!-- Line -->
+        <div nz-col nzSpan="6">
+          <nz-form-item class="form-item">
+            <nz-form-label>reportName</nz-form-label>
+            <nz-form-control [nzValidateStatus]="searchForm.get('reportName')!" nzErrorTip="Vui lòng chọn báo cáo"
+              >
+              <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn báo cáo">
+                <nz-option nzValue="15" nzLabel="Báo cáo 15"></nz-option>
+                <nz-option nzValue="15a" nzLabel="Báo cáo 15a"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Ngày đến -->
+        <!-- <div nz-col nzSpan="6">
+          <nz-form-item class="form-item">
+            <nz-form-label>Chọn Tháng</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="month" nzMode="month" nzFormat="yyyy-MM"
+                nzPlaceHolder="Chọn tháng cập nhật">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+
+        <!-- Button -->
+        <div nz-col nzSpan="2">
+          <button nz-button nzType="primary" (click)="getHisData()">Search</button>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+  <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
+  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 600px" [columnDefs]="columnDefs"  [enableCellTextSelection]="true"
+    [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }" [rowHeight]="42">
+  </ag-grid-angular>
+
+
+  <!-- <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết báo cáo" (nzOnCancel)="handleCancel()"
+    [nzFooter]="footerTemplate">
+    <ng-template #footerTemplate>
+      <button nz-button nzType="primary" (click)="handleCancel()">
+        Đóng
+      </button>
+    </ng-template>
+    <div>
+      Nội dung chi tiết báo cáo
+    </div>
+  </nz-modal> -->
+
+
+
+
+
+
+
+
+
+
+
+</div>

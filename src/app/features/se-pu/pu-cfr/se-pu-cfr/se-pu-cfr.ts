@@ -72,4 +72,8 @@ export class sePuCfrComponent {
     this.router.navigate(['/welcome/pu/se-pu-cfr-getReportData']);
   }
 
+   getHisData() {
+    this.router.navigate(['/welcome/pu/se-pu-cfr-getHisData']);
+  }
+
 }

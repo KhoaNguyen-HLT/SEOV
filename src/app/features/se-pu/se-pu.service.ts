@@ -66,12 +66,21 @@ export class SePuService {
       );
   }
 
+  getHisData(payload: any): Observable<any> {
+    this.loadingService.show();
+    return this.http.get(`${this.baseUrl}/getHisData`, { params: payload })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
 
   checkExistedData(month: string, reportName: string): Observable<any> {
     const params = new HttpParams().set('month', month).set('reportName', reportName);
     return this.http.get(`${this.baseUrl}/checkExistedData`, { params });
   }
-
 
 
   // crosscheck in/out data//

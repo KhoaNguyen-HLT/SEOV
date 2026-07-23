@@ -52,6 +52,12 @@ export const sePuRoutes: Routes = [
       import('./pu-cfr/se-pu-cfr-report/se-pu-cfr-report')
         .then(m => m.sePuCfrReportComponent),
   },
+    {
+    path: 'se-pu-cfr-getHisData',
+    loadComponent: () =>
+      import('./pu-cfr/se-pu-cfr-history/se-pu-cfr-history')
+        .then(m => m.sePuCfrHisComponent),
+  },
   {
     path: 'se-pu-dpm-getData',
     loadComponent: () =>
