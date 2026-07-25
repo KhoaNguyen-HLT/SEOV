@@ -102,6 +102,10 @@
   background: linear-gradient(135deg, #f0fdf4, #dcfce7);
 }
 
+.aproval-btn app-icon {
+  color: #09a341;
+}
+
 .aproval-btn .anticon,
 .aproval-btn span {
   color: #16a34a;
@@ -112,7 +116,7 @@
 .setting-btn {
   background: linear-gradient(135deg, #faf5ff, #f3e8ff);
 }
-.menu-btn app-icon,
+.setting-btn app-icon,
 .setting-btn .anticon,
 .setting-btn span {
   color: #7c3aed;

@@ -3,35 +3,31 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../core/environments/environments';
 import { LoadingService } from '../../shared/service/loading.service';
-import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SePeService {
+export class PmService {
 
-  private baseUrl = environment.apiUrl + "/pe";
+  private shippingUrl = environment.apiUrl + "/pm/shipping";
 
   constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
-  getBomData(formData: any): Observable<any> {
-    console.log('Đang gửi yêu cầu với file:', formData.get('file'));
-    this.loadingService.show();
-    return this.http.post(`${this.baseUrl}/getBomData`, formData)
-      .pipe(
-        finalize(() => {
-          this.loadingService.hide();
-        })
-      );
+
+  getShippingPlanData(payload: any): Observable<any> {
+    return this.http.get(`${this.shippingUrl}/getShippingPlanData`, { params: payload });
   }
 
-
-  getData(payload: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getData`, { params: payload });
+  generateShippingPlan(): Observable<any> {
+    return this.http.get(`${this.shippingUrl}/calculateMaterialRequirement`);
   }
 
+  // generateShippingPlan(): Observable<any> {
+  //   return this.http.get(`${this.shippingUrl}/generateShippingPlan`);
+  // }
 
-  
+
+
 
   // getReport(lotA: string, lotB: string, program: string, msTypeRp: string): Observable<any> {
   //   this.loadingService.show();

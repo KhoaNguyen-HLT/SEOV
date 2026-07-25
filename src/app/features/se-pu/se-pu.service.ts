@@ -30,7 +30,6 @@ export class SePuService {
   }
 
 
-
   getTransData(formData: any, month: string, reportName: string, userName: string): Observable<any> {
     this.loadingService.show();
     const params = new HttpParams().set('month', month).set('reportName', reportName).set('userName', userName);
@@ -52,7 +51,6 @@ export class SePuService {
         })
       );
   }
-
 
 
 
@@ -122,14 +120,6 @@ export class SePuService {
 
 
 
-
-
-
-
-
-  // updateOpenInventory(payload: any) {
-  //   return this.http.post(`${this.baseUrl}/updateOpenInventory`, { params: payload });
-  // }
 
 
   updateOpenInventory(data: any): Observable<any> {

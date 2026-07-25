@@ -46,6 +46,8 @@ export class MainLayoutComponent {
   currentUser: any = {};
   username: any = '';
   name: any = '';
+  roles: any = '';
+  permission: any = '';
   constructor(private router: Router,
     private TokenStorageService: TokenStorageService,
     private AuthService: AuthService,
@@ -70,17 +72,16 @@ export class MainLayoutComponent {
     this.AuthService.getUserInfobyToken();
     this.username = this.AuthService.userName;
     this.name = this.AuthService.name;
-
     if (!this.username) return;
 
-    this.UserService.getUserByUsername(this.username).subscribe({
-      next: (res: any) => {
-        this.currentUser = res.data;
-        // this.name = res.data.name;
-        // console.log('Current user:', this.currentUser);
-      },
-      error: err => console.error(err)
-    });
+    // this.UserService.getUserByUsername(this.username).subscribe({
+    //   next: (res: any) => {
+    //     this.currentUser = res.data;
+    //     // this.name = res.data.name;
+    //     // console.log('Current user:', this.currentUser);
+    //   },
+    //   error: err => console.error(err)
+    // });
   }
 
 

@@ -51,17 +51,17 @@ export class PmAgspComponent {
   }
 
   getData() {
-    this.router.navigate(['/welcome/pu/se-pu-cfr-getData']);
+    console.log("khoa")
+    this.router.navigate(['/welcome/pm/pm-agsp-getData']);
   }
-
 
 
   getMasterData() {
-    this.router.navigate(['/welcome/pu/se-pu-cfr-getMasterData']);
+    this.router.navigate(['/welcome/pu/se-pm-agsp-getMasterData']);
   }
 
   getReportData() {
-    this.router.navigate(['/welcome/pu/se-pu-cfr-getReportData']);
+    this.router.navigate(['/welcome/pm/pm-agsp-shipping-plan']);
   }
 
 }

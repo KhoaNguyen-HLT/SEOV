@@ -25,7 +25,8 @@ import {
   Lock,
   LogOut,
   Check,
-  SearchCheck
+  SearchCheck,
+  ClipboardCheck
 } from 'lucide-angular';
 
 export const APP_ICONS = {
@@ -55,7 +56,8 @@ export const APP_ICONS = {
   lock: Lock,
   logout: LogOut,
   check: Check,
-  searchCheck: SearchCheck
+  searchCheck: SearchCheck,
+  ClipboardCheck: ClipboardCheck
 };
 
 export type AppIconName = keyof typeof APP_ICONS;

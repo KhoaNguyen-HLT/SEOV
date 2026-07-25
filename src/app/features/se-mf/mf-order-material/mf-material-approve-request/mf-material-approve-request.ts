@@ -59,6 +59,7 @@ export class MfMaterialApproveRequestComponent {
   requestNo: string = '';
   hdData: any[] = [];
   rowData: any[] = [];
+  product_info = false;
   productRowData: any[] = [];
   zCode: { production_number: string; registered_at: any }[] = [];
   remark: string = '';
@@ -211,7 +212,11 @@ export class MfMaterialApproveRequestComponent {
       console.log(res)
       this.hdData = res.hdData;
       this.rowData = res.data;
-      this.productRowData = res.prData;
+      if (res.prData.length > 0) {
+        this.product_info = true;
+        this.productRowData = res.prData;
+      }
+
 
     });
 

@@ -49,7 +49,6 @@ export class sePuCfrHisComponent {
     { field: 'month', width: 150, headerName: 'Month' },
     { field: 'datetime', width: 150, headerName: 'Datetime' },
 
-
   ];
 
 

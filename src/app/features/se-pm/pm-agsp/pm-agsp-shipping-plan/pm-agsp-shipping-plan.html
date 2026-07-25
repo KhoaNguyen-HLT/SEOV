@@ -1,5 +1,5 @@
 <div class="table-container">
-  <div class="table-title">Danh sách báo cáo</div>
+  <div class="table-title">SHIPPING PLAN</div>
   <!-- 🔍 HEADER SEARCH -->
   <div class="search-header">
     <form nz-form [formGroup]="searchForm">
@@ -7,15 +7,14 @@
       <div nz-row [nzGutter]="16">
 
         <!-- Line -->
-        <div nz-col nzSpan="6"> 
+        <div nz-col nzSpan="6">
           <nz-form-item class="form-item">
-            <nz-form-label>reportName</nz-form-label>
-            <nz-form-control [nzValidateStatus]="searchForm.get('reportName')!" nzErrorTip="Vui lòng chọn báo cáo"
-              >
-              <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn báo cáo">
-                <nz-option nzValue="15" nzLabel="Báo cáo 15"></nz-option>
-                <nz-option nzValue="15a" nzLabel="Báo cáo 15a"></nz-option>
-                <nz-option nzValue="16" nzLabel="Báo cáo 16"></nz-option>
+            <nz-form-label>Supplier</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="supplier" nzAllowClear nzPlaceHolder="Chọn nhà cung cấp">
+                <nz-option nzValue="1" nzLabel="Nhà cung cấp 1"></nz-option>
+                <nz-option nzValue="2" nzLabel="Nhà cung cấp 2"></nz-option>
+                <nz-option nzValue="3" nzLabel="Nhà cung cấp 3"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -24,9 +23,9 @@
         <!-- Ngày đến -->
         <div nz-col nzSpan="6">
           <nz-form-item class="form-item">
-            <nz-form-label>Chọn Tháng</nz-form-label>
+            <nz-form-label>Chọn Ngày</nz-form-label>
             <nz-form-control>
-              <nz-date-picker formControlName="month" nzMode="month" nzFormat="yyyy-MM"
+              <nz-date-picker formControlName="date" nzMode="date" nzFormat="yyyy-MM-dd"
                 nzPlaceHolder="Chọn tháng cập nhật">
               </nz-date-picker>
             </nz-form-control>
@@ -44,13 +43,17 @@
         </div> -->
 
         <!-- Button -->
-        <!-- <div nz-col nzSpan="2">
-          <button nz-button nzType="primary" (click)="getData()">Search</button>
+
+        <div nz-col nzSpan="4">
+          <button nz-button nzType="primary" (click) = "generateShippingPlan()">Tạo kế hoạch giao hàng</button>
+        </div>
+        <div nz-col nzSpan="2">
+          <button nz-button nzType="primary" (click) = "getShippingPlanData()" >Search</button>
         </div>
 
-        <div nz-col nzSpan="3">
-          <button nz-button nzType="primary" (click)="updateOpenInventory()">Update Tồn đầu</button>
-        </div>
+        <!-- <div nz-col nzSpan="3">
+          <button nz-button nzType="primary" >Update Tồn đầu</button>
+        </div> -->
 
       </div>
 
@@ -58,9 +61,9 @@
   </div>
 
   <button nz-button nzType="primary" (click)="exportExcel()">Excel</button>
-  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 600px" [columnDefs]="columnDefs"  [enableCellTextSelection]="true"
-    [rowData]="rowData" (gridReady)="onGridReady($event)" [context]="{ componentParent: this }" [rowHeight]="42">
-  </ag-grid-angular> -->
+  <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 600px" [columnDefs]="columnDefs"
+    [enableCellTextSelection]="true" [rowData]="rowData" (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
 
 
   <!-- <nz-modal [(nzVisible)]="isVisibleDetail" nzTitle="Chi tiết báo cáo" (nzOnCancel)="handleCancel()"
