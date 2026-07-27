@@ -141,7 +141,7 @@
 
     <ng-container *nzModalContent>
       <div style="margin-bottom: 8px;">Chọn mã nguyên vật liệu:</div>
-      <nz-select style="width: 85%;" class="roles-select" [(ngModel)]="selectedPrIds" nzMode="multiple" nzShowSearch
+      <nz-select style="width: 90%;" class="roles-select" [(ngModel)]="selectedPrIds" nzMode="multiple" nzShowSearch
         nzAllowClear [nzMaxTagCount]="25" nzPlaceHolder="Vui lòng chọn mã nguyên vật liệu...">
 
         <nz-option *ngFor="let consumption of Consumptions" [nzValue]="consumption.item_code"
