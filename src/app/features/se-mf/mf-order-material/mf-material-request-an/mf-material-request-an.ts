@@ -163,6 +163,11 @@ export class MfMaterialRequestAnComponent {
       width: 650
     },
     {
+      headerName: 'Loại',
+      field: 'type',
+      width: 200
+    },
+    {
       headerName: 'ĐVT',
       field: 'unit',
       width: 100
@@ -401,6 +406,7 @@ export class MfMaterialRequestAnComponent {
       .map(item => ({
         item_code: item.item_code,
         item_namee: item.item_namee,
+        type: item.type,
         unit: item.gscm_unit,
         qty: 0,
       }));

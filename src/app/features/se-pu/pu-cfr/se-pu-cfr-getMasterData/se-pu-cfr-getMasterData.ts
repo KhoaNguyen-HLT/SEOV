@@ -131,7 +131,7 @@ export class sePuCfrGetMasterDataComponent {
         if (response.message === 'success') {
           this.popupService.success('Xử lý dữ liệu thành công!');
         } else {
-          this.popupService.error('Xử lý dữ liệu thất bại, cần kiểm tra lại!');
+          this.popupService.error('Có lỗi xảy ra!' +response.message );
         }
       },
       error: (error) => {
