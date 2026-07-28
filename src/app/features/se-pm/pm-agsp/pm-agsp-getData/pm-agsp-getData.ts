@@ -12,7 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
-// import { SePuService } from '../../../../features/se-pu/se-pu.service;
+import { PmService } from '../../../../features/se-pm/se-pm.service';
 import { PopupService } from '../../../../shared/service/popup.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -49,8 +49,10 @@ export class sePmAgspGetDataComponent {
   fileName1: string = '';
   fileName2: string = '';
   lotData: any[] = [];
+  userName: string = '';
 
-  constructor(private message: NzMessageService, private fb: FormBuilder, private popupService: PopupService, private modal: NzModalService) { }
+  constructor(private message: NzMessageService, private fb: FormBuilder, private popupService: PopupService,
+    private modal: NzModalService, private PmService: PmService) { }
   ngOnInit() {
     this.form = this.fb.group({
       month: [new Date()],
@@ -67,13 +69,18 @@ export class sePmAgspGetDataComponent {
     // this.getDataLot();
   }
 
-  fileList: File[] = [];
+  getUserInfo() {
 
+  }
+
+
+  selectedFiles: File[] = [];
 
   beforeUpload = (
     file: NzUploadFile,
     fileList: NzUploadFile[]
   ): boolean => {
+
     const realFile = file as unknown as File;
 
     const isExcel =
@@ -81,55 +88,72 @@ export class sePmAgspGetDataComponent {
       realFile.name.endsWith('.xls');
 
     if (!isExcel) {
+      this.popupService.error('Chỉ cho phép file Excel');
       return false;
     }
 
-    this.fileList = [...this.fileList, realFile];
+    this.selectedFiles = [realFile];
 
     return false;
   };
 
-  removeFile(index: number): void {
-    this.fileList.splice(index, 1);
-    this.fileList = [...this.fileList];
-  }
+  formatFileSize(size?: number): string {
+    if (!size) {
+      return '0 KB';
+    }
 
-  formatFileSize(size: number): string {
-    if (size < 1024) return size + ' B';
-    if (size < 1 * 1024) return (size / 1024).toFixed(1) + ' KB';
-    return (size / 1024 / 1024).toFixed(1) + ' MB';
+    if (size < 1024) {
+      return size + ' B';
+    }
+
+    if (size < 1024 * 1024) {
+      return (size / 1024).toFixed(2) + ' KB';
+    }
+
+    return (size / (1024 * 1024)).toFixed(2) + ' MB';
   }
 
   upload(): void {
     const fileName = this.form.value.fileName;
     const month = dayjs(this.form.value.month).format('YYYY-MM');
-    const formData = new FormData();
+
+    if (!fileName) {
+      this.popupService.error('Vui lòng chọn loại File!');
+      return;
+    }
+
+    console.log(this.selectedFiles);
+    if (!this.selectedFiles) {
+      this.popupService.error('Không lấy được file import!');
+      return;
+    }
+
+    // if (this.selectedFiles.File.name!== fileName) {
+    //   this.popupService.error('Sai tên file import, vui lòng kiểm tra lại!');
+    //   return;
+    // }
 
 
-    this.fileList.forEach(file => {
-      formData.append('files', file);
-    });
+    // this.PmService.getShippingData(formData, month, this.userName).subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //     if (response.message === 'success') {
+    //       this.popupService.success('Xử lý dữ liệu thành công!');
+    //       console.log(response);
+    //     } else if (response.message === 'error') {
+    //       this.popupService.error('Xử lý dữ liệu thất bại!');
+    //     }
+    //     else {
+    //       this.popupService.error(response.message);
+    //       console.log(response);
+    //     }
+    //   },
+    //   error: (error) => {
+    //     this.popupService.error('Xử lý dữ liệu thất bại!');
+    //     console.error(error);
+    //   }
+    // });
 
-      // this.SePuService.getTransData(formData, month, reportName).subscribe({
-      //   next: (response) => {
-      //     console.log(response);
-      //     if (response.message === 'success') {
-      //       this.popupService.success('Xử lý dữ liệu thành công!');
-      //       console.log(response);
-      //     } else if (response.message === 'error') {
-      //       this.popupService.error('Xử lý dữ liệu thất bại!');
-      //     }
-      //     else {
-      //       this.popupService.error(response.message);
-      //       console.log(response);
-      //     }
-      //   },
-      //   error: (error) => {
-      //     this.popupService.error('Xử lý dữ liệu thất bại!');
-      //     console.error(error);
-      //   }
-      // });
-    
 
 
   }

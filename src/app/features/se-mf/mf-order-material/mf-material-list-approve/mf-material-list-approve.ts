@@ -152,6 +152,7 @@ export class MfMaterialApproveListComponent {
       'MF_REQUEST_APPROVE',
       'SUPER_ADMIN'
     ];
+    console.log(this.AuthService.permissions);
     this.hasPermission = allowPermissions.some(permission =>
       this.AuthService.permissions.includes(permission)
     );

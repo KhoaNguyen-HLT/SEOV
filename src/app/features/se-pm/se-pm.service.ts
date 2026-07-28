@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../core/environments/environments';
 import { LoadingService } from '../../shared/service/loading.service';
+import { HttpParams } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +24,20 @@ export class PmService {
     return this.http.get(`${this.shippingUrl}/calculateMaterialRequirement`);
   }
 
-  // generateShippingPlan(): Observable<any> {
-  //   return this.http.get(`${this.shippingUrl}/generateShippingPlan`);
-  // }
+
+
+
+  getShippingData(formData: any, month: string, userName: string): Observable<any> {
+    this.loadingService.show();
+    const params = new HttpParams().set('month', month).set('userName', userName);
+    return this.http.post(`${this.shippingUrl}/getIvtData`, formData, { params })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+  }
+
 
 
 

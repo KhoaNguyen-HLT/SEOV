@@ -15,12 +15,10 @@ import { NzIconModule, provideNzIcons } from 'ng-zorro-antd/icon';
 import { AndonService } from '../se-andon.service';
 import dayjs from "dayjs";
 import { NgxEchartsModule } from 'ngx-echarts';
-import * as echarts from 'echarts';
 
 
 
 registerLocaleData(localeVi);
-
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({

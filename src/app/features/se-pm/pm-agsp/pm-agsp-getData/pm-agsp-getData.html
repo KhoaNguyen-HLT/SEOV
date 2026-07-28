@@ -21,8 +21,7 @@
                         nzPlaceHolder="Chọn tháng cập nhật">
                     </nz-date-picker>
 
-                    <button nz-button nzType="primary" nzSize="large" [disabled]="fileList.length === 0"
-                        >
+                    <button nz-button nzType="primary" nzSize="large" (click)=" upload()">
                         Xử lý file
                     </button>
                 </div>
@@ -30,7 +29,7 @@
         </form>
 
         <div class="upload-box">
-            <nz-upload nzType="drag" [nzMultiple]="true" [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false"
+            <nz-upload nzType="drag" [nzMultiple]="false" [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false"
                 accept=".xlsx,.xls">
 
                 <p class="upload-icon">
@@ -43,27 +42,21 @@
             </nz-upload>
         </div>
 
-        <div class="file-section" *ngIf="fileList.length > 0">
-            <div class="file-section-header">
-                <h3>Danh sách file đã chọn</h3>
-                <span class="total_file">{{ fileList.length }} file</span>
-            </div>
+        <div class="file-list" *ngIf="selectedFiles.length > 0">
+            <div class="file-item">
+                <div class="file-left">
+                    <div class="file-stt">1</div>
+                    <div class="file-icon">📄</div>
 
-            <div class="file-list">
-                <div class="file-item" *ngFor="let file of fileList; let i = index">
-                    <div class="file-left">
-                        <div class="file-stt">{{ i + 1 }}</div>
-                        <div class="file-icon">📄</div>
+                    <div>
+                        <div class="file-name">
+                            {{ selectedFiles[0].name }}
+                        </div>
 
-                        <div>
-                            <div class="file-name">{{ file.name }}</div>
-                            <div class="file-size">{{ formatFileSize(file.size) }}</div>
+                        <div class="file-size">
+                            {{ formatFileSize(selectedFiles[0].size) }}
                         </div>
                     </div>
-
-                    <button nz-button nzType="text" nzDanger (click)="removeFile(i)">
-                        Xóa
-                    </button>
                 </div>
             </div>
         </div>
