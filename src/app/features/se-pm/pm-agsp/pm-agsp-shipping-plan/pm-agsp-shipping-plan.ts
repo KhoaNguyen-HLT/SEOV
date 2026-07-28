@@ -33,7 +33,7 @@ export class sePmAgspShippingPlanComponent {
   searchForm!: FormGroup;
   detailform!: FormGroup;
   rowData: any[] = [];
-  reportname: string = '';
+  reportname: string = 'ShippingPlan';
   permission: any = '';
 
   columnDefs: ColDef[] = [
@@ -173,6 +173,7 @@ export class sePmAgspShippingPlanComponent {
 
 
   exportExcel() {
+    console.log("khoa")
     this.gridApi.exportDataAsCsv({
       fileName: this.reportname + '.csv',
       sheetName: 'report'

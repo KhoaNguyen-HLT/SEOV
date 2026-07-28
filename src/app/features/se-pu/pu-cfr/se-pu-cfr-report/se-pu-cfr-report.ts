@@ -11,11 +11,12 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import dayjs from 'dayjs';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { SePuService } from '../../se-pu.service';
-import { ClientSideRowModelModule } from 'ag-grid-community';
+import { ClientSideRowModelModule, RowNode } from 'ag-grid-community';
 import { ValueGetterParams, ColDef } from 'ag-grid-community';
 import { CsvExportModule } from 'ag-grid-community';
 import { PopupService } from '../../../../shared/service/popup.service';
 import { CheckboxFilterComponent } from '../../../../shared/ArGrid/CheckboxFilterComponent';
+import { ExcelExportService } from '../../../../shared/service/ExcelExportService.service';
 
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule, CsvExportModule]);
 
@@ -108,13 +109,13 @@ export class sePuCfrReportComponent {
     {
       field: 'difference', filter: CheckboxFilterComponent, width: 150, headerName: 'Difference',
       valueGetter: (params: ValueGetterParams) => {
-        const qtyNhap = Number(params.data?.qty_nhap_7 ?? 0);
+        const qtyXuat = Number(params.data?.qty_xuat_9 ?? 0);
         const crossXuat = Number(params.data?.crossqty_xuat ?? 0);
-        return qtyNhap - crossXuat;
+        return qtyXuat - crossXuat;
       }
     },
     { field: 'crossqty_xuat_fgpm', width: 150, headerName: 'Xuất từ FGPM' },
-     {
+    {
       field: 'difference', filter: CheckboxFilterComponent, width: 150, headerName: 'Difference',
       valueGetter: (params: ValueGetterParams) => {
         const qtyXuat = Number(params.data?.qty_xuat_9 ?? 0);
@@ -172,7 +173,7 @@ export class sePuCfrReportComponent {
 
   gridApi: any;
 
-  constructor(private sePuService: SePuService, private fb: FormBuilder, private PopupService: PopupService) { }
+  constructor(private sePuService: SePuService, private fb: FormBuilder, private PopupService: PopupService, private ExcelExportService: ExcelExportService) { }
   ngOnInit() {
     this.searchForm = this.fb.group({
       reportName: [null, Validators.required],
@@ -238,12 +239,33 @@ export class sePuCfrReportComponent {
 
 
 
+  // exportExcel() {
+  //   this.gridApi.exportDataAsCsv({
+  //     fileName: this.reportname + '.csv',
+  //     sheetName: 'report'
+  //   });
+  // }
+
+
   exportExcel() {
-    this.gridApi.exportDataAsCsv({
-      fileName: this.reportname + '.csv',
-      sheetName: 'report'
+
+    const rows: any[] = [];
+
+    this.gridApi.forEachNodeAfterFilterAndSort((node: RowNode) => {
+      rows.push(node.data);
     });
+
+
+    this.ExcelExportService.exportExcel(
+      this.reportname + '.xlsx',
+      this.reportname,
+      rows,
+      this.columnDefs
+    );
   }
+
+
+
   onGridReady(params: any) {
     const raw = this.searchForm.value;
 

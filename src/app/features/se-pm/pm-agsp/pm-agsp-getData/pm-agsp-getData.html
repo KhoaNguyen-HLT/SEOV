@@ -4,12 +4,12 @@
         <form [formGroup]="form">
             <div class="card-header">
                 <div class="header-info">
-                    <h2>Import Data Transaction</h2>
-                    <p>Chọn nhiều file Excel để hệ thống đọc và xử lý chung</p>
+                    <h2>Import Demand, Inventory Data</h2>
+                    <p>Chọn file Excel để hệ thống đọc và xử lý</p>
                 </div>
                 <div nz-col nzSpan="6" class="header-select">
                     <nz-form-control>
-                        <nz-select formControlName="reportName" nzAllowClear nzPlaceHolder="Chọn loại File">
+                        <nz-select formControlName="fileName" nzAllowClear nzPlaceHolder="Chọn loại File">
                             <nz-option nzValue="DEMAND" nzLabel="Demand File"></nz-option>
                             <nz-option nzValue="IVT" nzLabel="Inventory"></nz-option>
                         </nz-select>
@@ -38,7 +38,7 @@
                 </p>
 
                 <p class="upload-title">Kéo thả file Excel vào đây</p>
-                <p class="upload-desc">Hoặc bấm để chọn nhiều file từ máy tính</p>
+                <p class="upload-desc">Hoặc bấm để chọn file từ máy tính</p>
 
             </nz-upload>
         </div>

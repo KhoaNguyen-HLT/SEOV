@@ -54,7 +54,7 @@ export class sePmAgspGetDataComponent {
   ngOnInit() {
     this.form = this.fb.group({
       month: [new Date()],
-      reportName: [null, Validators.required]
+      fileName: [null, Validators.required]
     });
     // this.searchForm.get('program')?.valueChanges.subscribe(value => {
     //   if (value !== 'M') {
@@ -100,60 +100,39 @@ export class sePmAgspGetDataComponent {
     return (size / 1024 / 1024).toFixed(1) + ' MB';
   }
 
-  // upload(): void {
-  //   const reportName = this.form.value.reportName;
-  //   const month = dayjs(this.form.value.month).format('YYYY-MM');
-  //   const formData = new FormData();
+  upload(): void {
+    const fileName = this.form.value.fileName;
+    const month = dayjs(this.form.value.month).format('YYYY-MM');
+    const formData = new FormData();
 
 
-  //   this.fileList.forEach(file => {
-  //     formData.append('files', file);
-  //   });
+    this.fileList.forEach(file => {
+      formData.append('files', file);
+    });
 
-  //   if (reportName == '15') {
-  //     this.SePuService.getTransData(formData, month, reportName).subscribe({
-  //       next: (response) => {
-  //         console.log(response);
-  //         if (response.message === 'success') {
-  //           this.popupService.success('Xử lý dữ liệu thành công!');
-  //           console.log(response);
-  //         } else if (response.message === 'error') {
-  //           this.popupService.error('Xử lý dữ liệu thất bại!');
-  //         }
-  //         else {
-  //           this.popupService.error(response.message);
-  //           console.log(response);
-  //         }
-  //       },
-  //       error: (error) => {
-  //         this.popupService.error('Xử lý dữ liệu thất bại!');
-  //         console.error(error);
-  //       }
-  //     });
-  //   } else if (reportName == '15a') {
-  //     this.SePuService.getTransData15a(formData, month, reportName).subscribe({
-  //       next: (response) => {
-  //         console.log(response);
-  //         if (response.message === 'success') {
-  //           this.popupService.success('Xử lý dữ liệu thành công!');
-  //           console.log(response);
-  //         } else if (response.message === 'error') {
-  //           this.popupService.error('Lỗi Xử lý dữ liệu!');
-  //         }
-  //         else {
-  //           this.popupService.error(response.message);
-  //           console.log(response);
-  //         }
-  //       },
-  //       error: (error) => {
-  //         this.popupService.error(error.message);
-  //         console.error(error);
-  //       }
-  //     });
-  //   }
+      // this.SePuService.getTransData(formData, month, reportName).subscribe({
+      //   next: (response) => {
+      //     console.log(response);
+      //     if (response.message === 'success') {
+      //       this.popupService.success('Xử lý dữ liệu thành công!');
+      //       console.log(response);
+      //     } else if (response.message === 'error') {
+      //       this.popupService.error('Xử lý dữ liệu thất bại!');
+      //     }
+      //     else {
+      //       this.popupService.error(response.message);
+      //       console.log(response);
+      //     }
+      //   },
+      //   error: (error) => {
+      //     this.popupService.error('Xử lý dữ liệu thất bại!');
+      //     console.error(error);
+      //   }
+      // });
+    
 
 
-  // }
+  }
 
 
   // checkExistedData() {
