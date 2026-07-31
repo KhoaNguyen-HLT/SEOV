@@ -1,0 +1,60 @@
+.dashboard {
+
+    padding: 20px;
+    background: #f5f6fa;
+}
+
+.dashboard-header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.dashboard-filter {
+
+    display: flex;
+    gap: 12px;
+}
+
+.kpi-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(6, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.chart-row {
+
+    display: grid;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.chart-row:first-of-type {
+
+    grid-template-columns: 2fr 1fr;
+}
+
+.chart-row:not(:first-of-type) {
+
+    grid-template-columns: 1fr 1fr;
+}
+
+.chart-card {
+
+    border-radius: 12px;
+}
+
+.chart {
+
+    height: 320px;
+}

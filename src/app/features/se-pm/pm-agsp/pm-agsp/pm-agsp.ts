@@ -40,7 +40,8 @@ export class PmAgspComponent {
   checkPermission(): void {
     const allowedPermissions = [
       'SUPER_ADMIN',
-      'ADMIN'
+      'ADMIN',
+      'PM_AGSP'
     ];
 
     this.hasPermission = allowedPermissions.some(permission =>

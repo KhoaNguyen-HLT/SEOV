@@ -47,14 +47,14 @@ export class sePmAgspShippingPlanComponent {
     {
       field: 'sp_no',
       headerName: 'Request No',
-      filter: true,
+      filter: CheckboxFilterComponent,
       sortable: true,
       width: 150
     },
     {
       field: 'material_code',
       headerName: 'Mã NVL',
-      filter: true,
+      filter: CheckboxFilterComponent,
       sortable: true,
       width: 150
     },
@@ -62,21 +62,27 @@ export class sePmAgspShippingPlanComponent {
     {
       field: 'need_date',
       headerName: 'Nee Date',
-      filter: true,
+      filter: CheckboxFilterComponent,
       sortable: true,
       width: 150
     },
     {
       field: 'supplier_code',
       headerName: 'Supplier',
-      filter: true,
+      filter: CheckboxFilterComponent,
+      sortable: true,
+      width: 150
+    },
+    {
+      field: 'delivery_qty',
+      headerName: 'Qty',
       sortable: true,
       width: 150
     },
 
     {
-      field: 'need_date',
-      headerName: 'Need Date',
+      field: 'delivery_date',
+      headerName: 'Exw Date',
       filter: true,
       sortable: true,
       width: 150
@@ -84,27 +90,38 @@ export class sePmAgspShippingPlanComponent {
     {
       field: 'delivery_date',
       headerName: 'Delivery Date',
-      filter: true,
+      filter: CheckboxFilterComponent,
       sortable: true,
       width: 150
     },
-    {
-      field: 'delivery_qty',
-      headerName: 'Qty',
-      filter: true,
-      sortable: true,
-      width: 150
-    },
+
     {
       field: 'created_at',
       headerName: 'created_at',
-      filter: true,
       sortable: true,
       valueFormatter: this.dateFormatter,
       width: 150
     },
+        {
+      field: 'qty_dsi',
+      headerName: 'Using Date',
+      sortable: true,
+      width: 150
+    },
+      {
+      field: 'tondau',
+      headerName: 'Tồn Đầu',
+      sortable: true,
+      width: 150
+    },
+     {
+      field: 'songay',
+      headerName: 'Số Ngày',
+      sortable: true,
+      width: 150
+    }
 
-    
+
   ];
 
   constructor(private fb: FormBuilder, private PopupService: PopupService, private AuthService: AuthService, private PmService: PmService) { }
@@ -118,7 +135,7 @@ export class sePmAgspShippingPlanComponent {
     this.getUserInfo();
   }
 
-  getUserInfo(){
+  getUserInfo() {
     this.permission = this.AuthService.permissions;
     console.log(this.permission);
 
@@ -173,7 +190,6 @@ export class sePmAgspShippingPlanComponent {
 
 
   exportExcel() {
-    console.log("khoa")
     this.gridApi.exportDataAsCsv({
       fileName: this.reportname + '.csv',
       sheetName: 'report'
@@ -182,16 +198,16 @@ export class sePmAgspShippingPlanComponent {
 
 
   dateFormatter(params: any) {
-  if (!params.value) return '';
+    if (!params.value) return '';
 
-  const date = new Date(params.value);
+    const date = new Date(params.value);
 
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
 
-  return `${year}-${month}-${day}`;
-}
+    return `${year}-${month}-${day}`;
+  }
 
 
 

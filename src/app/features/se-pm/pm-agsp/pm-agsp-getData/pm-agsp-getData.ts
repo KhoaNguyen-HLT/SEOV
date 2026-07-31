@@ -127,32 +127,35 @@ export class sePmAgspGetDataComponent {
       this.popupService.error('Không lấy được file import!');
       return;
     }
+    const uploadedName = this.selectedFiles[0].name
+      .replace(/\.[^/.]+$/, '');
 
-    // if (this.selectedFiles.File.name!== fileName) {
-    //   this.popupService.error('Sai tên file import, vui lòng kiểm tra lại!');
-    //   return;
-    // }
+    if (uploadedName.toLowerCase() !== fileName.toLowerCase()) {
+      this.popupService.error('Sai tên file import, vui lòng kiểm tra lại!');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('file', this.selectedFiles[0]);
 
-
-    // this.PmService.getShippingData(formData, month, this.userName).subscribe({
-    //   next: (response) => {
-    //     console.log(response);
-    //     if (response.message === 'success') {
-    //       this.popupService.success('Xử lý dữ liệu thành công!');
-    //       console.log(response);
-    //     } else if (response.message === 'error') {
-    //       this.popupService.error('Xử lý dữ liệu thất bại!');
-    //     }
-    //     else {
-    //       this.popupService.error(response.message);
-    //       console.log(response);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.popupService.error('Xử lý dữ liệu thất bại!');
-    //     console.error(error);
-    //   }
-    // });
+    this.PmService.getShippingData(formData, month, this.userName, fileName).subscribe({
+      next: (response) => {
+        console.log(response);
+        if (response.message === 'success') {
+          this.popupService.success('Xử lý dữ liệu thành công!');
+          console.log(response);
+        } else if (response.message === 'error') {
+          this.popupService.error('Xử lý dữ liệu thất bại!');
+        }
+        else {
+          this.popupService.error(response.message);
+          console.log(response);
+        }
+      },
+      error: (error) => {
+        this.popupService.error('Xử lý dữ liệu thất bại!');
+        console.error(error);
+      }
+    });
 
 
 

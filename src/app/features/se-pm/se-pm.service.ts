@@ -17,20 +17,33 @@ export class PmService {
 
 
   getShippingPlanData(payload: any): Observable<any> {
-    return this.http.get(`${this.shippingUrl}/getShippingPlanData`, { params: payload });
+    this.loadingService.show();
+    return this.http.get(`${this.shippingUrl}/getShippingPlanData`, { params: payload })
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
   }
 
   generateShippingPlan(): Observable<any> {
-    return this.http.get(`${this.shippingUrl}/calculateMaterialRequirement`);
+    this.loadingService.show();
+    return this.http.get(`${this.shippingUrl}/calculateMaterialRequirement`)
+      .pipe(
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      );
+    ;
   }
 
 
 
 
-  getShippingData(formData: any, month: string, userName: string): Observable<any> {
+  getShippingData(formData: any, month: string, userName: string, fileName: string): Observable<any> {
     this.loadingService.show();
-    const params = new HttpParams().set('month', month).set('userName', userName);
-    return this.http.post(`${this.shippingUrl}/getIvtData`, formData, { params })
+    const params = new HttpParams().set('month', month).set('userName', userName).set('fileName', fileName);
+    return this.http.post(`${this.shippingUrl}/getShippingData`, formData, { params })
       .pipe(
         finalize(() => {
           this.loadingService.hide();
